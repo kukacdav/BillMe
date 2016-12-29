@@ -1,0 +1,62 @@
+<ons-page id="mainPage">
+    <ons-toolbar>
+        <div class="left">
+            <ons-toolbar-button id="splitter-toggle">
+                <ons-icon icon="fa-bars"></ons-icon>
+            </ons-toolbar-button>
+        </div>
+        <div class="center">Můj přehled</div>
+        <div class="right">
+            <ons-toolbar-button id="plusButton">
+                <ons-icon icon="fa-plus"></ons-icon>
+            </ons-toolbar-button>
+        </div>
+    </ons-toolbar>
+    <ons-list>
+        <ons-list-header>Můj účet</ons-list-header>
+        <ons-list-item>
+            <ons-row>
+                <ons-col width="70%">
+                <div clas="left">
+                    Běžný účet
+                </div>
+                </ons-col>
+                <ons-col>
+                <div class="right">
+                    12 478,88
+                </div>                
+                </ons-col>
+            </ons-row>
+            <ons-row>
+                <ons-col>
+                    123456789    
+                </ons-col>
+            </ons-row>
+
+        </ons-list-item>
+        <ons-list-header>
+            Finanční přehled
+        </ons-list-header>
+        <ons-list-item>Cannot load IMG...</ons-list-item>
+        <ons-list-header>Přehled toků</ons-list-header>
+        
+        <ons-row>
+        <ons-col>
+            <ons-button id="payment-button" data-filter="payment" modifier="large">Platby</ons-button>
+        </ons-col>
+        <ons-col>
+            <ons-button id="request-button" data-filter="request" modifier="large">Requesty</ons-button>
+        </ons-col>
+        </ons-row>
+    </ons-list>
+    <ons-list id="transaction-list"></ons-list>
+        
+        <script id="transaction-list-item" type="text/template">
+            <ons-list-item>
+                <div class="label">{{label}}</div>
+                <div class="right">
+                    <ons-icon style="" icon="fa-trash-o"></ons-icon>
+                </div>
+            </ons-list-item>
+        </script>
+</ons-page>
