@@ -3,11 +3,12 @@ var billMe = {
     filterFlag: 'all',
     events: []
 };
+var firstLoaded = 'true';
 
 // 1. Initialization of application, event is in this case ons-page mainHTML
 document.addEventListener('init', function(event){
     //Getting Id of ons-page = "mainPage"
-    console.log("1. Initializing mainPage");
+    console.log("A1. Calling initializing page: " + event.target.id);
     var view = event.target.id;
     if ( view === 'mainPage'){
         //Calling function of globalObject billMe.mainPageInit -> GOTO 2
@@ -15,66 +16,44 @@ document.addEventListener('init', function(event){
     }
 }, false);
 
-function getTransactionList(accountId){
-    console.log("4. Getting transaction list");
-    $.ajax({
-            type: "GET",
-            url: 'http://localhost:2403/payment?initiatorAccount=' + accountId,
-            dataType: "json",
-            success: function(data)
-            {
-                payments = data;
-                console.log(data);
-            }
-        });
-    console.log("After get");
-}
-
-
 // 2. Global function Initialization of mainPage.html, target=ons-page mainPage.html
 billMe.mainPageInit = function(target){
-    console.log("2. Initialiying content of mainPage");
+    console.log("A2. Initializing page:" + target);
     // Selecting part of mainPage with id transactionList
     this.mainPage = document.querySelector('#transaction-list');
+    
     // Selecting every ons-button in mainPage.html, and adding filter logic on them
-    console.log("OK");
     //Following command serves for  advanced filtering
     /*target.querySelectorAll('ons-button').forEach (function(element){
         element.addEventListener('click', this.filter.bind(this));    
     }.bind(this));*/
-    console.log("NOK");
     // Adding listener on plusButton
-    target.querySelector('#plusButton').addEventListener('click', this.addTransactionPrompt.bind(this));
+    
     target.querySelector('#payment-button').addEventListener('click', this.showPayments.bind(this));
     target.querySelector('#request-button').addEventListener('click', this.showRequests.bind(this));
     // Initializing storage
-    console.log("Main page initialized");
-    storage.init();
+    if ( firstLoaded == 'true') {
+        storage.init();    
+        firstLoaded = 'false';
+    }
     this.refresh();
 };
 
-billMe.addTransactionPrompt = function(){
-    ons.notification.prompt('Insert new Item', {
-        title: 'newItem',
-        cancelable: true,
-        callback: function(accountNumber){
-            if (accountNumber === '' || accountNumber === null){
-                return;
+/* OBSOLETE
+function getTransactionList(accountId){
+    console.log("T1. Getting transaction list");
+    $.ajax({
+            type: "GET",
+            url: deploydEndpoint + '/payment?initiatorAccount=' + accountId,
+            dataType: "json",
+            success: function(data) {
+                payments = data;
             }
-            if (storage.addTransaction(accountNumber)){
-                console.log ("Adding transaction...");
-                this.refresh();
-            } else {
-                ons.notification.alert('Failed to submit transaction');
-                
-            }            
-        }.bind(this)
-    });
-};
-
+        });
+}*/
 
 billMe.showRequests = function(){
-    console.log("5. Showing requests");
+    console.log("B1. Showing requests");
     var requests = storage.requests;
     document.querySelector('#transaction-list').innerHTML=requests.map(function(item){
         console.log(item);
@@ -86,7 +65,7 @@ billMe.showRequests = function(){
 };
 
 billMe.showPayments = function(){
-   console.log("X. Showing requests");
+   console.log("B2. Showing payments");
     var payments = storage.payments;
     document.querySelector('#transaction-list').innerHTML=payments.map(function(item){
         console.log(item);
@@ -99,7 +78,7 @@ billMe.showPayments = function(){
 
 
 billMe.refresh = function(){
-    console.log("Refreshing");
+    console.log("B3. Refreshing");
     var items = storage.filter(this.filterFlag);
     this.mainPage.innerHTML = items.map(function(item){
         console.log(item);
@@ -108,7 +87,7 @@ billMe.refresh = function(){
             console.log("QuerySelector");
     }).join('');    
     //Remove all event listeners to add them again
-    var children = this.mainPage.children; //.children selects all children elements
+    /*var children = this.mainPage.children; //.children selects all children elements
     this.events.forEach(function(event, i){
         event.element.removeEventListener('click', event.function);
     });
@@ -121,27 +100,12 @@ billMe.refresh = function(){
         };
         this.events.push(event);
         event.element.addEventListener('click', event.function);
-    }.bind(billMe));
+    }.bind(billMe));*/
 };
 
-
-billMe.removeItemPrompt = function(account){
-    ons.notification.confirm('Would you like to remove the transaction' + account, {
-        title: 'Remove item?',
-        callback: function (answer){
-            if (answer === 1){
-                if (storage.remove(account)){
-                    this.refresh();
-                } else {
-                    ons.notification.alert('Polozku nelze odstranit.');
-                }
-            }
-        }.bind(this)
-    });
-};
 
 billMe.filter = function(evt){
-    console.log("Filtering items using transactionType...");
+    console.log("B4. filtering");
     this.filterFlag = evt.target.getAttribute('data-filter')||'all';
     console.log(this.filterFlag);
     this.refresh();

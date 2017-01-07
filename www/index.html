@@ -11,9 +11,13 @@
   <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
   <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" />
+
   <script src="./script/storage.js"></script>
   <script src="./script/script.js"></script>
   <script src="./script/config.js"></script>
+  <script src="./script/navigationHandler.js"></script>
+  <script src="./script/transaction.js"></script>
 
   <script>
     ons.ready(function() {
@@ -22,8 +26,11 @@
   </script>
 </head>
 <body>
+    <ons-navigator id="pageNavigator" page="./html/mainPage.html"></ons-navigator>
+    <!-- 
     <ons-splitter id="splitter">
         <ons-splitter-content page="./html/mainPage.html"></ons-splitter-content>
     </ons-splitter>
+    -->
 </body>
 </html>
