@@ -1,20 +1,39 @@
+
 var accountId = 'b3162c0b1611b96e';
 var storage = {
-    transactions: [],
     requests: [],
-    payments: []
+    payments: [],
+    userContact: {},
 };
 
 storage.init = function(){
     console.log("S0. Initializing storage");
-    //OBSOLETE var transactionList = getTransactionList(accountId);
-    // Querring requests 
+    storage.getRequests();
+    storage.getPayments();
+    storage.getUserDetail();
+    };
+
+storage.getUserDetail = function() {
+    console.log("S9. Getting user detail from deployd.");
+    $.getJSON(deploydEndpoint + '/contact?accountId=' + accountId, function(data){
+        storage.userContact.fullName = data[0].fullName;
+        storage.userContact.emailAddress = data[0].emailAddress;
+        storage.userContact.phoneNumber = data[0].phoneNumber;
+        storage.userContact.facebookUsername = data[0].facebookUsername;
+    });
+}
+
+storage.getRequests = function () {
+    console.log("S7. Getting requests from deployd.");
     $.getJSON(deploydEndpoint + '/request?accountInitiator=' + accountId, function(data){
         $.each(data, function(index, value){
             storage.addRequest(value);
         });
     });
-    // Querring payments
+};
+
+storage.getPayments = function () {
+    console.log("S8. Getting payments from deployd");
     $.getJSON(deploydEndpoint + '/payment?accountInititator=' + accountId, function(data){
         $.each(data, function(index, value){
             storage.addPayment(value);
@@ -36,7 +55,7 @@ storage.addRequest = function(value){
         });
         storage.saveTransaction();
     }
-    billMe.showRequests();
+//    billMe.showRequests();
 };
 
 storage.addPayment = function(value){
@@ -53,7 +72,7 @@ storage.addPayment = function(value){
         });
         storage.saveTransaction();
     }
-    billMe.showPayments();
+//    billMe.showPayments();
 };
 
 storage.contains = function(collection, id){
@@ -70,7 +89,7 @@ storage.saveTransaction = function(){
 };
 
 storage.addTransaction = function(accountNumber){
-     console.log("S4. adding transaction")
+     console.log("S4. adding transaction");
     this.transactions.push({
         account: accountNumber,
         status: 'payment' 
@@ -84,13 +103,13 @@ storage.filter = function(status){
     if (status === 'all') {
         return this.transactions;
         }
-        return this.transactions.filter(function(item){
+    return this.transactions.filter(function(item){
             return item.status === status;
         });
 };
 
 storage.remove = function(account){
-    console.log("S6. Removing")
+    console.log("S6. Removing");
     this.transactions.forEach(function(item, i){
         if (item.account === account){
             this.transactions.splice(i, 1);
