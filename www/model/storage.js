@@ -4,13 +4,16 @@ var storage = {
     requests: [],
     payments: [],
     userContact: {},
+    account: {}
 };
+
 
 storage.init = function(){
     console.log("S0. Initializing storage");
     storage.getRequests();
     storage.getPayments();
     storage.getUserDetail();
+    storage.getAccountDetail();
     };
 
 storage.getUserDetail = function() {
@@ -21,7 +24,15 @@ storage.getUserDetail = function() {
         storage.userContact.phoneNumber = data[0].phoneNumber;
         storage.userContact.facebookUsername = data[0].facebookUsername;
     });
-}
+};
+
+storage.getAccountDetail = function() {
+    console.log("S10. Getting account detail from deployd.");
+    $.getJSON(deploydEndpoint + '/account?id=' + accountId, function(data){
+        storage.account.accountNumber = data.accountNumber;
+        storage.account.balance = data.balance;
+    });
+};
 
 storage.getRequests = function () {
     console.log("S7. Getting requests from deployd.");
@@ -42,6 +53,7 @@ storage.getPayments = function () {
 };
 
 storage.addRequest = function(value){
+    console.log(value);
     console.log("S1. Adding request: " + value);
     if (storage.contains(storage.requests, value.id)){
         console.log("Storage:addRequest - Cannot insert, not unique element");
@@ -51,7 +63,8 @@ storage.addRequest = function(value){
             accountInitiator: value.accountInitiator,
             accountReciever: value.accountReciever,
             amount: value.amount,
-            id: value.id
+            id: value.id,
+            initiator: value.initiator
         });
         storage.saveTransaction();
     }
@@ -68,7 +81,9 @@ storage.addPayment = function(value){
             accountInitiator: value.accountInitiator,
             accountReciever: value.accountReciever,
             amount: value.amount,
-            id: value.id
+            id: value.id,
+            initiator: value.initiator
+
         });
         storage.saveTransaction();
     }

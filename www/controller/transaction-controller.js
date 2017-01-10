@@ -8,7 +8,7 @@ function showRequests()  {
     var requests = storage.requests;
     document.querySelector('#transaction-list').innerHTML=requests.map(function(item){
         return document.querySelector('#transaction-list-item').innerHTML
-            .replace('{{label}}', item.amount);
+            .replace('{{amount}}', item.amount).replace('{{name}}', item.initiator[0].fullName);
             console.log("QuerySelector");
     }).join('');
 };
@@ -18,8 +18,10 @@ function showPayments() {
    console.log("T2. - Showing payments");
     var payments = storage.payments;
     document.querySelector('#transaction-list').innerHTML=payments.map(function(item){
+        console.log(item);
         return document.querySelector('#transaction-list-item').innerHTML
-            .replace('{{label}}', item.amount);
+            .replace('{{amount}}', item.amount).replace('{{name}}', item.initiator[0].fullName);
+
     }).join('');
     console.log(document.querySelector('#transaction-list').innerHTML);
 };
@@ -28,30 +30,7 @@ function showPayments() {
 function submitTransaction() {
     console.log("T3. - Submitting transaction");
     // MUST BE INDEPENDENT ON VIEW!!
-    var test = document.querySelector('#transaction-amount').innerHTML;
-    console.log(test);
-    $.ajax(
-    {
-        type: "POST",
-        url: deploydEndpoint + '/request?',
-        data:
-        {
-            "accountInitiator": "b3162c0b1611b96e",
-            "accountReciever": "7a5815ef7262fa55",
-            "amount": "1000",
-            "message": "Penize za obed"
-        },
-        success: function(data)
-        {
-              document.querySelector('#pageNavigator')
-                .pushPage('./html/submitSuccess.html',
-                {
-                    data:
-                    {
-                        title: 'Page 2'
-                    }
-                });
-        },
-        dataType: "json"
-    });
+    var amount = document.querySelector('#transaction-amount').value;
+    var message = document.querySelector('#transaction-message').value;    
+    persistTransaction(accountId, "7a5815ef7262fa55", amount, message );
 };

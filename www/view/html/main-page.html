@@ -1,4 +1,4 @@
-<ons-page id="mainPage">
+<ons-page id="main-page">
     <ons-toolbar>
         <div class="center">Můj přehled</div>
         <div class="right">
@@ -26,12 +26,12 @@
         <ons-row>
             <ons-col>
                 <ons-button id="create-payment-button" modifier="large">Platba
-                    <ons-icon icon="ion-minus-circled" size="25px" fixed-width="true"></ons-icon>
+                    <ons-icon icon="ion-arrow-right-c" size="25px" fixed-width="true"></ons-icon>
                 </ons-button>
             </ons-col>
             <ons-col>
                 <ons-button id="create-request-button" modifier="large">Request
-                    <ons-icon icon="ion-plus-circled" size="25px" fixed-width="true"></ons-icon>
+                    <ons-icon icon="ion-arrow-return-left" size="25px" fixed-width="true"></ons-icon>
                 </ons-button>
             </ons-col>
         </ons-row>
@@ -46,9 +46,28 @@
         </ons-row>
     </ons-list>
     <ons-list id="transaction-list"></ons-list>
+    <ons-bottom-toolbar>
+        <ons-row>
+            <ons-col>
+                <ons-toolbar-button>
+                    <ons-icon icon="ion-ios-list-outline"></ons-icon>
+                </ons-toolbar-button>
+            </ons-col>
+            <ons-col>
+                <ons-toolbar-button id="payment-toolbar-button">
+                    <ons-icon icon="ion-arrow-right-c"></ons-icon>
+                </ons-toolbar-button>
+            </ons-col>
+            <ons-col>
+                <ons-toolbar-button id="request-toolbar-button">
+                    <ons-icon icon="ion-arrow-return-left"></ons-icon>
+                </ons-toolbar-button></ons-col>
+        </ons-row>
+    </ons-bottom-toolbar>
     <script id="transaction-list-item" type="text/template">
         <ons-list-item>
-            <div class="label">{{label}}</div>
+            <div class="left">{{name}}</div>
+            <div class="center">{{amount}}</div>
             <div class="right">
                 <ons-icon style="" icon="ion-chevron-right"></ons-icon>
             </div>

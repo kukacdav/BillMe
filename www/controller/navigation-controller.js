@@ -8,29 +8,41 @@ document.addEventListener('init', function(event)
 {
     console.log("Navigation handler..");
     var page = event.target;
-    if (page.id === 'mainPage')
+    if (page.id === 'main-page')
     {
         console.log("N1. Initializing Main Page ");
         page.querySelector('#create-request-button').onclick = function()
             {
                 document.querySelector('#pageNavigator')
-                    .pushPage('./html/createRequestPage.html',
+                    .pushPage('view/html/create-request-page.html',
                     {
                         data:
                         {
-                            title: 'Můj přehled'
+                            title: 'Zadání requestu'
                         }
                     });
             };
+        page.querySelector('#request-toolbar-button').onclick = function()
+            {
+                document.querySelector('#pageNavigator')
+                    .pushPage('view/html/create-request-page.html',
+                    {
+                        data:
+                        {
+                            title: 'Zadání requestu'
+                        }
+                    });
+            };
+        
         page.querySelector('#payment-button').addEventListener('click', showPayments);
         page.querySelector('#request-button').addEventListener('click', showRequests);
         page.querySelector('#user-detail-button').onclick = function() {
             document.querySelector('#pageNavigator')
-                    .pushPage('./html/user-detail-page.html',
+                    .pushPage('view/html/user-detail-page.html',
                     {
                         data:
                         {
-                            title: 'Můj přehled'
+                            title: 'Zadání requestu'
                         }
                     });
 
@@ -44,27 +56,27 @@ document.addEventListener('init', function(event)
             .onclick = function()
             {
                 document.querySelector('#pageNavigator')
-                    .pushPage('./html/defineTransactionPage.html',
+                    .pushPage('view/html/define-transaction-page.html',
                     {
                         data:
                         {
-                            title: 'Page 2'
+                            title: 'Detail requestu'
                         }
                     });
             };
     }
-    else if (page.id === 'submit-success-page')
+    else if (page.id === 'success-submit-page')
     {
         console.log("N3. Initializing submit-success-page ");
         page.querySelector('#transaction-success-button')
             .onclick = function()
             {
                 document.querySelector('#pageNavigator')
-                    .pushPage('./html/mainPage.html',
+                    .pushPage('view/html/main-page.html',
                     {
                         data:
                         {
-                            title: 'Page 2'
+                            title: 'Detail requestu'
                         }
                     });
             };
@@ -74,3 +86,16 @@ document.addEventListener('init', function(event)
         showUserData();
     }
 });
+
+
+successfullTransaction = function () {
+    document.querySelector('#pageNavigator')
+                    .pushPage('view/html/success-submit-page.html',
+                    {
+                        data:
+                        {
+                            title: 'Transakce úspěšně zadána'
+                        }
+                    });
+    
+}
