@@ -64,7 +64,8 @@ storage.addRequest = function(value){
             accountReciever: value.accountReciever,
             amount: value.amount,
             id: value.id,
-            initiator: value.initiator
+            reciever: value.reciever,
+            state: value.state
         });
         storage.saveTransaction();
     }
@@ -82,8 +83,8 @@ storage.addPayment = function(value){
             accountReciever: value.accountReciever,
             amount: value.amount,
             id: value.id,
-            initiator: value.initiator
-
+            reciever: value.reciever,
+            state: value.state
         });
         storage.saveTransaction();
     }

@@ -32,7 +32,7 @@ document.addEventListener('init', function(event)
                             title: 'Zadání requestu'
                         }
                     });
-            };
+            }; 
         
         page.querySelector('#payment-button').addEventListener('click', showPayments);
         page.querySelector('#request-button').addEventListener('click', showRequests);
@@ -81,8 +81,24 @@ document.addEventListener('init', function(event)
                     });
             };
     }
+    else if (page.id === 'define-transaction-page')
+    {
+        console.log("N4. Initializing define-transaction-page ");
+        page.querySelector('#submit-transaction-button')
+            .onclick = function()
+            {
+                document.querySelector('#pageNavigator')
+                    .pushPage('view/html/success-submit-page.html',
+                    {
+                        data:
+                        {
+                            title: 'Transakce zadána'
+                        }
+                    });
+            };
+    }
     else if (page.id === 'user-detail-page') {
-        console.log("N4. Initializing user-detail-page");
+        console.log("N5. Initializing user-detail-page");
         showUserData();
     }
 });
@@ -97,5 +113,17 @@ successfullTransaction = function () {
                             title: 'Transakce úspěšně zadána'
                         }
                     });
-    
-}
+};
+
+showTransactionDetail = function(transactionIndex, transactionType) {
+    console.log(transactionIndex + " " + transactionType);
+    document.querySelector('#pageNavigator')
+                    .pushPage('view/html/transaction-detail-page.html',
+                    {
+                        data:
+                        {
+                            transactionIndex: transactionIndex,
+                            transactionType: transactionType
+                        }
+                    });
+};
