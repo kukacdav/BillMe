@@ -25,7 +25,7 @@ function showPayments() {
             .replace('{{state}}', item.state.stateName);
     }).join('');
     bindEventListenersToTransactions();
-    console.log(document.querySelector('#transaction-list').innerHTML);
+    //console.log(document.querySelector('#transaction-list').innerHTML);
 };
 
 
@@ -39,11 +39,7 @@ function submitTransaction() {
 
 
 bindEventListenersToTransactions = function () {
-    var transactionListElements = document.getElementsByClassName("transaction-item-detail");
-    for (var i = 0; i < transactionListElements.length; i++) {
-        //Must show correctly request/payment
-        console.log(i);
-    transactionListElements[i].addEventListener('click', function() {showTransactionDetail(i, "request");}, false);
-    }
+    console.log("Binding");
+    $(".transaction-item-detail").on("click", showTransactionDetail);
 };
 

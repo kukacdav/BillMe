@@ -6,6 +6,19 @@
         </div>
         <div class="center">Transaction detail</div>
     </ons-toolbar>
-
-    <p>Detail vybrané transakce</p>
+    <ons-list>
+        <ons-list-header>Detail transakce</ons-list-header>
+        <ons-list-item>
+            <div class="left">Jméno:</div>
+            <div class="right" id="transaction-party"></div>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="left">Částka</div>
+            <div class="right" id="transaction-amount"></div>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="left">Stav transakce</div>
+            <div class="right" id="transaction-state"></div>
+        </ons-list-item>
+    </ons-list>
 </ons-page>

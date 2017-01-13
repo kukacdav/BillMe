@@ -8,6 +8,7 @@ document.addEventListener('init', function(event)
 {
     console.log("Navigation handler..");
     var page = event.target;
+
     if (page.id === 'main-page')
     {    
         console.log("N1. Initializing Main Page ");
@@ -39,20 +40,24 @@ document.addEventListener('init', function(event)
     }
     else if (page.id === 'transaction-detail-page')
     {
-        
+        console.log("N6 - Showing transactionDetail");
+        composeTransactionDetailPage();
     }
 });
 
 
 successfullTransaction = function () {
-    switchPage(view/html/success-submit-page.html);
+    switchPage('view/html/success-submit-page.html');
 };
 
-showTransactionDetail = function(event) {
-    console.log("Event:" + $(event).text());
-    console.log("Nav: "+ $(event.target).html());
-    switchPage(view/html/transaction-detail-page.html);
-    composeTransactionDetailPage(event.target);
+showTransactionDetail = function() {
+    console.log($(this.querySelector('.transaction-party')).text());
+    console.log($(this.querySelector('.transaction-amount')).text());
+    console.log($(this.querySelector('.transaction-state')).text());
+    storage.transaction.name = $(this.querySelector('.transaction-party')).text();
+    storage.transaction.amount = $(this.querySelector('.transaction-amount')).text();
+    storage.transaction.state = $(this.querySelector('.transaction-state')).text();
+    switchPage('view/html/transaction-detail-page.html');
 };
 
 switchPage = function(target) {

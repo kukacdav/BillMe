@@ -4,9 +4,9 @@ var storage = {
     requests: [],
     payments: [],
     userContact: {},
-    account: {}
+    account: {},
+    transaction: {}
 };
-
 
 storage.init = function(){
     console.log("S0. Initializing storage");
