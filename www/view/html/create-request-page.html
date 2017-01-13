@@ -13,7 +13,20 @@
             <ons-button id="request-button" data-filter="request" modifier="large">Na více kontaktů</ons-button>
         </ons-col>
     </ons-row>
-    <ons-list id="contact-list">
+    <ons-list id="contact-list"></ons-list>
+    
+    <script id="contact-list-item" type="text/template">
+        <ons-list-item class="contact-list-detail" >
+            <div class="left contact-name">{{name}}</div>
+            <div class="center contact-phone">{{phoneNumber}}</div>
+            <div class="right">
+                <ons-icon icon="ion-chevron-right"></ons-icon>
+            </div>
+            <div class="hidden contact-index">{{index}}</div>
+        </ons-list-item>
+    </script>
+    <!--
+    <ons-list >
         <ons-list-item>
             <div class="label">Jožka Němá</div>
             <div class="right">
@@ -28,6 +41,7 @@
                 <ons-icon style="" icon="ion-chevron-right"></ons-icon>
             </div>
         </ons-list-item>
-    </ons-list>
-    <ons-button id="create-new-contact">Vytvořit nový kontakt</ons-button>
+    </ons-list>-->
+    <ons-button id="create-new-contact" modifier="large
+    ">Vytvořit nový kontakt</ons-button>
 </ons-page>

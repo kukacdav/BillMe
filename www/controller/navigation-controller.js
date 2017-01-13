@@ -22,7 +22,10 @@ document.addEventListener('init', function(event)
     else if (page.id === 'create-request-page')
     {
         console.log("N2. Initializing Create-request-page ");
-        page.querySelector('#define-transaction-button').onclick = function(){switchPage('view/html/define-transaction-page.html');};
+        showContactList();
+        $(".contact-list-detail").on("click", showContactListDetail);
+        //page.querySelector('#define-transaction-button').onclick = function(){switchPage('view/html/define-transaction-page.html');};
+  
     }
     else if (page.id === 'success-submit-page')
     {
@@ -33,6 +36,7 @@ document.addEventListener('init', function(event)
     {
         console.log("N4. Initializing define-transaction-page ");
         page.querySelector('#submit-transaction-button').onclick = function(){switchPage('view/html/success-submit-page.html');};
+        composeDefineTransactionPage();
     }
     else if (page.id === 'user-detail-page') {
         console.log("N5. Initializing user-detail-page");
@@ -51,9 +55,6 @@ successfullTransaction = function () {
 };
 
 showTransactionDetail = function() {
-    console.log($(this.querySelector('.transaction-party')).text());
-    console.log($(this.querySelector('.transaction-amount')).text());
-    console.log($(this.querySelector('.transaction-state')).text());
     storage.transaction.name = $(this.querySelector('.transaction-party')).text();
     storage.transaction.amount = $(this.querySelector('.transaction-amount')).text();
     storage.transaction.state = $(this.querySelector('.transaction-state')).text();
@@ -62,4 +63,9 @@ showTransactionDetail = function() {
 
 switchPage = function(target) {
     document.querySelector('#pageNavigator').pushPage(target);
+};
+
+showContactListDetail = function() {
+    storage.newTransactionItem = $(this.querySelector('.contact-index')).text();
+    switchPage('view/html/define-transaction-page.html');
 };

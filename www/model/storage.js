@@ -5,7 +5,9 @@ var storage = {
     payments: [],
     userContact: {},
     account: {},
-    transaction: {}
+    transaction: {},
+    contactList: [],
+    newTransaction: []
 };
 
 storage.init = function(){
@@ -14,6 +16,8 @@ storage.init = function(){
     storage.getPayments();
     storage.getUserDetail();
     storage.getAccountDetail();
+    //TMP, mocking contact data
+    storage.getContactList();
     };
 
 storage.getUserDetail = function() {
@@ -23,6 +27,25 @@ storage.getUserDetail = function() {
         storage.userContact.emailAddress = data[0].emailAddress;
         storage.userContact.phoneNumber = data[0].phoneNumber;
         storage.userContact.facebookUsername = data[0].facebookUsername;
+    });
+};
+
+//Temporary function for mocking contact list
+storage.getContactList = function()
+{
+    $.getJSON(deploydEndpoint + '/contact?', function(data)
+    {
+        $.each(data, function(index, value)
+        {
+            console.log(index);
+            storage.contactList.push(
+            {
+                fullName: data[index].fullName,
+                emailAddress: data[index].emailAddress,
+                phoneNumber: data[index].phoneNumber,
+                facebookUsername: data[index].facebookUsername
+            });
+        });
     });
 };
 

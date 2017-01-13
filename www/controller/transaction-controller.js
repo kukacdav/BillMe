@@ -37,7 +37,7 @@ function submitTransaction() {
     persistTransaction(accountId, "7a5815ef7262fa55", amount, message );
 };
 
-
+//RemoveME
 bindEventListenersToTransactions = function () {
     console.log("Binding");
     $(".transaction-item-detail").on("click", showTransactionDetail);
