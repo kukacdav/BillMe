@@ -3,20 +3,27 @@
         <div class="left">
             <ons-back-button>Zpět</ons-back-button>
         </div>
-        <div class="center">Define transaction</div>
     </ons-toolbar>
-    <p>Telefonní číslo</p>
-    <p>758 965 485</p>
-    <p>Kontakt</p>
-    <p>Jožka Němá</p>
-    <p>Částka</p>
-    <ons-input id="transaction-amount" placeholder="Částka" float></ons-input>
-    <p>
-        Zpráva pro příjemce
-    </p>
-    <ons-input id="transaction-message" placeholder="Zpráva pro příjemce" float></ons-input>
-    <p>
-        <ons-button onclick="submitTransaction()" id="submit-transaction-button">Odeslat</ons-button>    
-    </p>
-    
+    <ons-list>
+        <ons-list-header>Detail transakce</ons-list-header>
+        <ons-list-item>
+            <div class="left">Telefonní číslo:</div>
+            <div class="right">735 482 145</div>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="left">Jméno</div>
+            <div class="right">Jožka Němá</div>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="left">Částka</div>
+            <div class="right"><ons-input id="transaction-amount" placeholder="Částka" float></ons-input></div>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="left">Zpráva pro příjemce</div>
+            <div class="right"><ons-input id="transaction-message" placeholder="Zpráva pro příjemce" float></ons-input></div>
+        </ons-list-item>
+        <ons-list-item>
+        <ons-button modifier="large--cta" onclick="submitTransaction()" id="submit-transaction-button">Odeslat</ons-button>    
+        </ons-list-item>
+</ons-list>
 </ons-page>
