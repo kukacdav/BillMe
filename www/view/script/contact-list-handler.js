@@ -11,7 +11,7 @@ showContactList = function()
             return document.querySelector('#contact-list-item')
                 .innerHTML.replace('{{name}}', item.fullName)
                 .replace('{{phoneNumber}}', item.phoneNumber)
-                .replace('{{index}}', counter++)        
+                .replace('{{index}}', counter++);        
         })
         .join('');
 };

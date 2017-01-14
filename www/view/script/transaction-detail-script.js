@@ -9,7 +9,10 @@ composeTransactionDetailPage = function () {
 
 //Handling content of define-transaction-page
 composeDefineTransactionPage = function() {
-    console.log(storage.contactList[storage.newTransactionItem].fullName);
-    document.querySelector('.transaction-recievers-name').innerHTML = storage.contactList[storage.newTransactionItem].fullName;  
-    document.querySelector('.transaction-recievers-phone').innerHTML = storage.contactList[storage.newTransactionItem].phoneNumber;  
+    if (systemVariables.transactionType === "payment")
+        document.querySelector('#page-header').innerHTML = "New payment";
+    else if (systemVariables.transactionType === "request")
+        document.querySelector('#page-header').innerHTML = "New request";
+    document.querySelector('.transaction-recievers-name').innerHTML = storage.contactList[systemVariables.newTransactionItem].fullName;  
+    document.querySelector('.transaction-recievers-phone').innerHTML = storage.contactList[systemVariables.newTransactionItem].phoneNumber;  
 };

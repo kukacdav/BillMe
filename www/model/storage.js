@@ -7,7 +7,9 @@ var storage = {
     account: {},
     transaction: {},
     contactList: [],
-    newTransaction: []
+};
+var systemVariables = {
+
 };
 
 storage.init = function(){
@@ -35,7 +37,6 @@ storage.getContactList = function()
 {
     $.getJSON(deploydEndpoint + '/contact?', function(data)
     {
-        console.log(data);
         $.each(data, function(index, value)
         {
             console.log(index);
@@ -77,7 +78,6 @@ storage.getPayments = function () {
 };
 
 storage.addRequest = function(value){
-    console.log(value);
     console.log("S1. Adding request: " + value);
     if (storage.contains(storage.requests, value.id)){
         console.log("Storage:addRequest - Cannot insert, not unique element");
@@ -93,7 +93,6 @@ storage.addRequest = function(value){
         });
         storage.saveTransaction();
     }
-//    billMe.showRequests();
 };
 
 storage.addPayment = function(value){
@@ -112,7 +111,6 @@ storage.addPayment = function(value){
         });
         storage.saveTransaction();
     }
-//    billMe.showPayments();
 };
 
 storage.contains = function(collection, id){
