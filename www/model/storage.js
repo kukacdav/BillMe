@@ -35,6 +35,7 @@ storage.getContactList = function()
 {
     $.getJSON(deploydEndpoint + '/contact?', function(data)
     {
+        console.log(data);
         $.each(data, function(index, value)
         {
             console.log(index);
@@ -43,7 +44,7 @@ storage.getContactList = function()
                 fullName: data[index].fullName,
                 emailAddress: data[index].emailAddress,
                 phoneNumber: data[index].phoneNumber,
-                facebookUsername: data[index].facebookUsername
+                facebookUsername: data[index].facebookUsername                
             });
         });
     });

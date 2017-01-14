@@ -35,7 +35,7 @@ document.addEventListener('init', function(event)
     else if (page.id === 'define-transaction-page')
     {
         console.log("N4. Initializing define-transaction-page ");
-        page.querySelector('#submit-transaction-button').onclick = function(){switchPage('view/html/success-submit-page.html');};
+        //page.querySelector('#submit-transaction-button').onclick = function(){switchPage('view/html/success-submit-page.html');};
         composeDefineTransactionPage();
     }
     else if (page.id === 'user-detail-page') {

@@ -10,7 +10,6 @@ function showRequests()  {
         return document.querySelector('#transaction-list-item').innerHTML
             .replace('{{amount}}', item.amount).replace('{{name}}', item.reciever[0].fullName)
             .replace('{{state}}', item.state.stateName);
-            console.log("QuerySelector");
     }).join('');
     
 };
@@ -35,6 +34,7 @@ function submitTransaction() {
     var amount = document.querySelector('#transaction-amount').value;
     var message = document.querySelector('#transaction-message').value;    
     persistTransaction(accountId, "7a5815ef7262fa55", amount, message );
+    switchPage('view/html/success-submit-page.html');
 };
 
 //RemoveME
