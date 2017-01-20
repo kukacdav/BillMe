@@ -1,9 +1,19 @@
 // This is a JavaScript file
 
+// Function for filling content of elements on page transaction/payment-detail-page
 composeTransactionDetailPage = function () {
    document.querySelector('#transaction-party').innerHTML = storage.transaction.name;
    document.querySelector('#transaction-amount').innerHTML = storage.transaction.amount;
    document.querySelector('#transaction-state').innerHTML = storage.transaction.state;
+};
+
+// Function for filling content of elements on page request-detail-page
+composeRequestDetailPage = function () {
+   document.querySelector('#request-party').innerHTML = storage.transaction.name;
+   document.querySelector('#request-amount').innerHTML = storage.transaction.amount;
+   document.querySelector('#request-state').innerHTML = storage.transaction.state;
+   document.querySelector('#cancel-button').addEventListener('click', alert.log("Prompt cancel"));
+   document.querySelector('#accept-button').addEventListener('click', alert.log("Prompt accept"));
 };
 
 

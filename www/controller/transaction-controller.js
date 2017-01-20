@@ -35,5 +35,6 @@ function submitTransaction() {
     var amount = document.querySelector('#transaction-amount').value;
     var message = document.querySelector('#transaction-message').value;    
     persistTransaction(accountId, "7a5815ef7262fa55", amount, message );
+    
 };
 

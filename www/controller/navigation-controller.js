@@ -34,7 +34,8 @@ document.addEventListener('init', function(event)
     {
         console.log("N3. Initializing submit-success-page ");
         flag = 1;
-        page.querySelector('#transaction-success-button').onclick = function(){switchPage('view/html/main-page.html');};
+        page.querySelector('#transaction-success-button').onclick = function(){document.querySelector('#pageNavigator').resetToPage('view/html/main-page.html')};
+        //page.querySelector('#transaction-success-button').onclick = function(){switchPage('view/html/main-page.html');};
     }
     else if (page.id === 'define-transaction-page')
     {
@@ -50,6 +51,11 @@ document.addEventListener('init', function(event)
     {
         console.log("N6 - Showing transactionDetail");
         composeTransactionDetailPage();
+    }
+    else if (page.id === 'reuqest-detail-page')
+    {
+        console.log("N6 - Showing transactionDetail");
+        composeRequestDetailPage();
     }
 });
 
