@@ -45,7 +45,8 @@ storage.getContactList = function()
                 fullName: data[index].fullName,
                 emailAddress: data[index].emailAddress,
                 phoneNumber: data[index].phoneNumber,
-                facebookUsername: data[index].facebookUsername                
+                facebookUsername: data[index].facebookUsername,
+                accountId: data[index].accountId
             });
         });
     });

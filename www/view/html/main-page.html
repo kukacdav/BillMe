@@ -1,3 +1,5 @@
+<ons-navigator class="pageNavigator">
+    
 <ons-page id="main-page">
     <ons-toolbar>
         <div class="center">Můj přehled</div>
@@ -46,24 +48,7 @@
         </ons-row>
     </ons-list>
     <ons-list id="transaction-list"></ons-list>
-    <ons-bottom-toolbar>
-        <ons-row>
-            <ons-col>
-                <ons-toolbar-button>
-                    <ons-icon icon="ion-ios-list-outline"></ons-icon>
-                </ons-toolbar-button>
-            </ons-col>
-            <ons-col>
-                <ons-toolbar-button id="payment-toolbar-button">
-                    <ons-icon icon="ion-arrow-right-c"></ons-icon>
-                </ons-toolbar-button>
-            </ons-col>
-            <ons-col>
-                <ons-toolbar-button id="request-toolbar-button">
-                    <ons-icon icon="ion-arrow-return-left"></ons-icon>
-                </ons-toolbar-button></ons-col>
-        </ons-row>
-    </ons-bottom-toolbar>
+    
     <script id="transaction-list-item" type="text/template">
         <ons-list-item class="transaction-item-detail" >
             <div class="left transaction-party">{{name}}</div>
@@ -74,4 +59,7 @@
             </div>
         </ons-list-item>
     </script>
+    
+
 </ons-page>
+</ons-navigator>

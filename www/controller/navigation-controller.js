@@ -16,7 +16,7 @@ document.addEventListener('init', function(event)
         // FOR DEBUGGING PURPOUSE
         page.querySelector('#create-request-button').onclick = function(){systemVariables.transactionType="request";switchPage('view/html/contact-list-page.html');};
         page.querySelector('#create-payment-button').onclick = function(){systemVariables.transactionType="payment";switchPage('view/html/contact-list-page.html');};
-        page.querySelector('#request-toolbar-button').onclick = function(){systemVariables.transactionType="request";switchPage('view/html/contact-list-page.html');};
+        //page.querySelector('#request-toolbar-button').onclick = function(){systemVariables.transactionType="request";switchPage('view/html/contact-list-page.html');};
         page.querySelector('#payment-button').addEventListener('click', showPayments);
         page.querySelector('#request-button').addEventListener('click', showRequests);
         page.querySelector('#user-detail-button').onclick = function(){switchPage('view/html/user-detail-page.html');};
@@ -72,7 +72,7 @@ showTransactionDetail = function() {
 };
 
 switchPage = function(target) {
-    document.querySelector('#pageNavigator').pushPage(target);
+    document.querySelector('.pageNavigator').pushPage(target);
 };
 
 showContactListDetail = function() {

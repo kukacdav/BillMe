@@ -31,6 +31,22 @@
   </script>
 </head>
 <body>
-    <ons-navigator id="pageNavigator" page="view/html/main-page.html"></ons-navigator>
+    
+<!-- 
+    <ons-navigator id="pageNavigator" page="view/html/main-page.html" ></ons-navigator>
+ -->
+    
+    <ons-tabbar id="tabbar">
+        <ons-tab  active="true" page="view/html/main-page.html" label="Aktivity" icon="ion-ios-settings-strong" >
+      </ons-tab>
+        <ons-tab page="view/html/user-detail-page.html" label="Profil" icon="ion-ios-paper-outline" >
+        </ons-tab>
+        <ons-tab page="view/html/contact-list-page.html" label="Kontakty" icon="ion-person-stalker" >
+        </ons-tab>
+        <ons-tab page="view/html/invite-friend-page.html" label="Pozvat" icon="ion-android-share-alt" >
+        </ons-tab>
+        <ons-tab page="view/html/more-options-page.html" label="Více" icon="ion-ios-more-outline" >
+        </ons-tab>
+    </ons-tabbar>
 </body>
 </html>
