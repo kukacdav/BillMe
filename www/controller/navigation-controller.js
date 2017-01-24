@@ -19,7 +19,7 @@ document.addEventListener('init', function(event)
         //page.querySelector('#request-toolbar-button').onclick = function(){systemVariables.transactionType="request";switchPage('view/html/contact-list-page.html');};
         page.querySelector('#payment-button').addEventListener('click', showPayments);
         page.querySelector('#request-button').addEventListener('click', showRequests);
-        page.querySelector('#user-detail-button').onclick = function(){switchPage('view/html/user-detail-page.html');};
+        attachTabbarListeners();
         showPayments();
     }
     else if (page.id === 'contact-list-page')
@@ -27,6 +27,7 @@ document.addEventListener('init', function(event)
         console.log("N2. Initializing contact-list-page ");
         showContactList();
         $(".contact-list-detail").on("click", showContactListDetail);
+        attachTabbarListeners();
         //page.querySelector('#define-transaction-button').onclick = function(){switchPage('view/html/define-transaction-page.html');};
   
     }
@@ -35,7 +36,7 @@ document.addEventListener('init', function(event)
         console.log("N3. Initializing submit-success-page ");
         flag = 1;
         page.querySelector('#transaction-success-button').onclick = function(){document.querySelector('#pageNavigator').resetToPage('view/html/main-page.html')};
-        //page.querySelector('#transaction-success-button').onclick = function(){switchPage('view/html/main-page.html');};
+        page.querySelector('#transaction-success-button').onclick = function(){switchPage('view/html/main-page.html');};
     }
     else if (page.id === 'define-transaction-page')
     {
@@ -46,6 +47,8 @@ document.addEventListener('init', function(event)
     else if (page.id === 'user-detail-page') {
         console.log("N5. Initializing user-detail-page");
         showUserData();
+        attachTabbarListeners();
+
     }
     else if (page.id === 'transaction-detail-page')
     {
@@ -57,6 +60,15 @@ document.addEventListener('init', function(event)
         console.log("N6 - Showing transactionDetail");
         composeRequestDetailPage();
     }
+    else if (page.id === 'more-options-page')
+    {
+        attachTabbarListeners();
+    }
+    else if (page.id === 'invite-friend-page')
+    {
+        attachTabbarListeners();
+    }
+    
 });
 
 
@@ -71,11 +83,27 @@ showTransactionDetail = function() {
     switchPage('view/html/transaction-detail-page.html');
 };
 
+showNewPage = function(target){
+    document.querySelector('#pageNavigator').resetToPage(target);
+};
+
 switchPage = function(target) {
-    document.querySelector('.pageNavigator').pushPage(target);
+    
+    console.log("pushing page: " + target);
+    document.querySelector('#pageNavigator').pushPage(target);
 };
 
 showContactListDetail = function() {
     systemVariables.newTransactionItem = $(this.querySelector('.contact-index')).text();
     switchPage('view/html/define-transaction-page.html');
+};
+
+attachTabbarListeners = function() {
+    console.log("Adding tabbar listeners");
+    document.querySelector('#tabbar-main-page').onclick = function(){showNewPage('view/html/main-page.html')};
+    document.querySelector('#tabbar-profile-page').onclick = function(){showNewPage('view/html/user-detail-page.html')};
+    document.querySelector('#tabbar-contact-list-page').onclick = function(){showNewPage('view/html/contact-list-page.html')};
+    document.querySelector('#tabbar-invite-page').onclick = function(){showNewPage('view/html/invite-friend-page.html')};
+    document.querySelector('#tabbar-more-options').onclick = function(){showNewPage('view/html/more-options-page.html')};
+    
 };
