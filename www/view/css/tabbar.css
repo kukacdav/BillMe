@@ -54,3 +54,38 @@
         
     }
     
+    .tabbar-button-active ons-icon{
+        color: #9ac4fc
+    }
+    
+    .tabbar-button-active .tabbar-label {
+        line-height: 20px;
+    letter-spacing: 0;
+    font-family: -apple-system, 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+    font-size: 13px;
+    margin: 0;
+            color: #9ac4fc
+
+        
+    }
+    .tabbar-button-active{
+        position: relative;
+        display: inline-block;
+        box-sizing: border-box;
+        background-clip: padding-box;
+        margin: 0;
+        border: none;
+        overflow: hidden;
+        padding: 0;
+        width: 18%;
+        text-align: center;
+        font-weight: 400;
+        height: 80%;
+    line-height: 49px;
+    letter-spacing: 0;
+    font-family: -apple-system, 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    font-size: 17px;
+    font: inherit;
+    padding-left: 2px;
+    }
