@@ -1,5 +1,24 @@
-/**/
+/* --------------------- General styles    -----------------------------*/
 
 .hidden {
     display: none;
     }
+    
+    .center-block {
+        text-align: center;
+    }
+    
+/* ----------------- Styles regarding invite-freind-page.html --------------------*/
+
+.invite-friend-block{
+    text-align: center;
+    margin-top: 20%;
+    margin-bottom: 20%;
+    
+}
+
+.invite-friend-header{
+    font-size: 1em;
+    
+    color: #8c8c8c;
+}

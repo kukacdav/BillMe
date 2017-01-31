@@ -91,6 +91,7 @@ switchPage = function(target) {
     
     console.log("pushing page: " + target);
     document.querySelector('#pageNavigator').pushPage(target);
+    //document.querySelector('#tabbar').loadPage(target);
 };
 
 showContactListDetail = function() {
