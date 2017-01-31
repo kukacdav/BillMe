@@ -1,0 +1,41 @@
+/*CSS FILE FOR SELECT-BOX COMPONENT*/
+
+
+.select-box{
+    padding: 3px 1px 3px 1px;
+    background-color: #4282cc
+    }
+    
+.select-box-item {
+    font-size: 12px;
+    background-color: #4282cc;
+    color: white;
+    border-top: 0.5px solid white;
+    border-bottom: 0.5px solid white;
+    padding: 0;
+    border-radius: 0;
+
+    
+}
+
+.select-box-item-active{
+    font-size: 12px;
+    background-color: white;
+    color: #4282cc;
+    border-top: 0.5px solid white;
+    border-bottom: 0.5px solid white;
+    padding: 0;    
+    border-radius: 0;
+}
+
+.select-box-left {
+ border-radius: 5px 0 0 5px;   
+}
+.select-box-right {
+ border-radius: 0 5px 5px 0;   
+ border-left: 1px solid white
+}
+.select-box-center {
+ border-left: 1px solid white;
+ border-right: 1px solid white;
+}

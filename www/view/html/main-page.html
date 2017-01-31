@@ -6,36 +6,44 @@
         <ons-list-item>
             <ons-row>
                 <ons-col width="70%">
-                    <div clas="left"> Běžný účet </div>
+                    <div clas="left" id="account-name"></div>
                 </ons-col>
                 <ons-col>
-                    <div class="right"> 12 478,88 </div>
+                    <div class="right" id="account-balance"></div>
                 </ons-col>
             </ons-row>
             <ons-row>
-                <ons-col> 123456789 </ons-col>
+                <ons-col id="account-number"></ons-col>
             </ons-row>
         </ons-list-item>
         <ons-list-header> Rychlé akce </ons-list-header>
         <ons-row>
             <ons-col>
-                <ons-button id="create-payment-button" modifier="large">Platba
-                    <ons-icon icon="ion-arrow-right-c" size="25px" fixed-width="true"></ons-icon>
+                <ons-button id="create-payment-button" modifier="large">
+                    <ons-icon icon="ion-arrow-up-c" size="50px" fixed-width="true"></ons-icon>
+                    <p class="button-label">
+                        Zaplatit
+                    </p>
                 </ons-button>
             </ons-col>
-            <ons-col>
-                <ons-button id="create-request-button" modifier="large">Request
-                    <ons-icon icon="ion-arrow-return-left" size="25px" fixed-width="true"></ons-icon>
+            <ons-col class="left-border">
+                <ons-button id="create-request-button" modifier="large">
+                    <ons-icon icon="ion-arrow-down-c" size="50px" fixed-width="true"></ons-icon>
+                <p class="button-label">Připomenout se</p>
+                    
                 </ons-button>
             </ons-col>
         </ons-row>
         <ons-list-header>Přehled toků</ons-list-header>
-        <ons-row>
+        <ons-row class="select-box">
             <ons-col>
-                <ons-button id="payment-button" data-filter="payment" modifier="large">Platby</ons-button>
+                <ons-button class="select-box-item-active select-box-left" id="incoming-payments-filter" data-filter="incoming" modifier="large">Přijaté</ons-button>
             </ons-col>
             <ons-col>
-                <ons-button id="request-button" data-filter="request" modifier="large">Requesty</ons-button>
+                <ons-button class="select-box-item select-box-center" id="outgoing-payments-filter" data-filter="outgoing" modifier="large">Odeslané</ons-button>
+            </ons-col>
+            <ons-col>
+                <ons-button class="select-box-item select-box-right" id="unresolved-transactions-filter" data-filter="filter" modifier="large">Nevyřízené</ons-button>
             </ons-col>
         </ons-row>
     </ons-list>

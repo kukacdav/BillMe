@@ -2,7 +2,8 @@
 var accountId = 'b3162c0b1611b96e';
 var storage = {
     requests: [],
-    payments: [],
+    incomingPayments: [],
+    outgoingPayments: [],
     userContact: {},
     account: {},
     transaction: {},
@@ -15,7 +16,8 @@ var systemVariables = {
 storage.init = function(){
     console.log("S0. Initializing storage");
     storage.getRequests();
-    storage.getPayments();
+    storage.getOutgoingPayments();
+    storage.getIncomingPayments();
     storage.getUserDetail();
     storage.getAccountDetail();
     //TMP, mocking contact data
@@ -57,6 +59,7 @@ storage.getAccountDetail = function() {
     $.getJSON(deploydEndpoint + '/account?id=' + accountId, function(data){
         storage.account.accountNumber = data.accountNumber;
         storage.account.balance = data.balance;
+        storage.account.accountName = data.accountName;
     });
 };
 
@@ -69,11 +72,18 @@ storage.getRequests = function () {
     });
 };
 
-storage.getPayments = function () {
-    console.log("S8. Getting payments from deployd");
+storage.getIncomingPayments = function () {
+    $.getJSON(deploydEndpoint + '/payment?accountReciever=' + accountId, function(data){
+        $.each(data, function(index, value){
+            storage.addIncomingPayment(value);
+        });
+    });
+};
+
+storage.getOutgoingPayments = function () {
     $.getJSON(deploydEndpoint + '/payment?accountInititator=' + accountId, function(data){
         $.each(data, function(index, value){
-            storage.addPayment(value);
+            storage.addOutgoingPayment(value);
         });
     });
 };
@@ -96,13 +106,32 @@ storage.addRequest = function(value){
     }
 };
 
-storage.addPayment = function(value){
+// CODE DUPLICITY!!
+storage.addOutgoingPayment = function(value){
   console.log("S2. Adding payment: " + value);
-    if (storage.contains(storage.payments, value.id)){
+    if (storage.contains(storage.outgoingPayments, value.id)){
         console.log("Storage:addPayment - Cannot insert, not unique element");
     }
     else {
-        storage.payments.push({
+        storage.outgoingPayments.push({
+            accountInitiator: value.accountInitiator,
+            accountReciever: value.accountReciever,
+            amount: value.amount,
+            id: value.id,
+            reciever: value.reciever,
+            state: value.state
+        });
+        storage.saveTransaction();
+    }
+};
+
+storage.addIncomingPayment = function(value){
+  console.log("S2. Adding payment: " + value);
+    if (storage.contains(storage.incomingPayments, value.id)){
+        console.log("Storage:addPayment - Cannot insert, not unique element");
+    }
+    else {
+        storage.incomingPayments.push({
             accountInitiator: value.accountInitiator,
             accountReciever: value.accountReciever,
             amount: value.amount,
@@ -127,16 +156,6 @@ storage.saveTransaction = function(){
     //localStorage.setItem('billMe', JSON.stringify(this.transactions));
 };
 
-storage.addTransaction = function(accountNumber){
-     console.log("S4. adding transaction");
-    this.transactions.push({
-        account: accountNumber,
-        status: 'payment' 
-    });
-    this.saveTransaction();
-    return true;
-};
-
 storage.filter = function(status){
     console.log("S5. filtering ");
     if (status === 'all') {
@@ -145,16 +164,4 @@ storage.filter = function(status){
     return this.transactions.filter(function(item){
             return item.status === status;
         });
-};
-
-storage.remove = function(account){
-    console.log("S6. Removing");
-    this.transactions.forEach(function(item, i){
-        if (item.account === account){
-            this.transactions.splice(i, 1);
-        }
-    }.bind(this));
-    this.saveTransaction();
-    return true;
-    
 };

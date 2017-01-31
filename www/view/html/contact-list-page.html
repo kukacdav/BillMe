@@ -3,16 +3,8 @@
         <div class="left">
             <ons-back-button>Zpět</ons-back-button>
         </div>
-        <div class="center">Create request</div>
+        <div class="center" id="page-title"></div>
     </ons-toolbar>
-    <ons-row>
-        <ons-col>
-            <ons-button id="payment-button" data-filter="payment" modifier="large">Na kontakt</ons-button>
-        </ons-col>
-        <ons-col>
-            <ons-button id="request-button" data-filter="request" modifier="large">Na více kontaktů</ons-button>
-        </ons-col>
-    </ons-row>
     <ons-list id="contact-list"></ons-list>
     
     <script id="contact-list-item" type="text/template">
@@ -25,25 +17,4 @@
             <div class="hidden contact-index">{{index}}</div>
         </ons-list-item>
     </script>
-    <ons-button id="create-new-contact" modifier="large
-    ">Vytvořit nový kontakt</ons-button>
-     <div class="tabbar">
-        <div class="tabbar-button" id="tabbar-main-page">
-        <ons-icon size="25px" icon="ion-ios-settings-strong"></ons-icon>
-        <p class="tabbar-label">Aktivity</p></div>
-        <div class="tabbar-button" id="tabbar-profile-page">
-            <ons-icon size="25px" icon="ion-ios-paper-outline"></ons-icon>
-        <p class="tabbar-label">Profil</p></div>
-        <div class="tabbar-button-active" id="tabbar-contact-list-page">
-            <ons-icon size="25px" icon="ion-person-stalker"></ons-icon>
-        <p class="tabbar-label">Kontakty</p></div>
-        <div class="tabbar-button" id="tabbar-invite-page">
-            <ons-icon size="25px" icon="ion-android-share-alt"></ons-icon>
-        <p class="tabbar-label">Pozvat</p></div>
-        <div class="tabbar-button" id="tabbar-more-options">
-            <ons-icon size="25px" icon="ion-ios-more-outline"></ons-icon>
-        <p class="tabbar-label">Vice</p></div>
-        
-        </div>
-    </div>
 </ons-page>

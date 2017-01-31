@@ -7,7 +7,23 @@
     .center-block {
         text-align: center;
     }
+.right-block{
+    text-align: right;
+}
     
+/* ----------------- Styles regarding main-page.html -----------------------------*/
+
+.red {
+    color: red;
+}
+.button-label{
+    margin: 0;
+    
+}
+
+.left-border{
+    border-left: 1px solid white;
+}
 /* ----------------- Styles regarding invite-freind-page.html --------------------*/
 
 .invite-friend-block{
@@ -22,3 +38,15 @@
     
     color: #8c8c8c;
 }
+
+/* ----------------- Styles regarding phone-contacts-page.html --------------------*/
+
+.contact-button-label{
+    font-size: 13px;
+}
+
+.contact-toolbar {
+    margin-top: 10%
+    
+}
+
