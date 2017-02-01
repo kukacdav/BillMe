@@ -10,40 +10,44 @@ function showRequests()  {
         return document.querySelector('#transaction-list-item').innerHTML
             .replace('{{amount}}', item.amount).replace('{{name}}', item.reciever[0].fullName)
             .replace('{{state}}', item.state.stateName);
-            console.log("QuerySelector");
     }).join('');
-    
+    $(".transaction-item-detail").on("click", showTransactionDetail);
 };
 
-//FIXME: Why is this not working, when return back to page after submit request 
-function showPayments() {
+function showIncomingPayments() {
    console.log("T2. - Showing payments");
-    var payments = storage.payments;
+    var payments = storage.incomingPayments;
+    console.log(payments);
+    //$('#transaction-list').empty();
+    console.log(document.querySelector('#transaction-list'));
     document.querySelector('#transaction-list').innerHTML=payments.map(function(item){
         return document.querySelector('#transaction-list-item').innerHTML
-            .replace('{{amount}}', item.amount).replace('{{name}}', item.reciever[0].fullName)
+            .replace('{{amount}}', item.amount + " Kč").replace('{{name}}', item.reciever[0].fullName)
             .replace('{{state}}', item.state.stateName);
     }).join('');
-    bindEventListenersToTransactions();
-    console.log(document.querySelector('#transaction-list').innerHTML);
+    $(".transaction-item-detail").on("click", showTransactionDetail);
 };
 
+function showOutgoingPayments() {
+   console.log("T2. - Showing payments");
+    var payments = storage.outgoingPayments;
+    console.log(payments);
+    //$('#transaction-list').empty();
+    console.log(document.querySelector('#transaction-list'));
+    document.querySelector('#transaction-list').innerHTML=payments.map(function(item){
+        return document.querySelector('#transaction-list-item').innerHTML
+            .replace('{{amount}}', "-" + item.amount + " Kč").replace('{{name}}', item.reciever[0].fullName)
+            .replace('{{state}}', item.state.stateName);
+    }).join('');
+    $(".transaction-item-detail").on("click", showTransactionDetail);
+    $(".transaction-amount").addClass("red");
+};
 
 function submitTransaction() {
     console.log("T3. - Submitting transaction");
-    // FIXME: SHOULD BE INDEPENDENT ON VIEW!!
     var amount = document.querySelector('#transaction-amount').value;
     var message = document.querySelector('#transaction-message').value;    
     persistTransaction(accountId, "7a5815ef7262fa55", amount, message );
-};
-
-
-bindEventListenersToTransactions = function () {
-    var transactionListElements = document.getElementsByClassName("transaction-item-detail");
-    for (var i = 0; i < transactionListElements.length; i++) {
-        //Must show correctly request/payment
-        console.log(i);
-    transactionListElements[i].addEventListener('click', function() {showTransactionDetail(i, "request");}, false);
-    }
+    // Add new transaction (request/payment)
 };
 

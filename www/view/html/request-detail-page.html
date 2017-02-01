@@ -1,0 +1,34 @@
+
+<ons-page id="request-detail-page">
+        
+    <ons-toolbar>
+    <div class="left">
+            <ons-back-button>Zpět</ons-back-button>
+        </div>
+        <div class="center">Transaction detail</div>
+    </ons-toolbar>
+    <ons-list>
+        <ons-list-header>Detail transakce</ons-list-header>
+        <ons-list-item>
+            <div class="left">Jméno:</div>
+            <div class="right" id="request-party"></div>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="left">Částka</div>
+            <div class="right" id="request-amount"></div>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="left">Stav transakce</div>
+            <div class="right" id="request-state"></div>
+        </ons-list-item>
+    </ons-list>
+    <ons-row>
+        <ons-col>
+            <ons-button id="cancel-button" modifier="large">Odmítnout</ons-button>
+        </ons-col>
+        <ons-col>
+            <ons-button id="accept-button" modifier="large">Zaplatit</ons-button>
+        </ons-col>
+    </ons-row>
+    
+</ons-page>
