@@ -60,6 +60,10 @@ document.addEventListener('init', function(event)
     {
         attachTabbarListeners();
     }
+    else if (page.id === 'set-amount-page')
+    {
+        composeSetAmountPage();
+    }
     
 });
 
@@ -90,7 +94,7 @@ document.addEventListener('init', function(event)
 
 showContactListDetail = function() {
     systemVariables.newTransactionItem = $(this.querySelector('.contact-index')).text();
-    switchPage('view/html/define-transaction-page.html');
+    switchPage('view/html/set-amount-page.html');
 };
 
 attachTabbarListeners = function() {

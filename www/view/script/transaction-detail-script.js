@@ -60,3 +60,8 @@ composePhoneContactsPage = function() {
     showContactList();
 
 };
+
+composeSetAmountPage = function() {
+    
+    
+};
