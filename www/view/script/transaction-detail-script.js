@@ -23,8 +23,7 @@ composeDefineTransactionPage = function() {
         document.querySelector('#page-header').innerHTML = "New payment";
     else if (systemVariables.transactionType === "request")
         document.querySelector('#page-header').innerHTML = "New request";
-    document.querySelector('.transaction-recievers-name').innerHTML = storage.contactList[systemVariables.newTransactionItem].fullName;  
-    document.querySelector('.transaction-recievers-phone').innerHTML = storage.contactList[systemVariables.newTransactionItem].phoneNumber;  
+    
 };
 
 //Function for composing dynamic parts of page
@@ -62,6 +61,29 @@ composePhoneContactsPage = function() {
 };
 
 composeSetAmountPage = function() {
-    
+    document.querySelector('#input-amount').focus();
+    document.querySelector('#recievers-name').innerHTML = storage.contactList[systemVariables.newTransactionItem].fullName;  
+    document.querySelector('#recievers-phone').innerHTML = storage.contactList[systemVariables.newTransactionItem].phoneNumber;  
+    document.querySelector('#recievers-email').innerHTML = storage.contactList[systemVariables.newTransactionItem].emailAddress;  
+    document.querySelector('#input-amount').onchange = function(){controlAmountInput()};
+};
+
+
+controlAmountInput = function() {
+  var amount = document.querySelector('#input-amount').value;
+  if ( $.isNumeric(amount) && amount > 0 ){
+    document.querySelector('#submit-transaction-button').disabled=false;
+        $('#input-amount').removeClass("incorrect-input-field");
+        $('#input-amount').addClass("correct-input-field");
+    console.log("je cislo");
+  }
+    else{
+        document.querySelector('#submit-transaction-button').disabled=true;
+        console.log("neni uplne");
+        $('#input-amount').removeClass("correct-input-field");
+        $('#input-amount').addClass("incorrect-input-field");
+    }
+
+
     
 };

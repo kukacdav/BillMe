@@ -10,6 +10,11 @@
 .right-block{
     text-align: right;
 }
+
+.upper-margin{
+    margin-top: 20%;
+    
+}
     
 /* ----------------- Styles regarding main-page.html -----------------------------*/
 
@@ -50,3 +55,24 @@
     
 }
 
+/* ----------------- Styles regarding set-amount-page.html --------------------*/
+.contact-detail{
+    font-size: 10px;
+    margin: 2px;
+}
+
+.correct-input-field {
+ height: 10%;
+ border: 1px solid #25a6d9;
+ padding: 10px;
+ margin-bottom: 10px
+    
+}
+
+.incorrect-input-field{
+    height: 10%;
+    border: 1px solid red;
+    padding: 10px;
+    margin-bottom: 10px
+    
+}
