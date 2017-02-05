@@ -26,6 +26,8 @@ composeDefineTransactionPage = function() {
     
 };
 
+
+
 //Function for composing dynamic parts of page
 composeMainPage = function(page) {
         page.querySelector('#account-name').innerHTML = storage.account.accountName;
@@ -36,11 +38,17 @@ composeMainPage = function(page) {
         page.querySelector('#incoming-payments-filter').onclick = function(){activateIncomingPayments();showIncomingPayments();};
         page.querySelector('#outgoing-payments-filter').onclick = function(){activateOutgoingPayments();showOutgoingPayments();};
         page.querySelector('#unresolved-transactions-filter').onclick = function(){activateUnresolvedTransactions(); showRequests();};
-        attachTabbarListeners();
         showIncomingPayments();
+      document.querySelector('#pageNavigator').addEventListener('prepop', function(event) {
+        if(event.currentPage.id === "contact-list-page") {
+            document.getElementById('tabbar').setTabbarVisibility(true);
+        }
+    });
+      
 };
 
 composeContactListPage = function(page) {
+      document.getElementById('tabbar').setTabbarVisibility(false);
     showContactList();
     console.log("Composing contact list page");
     $(".contact-list-detail").on("click", showContactListDetail);
@@ -55,7 +63,6 @@ composeContactListPage = function(page) {
 };
 
 composePhoneContactsPage = function() {
-    attachTabbarListeners();
     showContactList();
 
 };
@@ -75,6 +82,7 @@ controlAmountInput = function() {
     document.querySelector('#submit-transaction-button').disabled=false;
         $('#input-amount').removeClass("incorrect-input-field");
         $('#input-amount').addClass("correct-input-field");
+        systemVariables.amount = amount; 
     console.log("je cislo");
   }
     else{

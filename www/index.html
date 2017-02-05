@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+    <title>Bill Me</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta http-equiv="Content-Security-Policy" content="default-src * data:; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
@@ -35,7 +36,199 @@
   </script>
 </head>
 <body>
-    <ons-navigator id="pageNavigator" page="view/html/main-page.html" ></ons-navigator>
+    <ons-tabbar id="tabbar">
+        <ons-tab label="Aktivity" page="main-page-template" active> </ons-tab>
+        <ons-tab label="Profil" page="user-detail-page-template"> </ons-tab>
+        <ons-tab label="Kontakty" page="phone-contacts-page-template"> </ons-tab>
+        <ons-tab label="Pozvat" page="invite-friend-page-template"> </ons-tab>
+        <ons-tab label="Více" page="more-options-page-template"> </ons-tab>
+    </ons-tabbar>
+    
+    
+    <!--                MAIN PAGE VIEW               -->
+    
+    <ons-template id="main-page-template">
+    <ons-navigator id="pageNavigator">
+    <ons-page id="main-page">
+    <ons-list>
+        <ons-list-header>Můj účet</ons-list-header>
+        <ons-list-item>
+            <ons-row>
+                <ons-col width="70%">
+                    <div class="left" id="account-name"></div>
+                </ons-col>
+                <ons-col>
+                    <div class="right" id="account-balance"></div>
+                </ons-col>
+            </ons-row>
+            <ons-row>
+                <ons-col id="account-number"></ons-col>
+            </ons-row>
+        </ons-list-item>
+        <ons-list-header> Rychlé akce </ons-list-header>
+        <ons-row>
+            <ons-col>
+                <ons-button id="create-payment-button" modifier="large">
+                    <ons-icon icon="ion-arrow-up-c" size="50px" fixed-width="true"></ons-icon>
+                    <p class="button-label">
+                        Zaplatit
+                    </p>
+                </ons-button>
+            </ons-col>
+            <ons-col class="left-border">
+                <ons-button id="create-request-button" modifier="large">
+                    <ons-icon icon="ion-arrow-down-c" size="50px" fixed-width="true"></ons-icon>
+                <p class="button-label">Připomenout se</p>
+                    
+                </ons-button>
+            </ons-col>
+        </ons-row>
+        <ons-list-header>Přehled toků</ons-list-header>
+        <ons-row class="select-box">
+            <ons-col>
+                <ons-button class="select-box-item-active select-box-left" id="incoming-payments-filter" data-filter="incoming" modifier="large">Přijaté</ons-button>
+            </ons-col>
+            <ons-col>
+                <ons-button class="select-box-item select-box-center" id="outgoing-payments-filter" data-filter="outgoing" modifier="large">Odeslané</ons-button>
+            </ons-col>
+            <ons-col>
+                <ons-button class="select-box-item select-box-right" id="unresolved-transactions-filter" data-filter="filter" modifier="large">Nevyřízené</ons-button>
+            </ons-col>
+        </ons-row>
+    </ons-list>
+    <div>
+    <ons-list id="transaction-list"></ons-list>
+    
+    <script id="transaction-list-item" type="text/template">
+        <ons-list-item class="transaction-item-detail" >
+            <div class="left transaction-party">{{name}}</div>
+            <div class="center transaction-amount">{{amount}}</div>
+            <div class="center transaction-state" style="margin-left: 1em">{{state}}</div>
+            <div class="right"><ons-icon icon="ion-chevron-right"></ons-icon></div>
+        </ons-list-item>
+    </script>
+        
+    </div>
+</ons-page>
+</ons-navigator>
+</ons-template>
+<!--           USER DETAIL PAGE VIEW               -->
+
+
+<ons-template id="user-detail-page-template">
+<ons-page id="user-detail-page">
+    <ons-list>
+        <ons-list-header>Detail uživatele</ons-list-header>
+        <ons-list-item>
+            <div class="left">Jméno</div>
+            <div class="right" id="username-line"></div>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="left">Telefon</div>
+            <div class="right" id="phone-number-line"></div>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="left">Email</div>
+            <div class="right" id="email-line"></div>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="left">Facebook</div>
+            <div class="right" id="facebook-contact-line"></div>
+        </ons-list-item>
+    </ons-list>
+   
+    </ons-page>
+</ons-template>
+
+<!--           PHONE CONTACTS PAGE VIEW     -->
+<ons-template id="phone-contacts-page-template">
+    
+
+   <ons-page id="phone-contacts-page">
+    <ons-toolbar>
+        <div class="center">Kontakty</div>
+    </ons-toolbar>
+    <ons-list id="contact-list"></ons-list>
+    <script id="contact-list-item" type="text/template">
+        <ons-list-item class="contact-list-detail">
+            <div class="left contact-name">{{name}}</div>
+            <div class="center contact-phone">{{phoneNumber}}</div>
+            <div class="right">
+                <ons-icon icon="ion-chevron-right"></ons-icon>
+            </div>
+            <div class="hidden contact-index">{{index}}</div>
+        </ons-list-item>
+    </script>
+    <ons-row class="contact-toolbar">
+        <ons-col class="center-block">
+            <ons-icon icon="ion-search" size="40px"></ons-icon>
+            <p class="contact-button-label">Vyhledat kontakt</p>
+        </ons-col>
+        <ons-col class="center-block">
+            <ons-icon icon="ion-person-add" size="40px"></ons-icon>
+            <p class="contact-button-label">Vytvořit kontakt</p>
+        </ons-col>
+        <ons-col class="center-block">
+            <ons-icon icon="ion-star" size="40px"></ons-icon>
+            <p class="contact-button-label">Nastavit oblíbené</p>
+        </ons-col>
+    </ons-row>
+    
+</ons-page>
+</ons-template>
+<!--               INVITE FRIEND PAGE VIEW                  -->
+<ons-template id="invite-friend-page-template">
+<ons-page id="invite-friend-page">
+        
+    <ons-toolbar>
+        <div class="center">Pozvat kamaráda</div>
+    </ons-toolbar>
+    <div class="invite-friend-block">
+        <ons-icon size="70px" icon="ion-person-add" ></ons-icon>
+        <h1 class="invite-friend-header">
+            Pozvi kamaráda k používání Bill Me
+        </h1>
+        <p>
+            Nasdílej pozvánku kamarádovi přímo nebo skrze kontakty aplikace</p>
+ 
+    </div>  
+    <ons-row>
+        <ons-col class="center-block">
+            <ons-icon size="50px" icon="ion-social-facebook"></ons-icon>
+            <p>
+                Sdílej pozvánku
+            </p>
+        </ons-col>
+        <ons-col class="center-block">
+            <ons-icon size="50px" icon="ion-person-stalker"></ons-icon>
+            <p>
+                Vyber kontakt
+            </p>
+        </ons-col>
+    </ons-row>
+    
+    
+    
+    
+</ons-page>
+
+</ons-template>
+
+
+
+
+<!--               MORE OPTIONS PAGE VIEW                  -->
+<ons-template id="more-options-page-template">
+        <ons-page id="more-options-page">
+    <ons-toolbar>
+        <div class="center">Rozšířená nabídka</div>
+    </ons-toolbar>
+
+    <p>This is the Onsen Page Template.</p>
+     
+    </ons-page>
+</ons-template>
+
     
 </body>
 </html>

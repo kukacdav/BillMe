@@ -4,6 +4,8 @@
 // Navigation controller handles all logic asocieted with navigation through multiple pages, adding eventListeners and such events
 
 
+
+
 document.addEventListener('init', function(event)
 {
     console.log("Navigation handler..");
@@ -12,7 +14,6 @@ document.addEventListener('init', function(event)
     if (page.id === 'main-page')
     {    
         console.log("N1. Initializing Main Page ");
-        // FOR DEBUGGING PURPOUSE
         composeMainPage(page);
     }
     else if (page.id === 'contact-list-page')
@@ -39,7 +40,6 @@ document.addEventListener('init', function(event)
     else if (page.id === 'user-detail-page') {
         console.log("N5. Initializing user-detail-page");
         showUserData();
-        attachTabbarListeners();
 
     }
     else if (page.id === 'transaction-detail-page')
@@ -54,11 +54,9 @@ document.addEventListener('init', function(event)
     }
     else if (page.id === 'more-options-page')
     {
-        attachTabbarListeners();
     }
     else if (page.id === 'invite-friend-page')
     {
-        attachTabbarListeners();
     }
     else if (page.id === 'set-amount-page')
     {
@@ -79,30 +77,14 @@ document.addEventListener('init', function(event)
         switchPage('view/html/transaction-detail-page.html');
     };
     
-    showNewPage = function(target){
-        console.log("Showing new page: " + target);
-        document.querySelector('#pageNavigator').resetToPage(target);
-        console.log(document);
-    };
+
     
     switchPage = function(target) {
-        
         console.log("pushing page: " + target);
         document.querySelector('#pageNavigator').pushPage(target);
-    //document.querySelector('#tabbar').loadPage(target);
 };
 
 showContactListDetail = function() {
     systemVariables.newTransactionItem = $(this.querySelector('.contact-index')).text();
     switchPage('view/html/set-amount-page.html');
-};
-
-attachTabbarListeners = function() {
-    console.log("Adding tabbar listeners");
-    document.querySelector('#tabbar-main-page').onclick = function(){showNewPage('view/html/main-page.html')};
-    document.querySelector('#tabbar-profile-page').onclick = function(){showNewPage('view/html/user-detail-page.html')};
-    document.querySelector('#tabbar-contact-list-page').onclick = function(){showNewPage('view/html/phone-contacts-page.html')};
-    document.querySelector('#tabbar-invite-page').onclick = function(){showNewPage('view/html/invite-friend-page.html')};
-    document.querySelector('#tabbar-more-options').onclick = function(){showNewPage('view/html/more-options-page.html')};
-    
 };
