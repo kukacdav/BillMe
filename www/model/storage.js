@@ -10,7 +10,7 @@ var storage = {
     contactList: [],
 };
 var systemVariables = {
-
+    
 };
 
 storage.init = function(){

@@ -11,7 +11,7 @@ persistTransaction = function (accountInitiator, accountReciever, amount, messag
             "accountReciever": accountReciever,
             "amount": amount,
             "message": message,
-            "date": Date.now()
+            "submitDate": Date.now()
         },
         success: function(data)
         {

@@ -52,7 +52,6 @@ function showOutgoingPayments() {
 
 function submitTransaction() {
     console.log("T3. - Submitting transaction");
-    persistTransaction(accountId, "7a5815ef7262fa55", amount, message );
-    // Add new transaction (request/payment)
+    persistTransaction(accountId, "7a5815ef7262fa55", systemVariables.transaction.amount, systemVariables.transaction.message );
 };
 

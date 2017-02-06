@@ -76,3 +76,31 @@
     margin-bottom: 10px
     
 }
+
+/* ----------------- Styles regarding confirm-transaction-page.html --------------------*/
+
+.dark-pannel {
+    background-color: #4282cc;    
+    color: white;
+    padding-top: 5px;
+    padding-bottom: 10px;
+}
+
+.dark-pannel p {
+    margin: 8px 0;
+}
+
+.amount-pannel {
+    border-radius: 25px;
+    background-color: white;
+    color: #4282cc;
+    width: 50%;
+    margin-left: 25%;
+    padding: 3px 0;
+}
+
+.message-input-field {
+ border: 1px solid #25a6d9;
+}
+
+

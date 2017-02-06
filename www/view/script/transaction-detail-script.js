@@ -73,6 +73,7 @@ composeSetAmountPage = function() {
     document.querySelector('#recievers-phone').innerHTML = storage.contactList[systemVariables.newTransactionItem].phoneNumber;  
     document.querySelector('#recievers-email').innerHTML = storage.contactList[systemVariables.newTransactionItem].emailAddress;  
     document.querySelector('#input-amount').onchange = function(){controlAmountInput()};
+    document.querySelector('#submit-transaction-button').onclick = function(){switchPage('view/html/confirm-transaction-page.html')};
 };
 
 
@@ -91,7 +92,23 @@ controlAmountInput = function() {
         $('#input-amount').removeClass("correct-input-field");
         $('#input-amount').addClass("incorrect-input-field");
     }
-
-
-    
 };
+
+composeConfirmTransactionPage = function() {
+    document.querySelector('#recievers-name2').innerHTML = storage.contactList[systemVariables.newTransactionItem].fullName;  
+    document.querySelector('#recievers-phone2').innerHTML = storage.contactList[systemVariables.newTransactionItem].phoneNumber;  
+    document.querySelector('#recievers-email2').innerHTML = storage.contactList[systemVariables.newTransactionItem].emailAddress;  
+    document.querySelector('#transaction-amount').innerHTML = systemVariables.amount+ " Kč";
+    document.querySelector('#submit-payment-button').onclick = function(){storeMessage(); submitTransaction();};
+};
+
+storeMessage = function(){
+  var message = document.querySelector('#message-input').value;
+    if (message == null)
+        systemVariables.message = "";
+    else
+        systemVariables.message = message;
+};
+
+
+

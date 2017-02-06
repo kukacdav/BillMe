@@ -62,13 +62,22 @@ document.addEventListener('init', function(event)
     {
         composeSetAmountPage();
     }
+    else if (page.id === 'confirm-transaction-page')
+    {
+        composeConfirmTransactionPage();
+    }
     
 });
 
 
-    successfullTransaction = function () {
-        switchPage('view/html/success-submit-page.html');
+successfullTransaction = function () {
+    var newTransaction = {
+        
+        
     };
+    //systemVariable.clearOut();
+    switchPage('view/html/success-submit-page.html');
+};
     
     showTransactionDetail = function() {
         storage.transaction.name = $(this.querySelector('.transaction-party')).text();
