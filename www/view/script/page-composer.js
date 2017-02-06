@@ -19,9 +19,9 @@ composeRequestDetailPage = function () {
 
 //Handling content of define-transaction-page
 composeDefineTransactionPage = function() {
-    if (systemVariables.transactionType === "payment")
+    if (systemVariables.newTransaction.transactionType === "payment")
         document.querySelector('#page-header').innerHTML = "New payment";
-    else if (systemVariables.transactionType === "request")
+    else if (systemVariables.newTransaction.transactionType === "request")
         document.querySelector('#page-header').innerHTML = "New request";
     
 };
@@ -33,8 +33,8 @@ composeMainPage = function(page) {
         page.querySelector('#account-name').innerHTML = storage.account.accountName;
         page.querySelector('#account-number').innerHTML = storage.account.accountNumber;
         page.querySelector('#account-balance').innerHTML = storage.account.balance + " Kč";
-        page.querySelector('#create-payment-button').onclick = function(){systemVariables.transactionType="payment";switchPage('view/html/contact-list-page.html');};
-        page.querySelector('#create-request-button').onclick = function(){systemVariables.transactionType="request";switchPage('view/html/contact-list-page.html');};
+        page.querySelector('#create-payment-button').onclick = function(){systemVariables.newTransaction.transactionType="payment";switchPage('view/html/contact-list-page.html');};
+        page.querySelector('#create-request-button').onclick = function(){systemVariables.newTransaction.transactionType="request";switchPage('view/html/contact-list-page.html');};
         page.querySelector('#incoming-payments-filter').onclick = function(){activateIncomingPayments();showIncomingPayments();};
         page.querySelector('#outgoing-payments-filter').onclick = function(){activateOutgoingPayments();showOutgoingPayments();};
         page.querySelector('#unresolved-transactions-filter').onclick = function(){activateUnresolvedTransactions(); showRequests();};
@@ -52,10 +52,10 @@ composeContactListPage = function(page) {
     showContactList();
     console.log("Composing contact list page");
     $(".contact-list-detail").on("click", showContactListDetail);
-    if (systemVariables.transactionType === "payment"){
+    if (systemVariables.newTransaction.transactionType === "payment"){
         document.querySelector('#page-title').innerHTML = "Přímá platba";
     }
-    else if (systemVariables.transactionType === "request"){
+    else if (systemVariables.newTransaction.transactionType === "request"){
         document.querySelector('#page-title').innerHTML = "Připomínka";
     }
     else
@@ -83,7 +83,7 @@ controlAmountInput = function() {
     document.querySelector('#submit-transaction-button').disabled=false;
         $('#input-amount').removeClass("incorrect-input-field");
         $('#input-amount').addClass("correct-input-field");
-        systemVariables.amount = amount; 
+        systemVariables.newTransaction.amount = amount; 
     console.log("je cislo");
   }
     else{
@@ -98,16 +98,22 @@ composeConfirmTransactionPage = function() {
     document.querySelector('#recievers-name2').innerHTML = storage.contactList[systemVariables.newTransactionItem].fullName;  
     document.querySelector('#recievers-phone2').innerHTML = storage.contactList[systemVariables.newTransactionItem].phoneNumber;  
     document.querySelector('#recievers-email2').innerHTML = storage.contactList[systemVariables.newTransactionItem].emailAddress;  
-    document.querySelector('#transaction-amount').innerHTML = systemVariables.amount+ " Kč";
+    document.querySelector('#transaction-amount').innerHTML = systemVariables.newTransaction.amount+ " Kč";
     document.querySelector('#submit-payment-button').onclick = function(){storeMessage(); submitTransaction();};
 };
+
+composeSuccessSubmitPage = function() {
+    document.querySelector('#transaction-success-button').onclick = function(){document.querySelector('#pageNavigator').resetToPage('main-page-template');
+        };
+};
+
 
 storeMessage = function(){
   var message = document.querySelector('#message-input').value;
     if (message == null)
-        systemVariables.message = "";
+        systemVariables.newTransaction.message = "";
     else
-        systemVariables.message = message;
+        systemVariables.newTransaction.message = message;
 };
 
 

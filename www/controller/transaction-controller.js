@@ -52,6 +52,11 @@ function showOutgoingPayments() {
 
 function submitTransaction() {
     console.log("T3. - Submitting transaction");
-    persistTransaction(accountId, "7a5815ef7262fa55", systemVariables.transaction.amount, systemVariables.transaction.message );
+    if (systemVariables.newTransaction.transactionType === "payment")
+        persistPayment();
+    else if (systemVariables.newTransaction.transactionType === "reuqest")
+        persistRequest();
+    else 
+        console.log("Unexpected ERROR, while persisting new transaction: unknown transactionType");
 };
 

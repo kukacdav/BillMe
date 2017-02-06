@@ -10,7 +10,7 @@ var storage = {
     contactList: [],
 };
 var systemVariables = {
-    
+    newTransaction: {}
 };
 
 storage.init = function(){
@@ -61,6 +61,7 @@ storage.getAccountDetail = function() {
         storage.account.balance = data.balance;
         storage.account.accountName = data.accountName;
     });
+    storage.account.accountId = accountId;
 };
 
 storage.getRequests = function () {
@@ -164,4 +165,8 @@ storage.filter = function(status){
     return this.transactions.filter(function(item){
             return item.status === status;
         });
+};
+
+systemVariables.clearOut = function () {
+  systemVariables.newTransaction = {};    
 };

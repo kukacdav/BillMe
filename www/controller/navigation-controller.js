@@ -27,8 +27,7 @@ document.addEventListener('init', function(event)
     else if (page.id === 'success-submit-page')
     {
         console.log("N3. Initializing submit-success-page ");
-        flag = 1;
-        page.querySelector('#transaction-success-button').onclick = function(){document.querySelector('#pageNavigator').resetToPage('view/html/main-page.html')};
+        composeSuccessSubmitPage();
         //page.querySelector('#transaction-success-button').onclick = function(){switchPage('view/html/main-page.html');};
     }
     else if (page.id === 'define-transaction-page')
@@ -70,12 +69,10 @@ document.addEventListener('init', function(event)
 });
 
 
-successfullTransaction = function () {
-    var newTransaction = {
-        
-        
-    };
-    //systemVariable.clearOut();
+// THIS SHOULD NOT BE IN CONTROLLER
+successfullPayment = function () {
+    storage.getRequests();
+    systemVariables.clearOut();
     switchPage('view/html/success-submit-page.html');
 };
     
