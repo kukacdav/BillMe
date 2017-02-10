@@ -71,6 +71,12 @@ document.addEventListener('init', function(event)
 
 // THIS SHOULD NOT BE IN CONTROLLER
 successfullPayment = function () {
+    storage.getOutgoingPayments();
+    systemVariables.clearOut();
+    switchPage('view/html/success-submit-page.html');
+
+};
+successfullRequest = function () {
     storage.getRequests();
     systemVariables.clearOut();
     switchPage('view/html/success-submit-page.html');

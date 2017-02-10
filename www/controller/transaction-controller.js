@@ -54,7 +54,7 @@ function submitTransaction() {
     console.log("T3. - Submitting transaction");
     if (systemVariables.newTransaction.transactionType === "payment")
         persistPayment();
-    else if (systemVariables.newTransaction.transactionType === "reuqest")
+    else if (systemVariables.newTransaction.transactionType === "request")
         persistRequest();
     else 
         console.log("Unexpected ERROR, while persisting new transaction: unknown transactionType");

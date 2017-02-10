@@ -95,16 +95,42 @@ controlAmountInput = function() {
 };
 
 composeConfirmTransactionPage = function() {
+    if (systemVariables.newTransaction.transactionType === "payment")
+        composeConfirmTransactionPaymentPage();
+    else 
+        composeConfirmTransactionRequestPage();
     document.querySelector('#recievers-name2').innerHTML = storage.contactList[systemVariables.newTransactionItem].fullName;  
     document.querySelector('#recievers-phone2').innerHTML = storage.contactList[systemVariables.newTransactionItem].phoneNumber;  
     document.querySelector('#recievers-email2').innerHTML = storage.contactList[systemVariables.newTransactionItem].emailAddress;  
     document.querySelector('#transaction-amount').innerHTML = systemVariables.newTransaction.amount+ " Kč";
-    document.querySelector('#submit-payment-button').onclick = function(){storeMessage(); submitTransaction();};
+    document.querySelector('#submit-button').onclick = function(){storeMessage(); submitTransaction();};
+};
+
+composeConfirmTransactionPaymentPage = function(){
+    console.log(document.querySelector('#submit-transaction-button').text);
+    document.querySelector('#page-header').innerHTML = confirmTransactionPaymentHeader;
+    document.querySelector('#transaction-amount-header').innerHTML = paymentAmountHeader;    
+document.querySelector('#submit-button').innerHTML = submitPaymentButton;
+};
+
+composeConfirmTransactionRequestPage = function(){
+    document.querySelector('#page-header').innerHTML = confirmTransactionRequestHeader;
+    document.querySelector('#transaction-amount-header').innerHTML = requestAmountHeader;    
+    document.querySelector('#submit-button').innerHTML = submitRequestButton;
 };
 
 composeSuccessSubmitPage = function() {
+    if (systemVariables.newTransaction.transactionType === "payment"){
+        document.querySelector('#success-submit-header').innerHTML = successSubmitHeaderPayment;
+        document.querySelector('#success-submit-message').innerHTML = successSubmitMessagePayment;
+    }
+    else {
+        document.querySelector('#success-submit-header').innerHTML = successSubmitHeaderRequest;
+        document.querySelector('#success-submit-message').innerHTML = successSubmitMessageRequest;
+    }
     document.querySelector('#transaction-success-button').onclick = function(){document.querySelector('#pageNavigator').resetToPage('main-page-template');
         };
+    
 };
 
 
