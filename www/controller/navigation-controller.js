@@ -98,5 +98,6 @@ successfullRequest = function () {
 
 showContactListDetail = function() {
     systemVariables.newTransactionItem = $(this.querySelector('.contact-index')).text();
+    getContraAccount();
     switchPage('view/html/set-amount-page.html');
 };

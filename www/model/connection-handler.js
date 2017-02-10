@@ -30,7 +30,7 @@ persistRequest = function () {
         data:
         {
             "accountInitiator": storage.account.accountId,
-            "accountReciever": "7a5815ef7262fa55",            // STATIC - FIX ME, need to be dynamic
+            "accountReciever": systemVariables.newTransaction.contraAccountId,
             "amount": systemVariables.newTransaction.amount,
             "message": systemVariables.newTransaction.message,
             "submitDate": Date.now(),
@@ -41,5 +41,13 @@ persistRequest = function () {
             successfullRequest();
         },
         dataType: "json"
+    });
+};
+
+getContraAccount = function(){
+    console.log("= getting data");
+     $.getJSON(deploydEndpoint + '/contact?phoneNumber=' + storage.contactList[systemVariables.newTransactionItem].phoneNumber, function(data){
+        systemVariables.newTransaction.contraAccountId = data[0].accountId;
+        systemVariables.newTransaction.contraAccountNumber = data[0].accountNumber;
     });
 };

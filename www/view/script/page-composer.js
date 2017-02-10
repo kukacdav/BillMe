@@ -68,6 +68,10 @@ composePhoneContactsPage = function() {
 };
 
 composeSetAmountPage = function() {
+    //TMP
+    console.log("this " + systemVariables.newTransaction.contraAccountNumber);
+    console.log("this " + systemVariables.newTransaction.contraAccountId);
+    //END
     document.querySelector('#input-amount').focus();
     document.querySelector('#recievers-name').innerHTML = storage.contactList[systemVariables.newTransactionItem].fullName;  
     document.querySelector('#recievers-phone').innerHTML = storage.contactList[systemVariables.newTransactionItem].phoneNumber;  
@@ -107,7 +111,6 @@ composeConfirmTransactionPage = function() {
 };
 
 composeConfirmTransactionPaymentPage = function(){
-    console.log(document.querySelector('#submit-transaction-button').text);
     document.querySelector('#page-header').innerHTML = confirmTransactionPaymentHeader;
     document.querySelector('#transaction-amount-header').innerHTML = paymentAmountHeader;    
 document.querySelector('#submit-button').innerHTML = submitPaymentButton;
