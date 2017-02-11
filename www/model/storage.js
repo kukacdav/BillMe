@@ -1,7 +1,8 @@
 
 var accountId = 'b3162c0b1611b96e';
 var storage = {
-    requests: [],
+    incomingRequests: [],
+    outgoingRequests: [],
     incomingPayments: [],
     outgoingPayments: [],
     userContact: {},
@@ -15,7 +16,9 @@ var systemVariables = {
 
 storage.init = function(){
     console.log("S0. Initializing storage");
-    storage.getRequests();
+    //storage.getRequests();
+    storage.getIncomingRequests();
+    storage.getOutgoingRequests();
     storage.getOutgoingPayments();
     storage.getIncomingPayments();
     storage.getUserDetail();
@@ -64,13 +67,23 @@ storage.getAccountDetail = function() {
     storage.account.accountId = accountId;
 };
 
-storage.getRequests = function () {
-    console.log("S7. Getting requests from deployd.");
-    $.getJSON(deploydEndpoint + '/request?accountInitiator=' + accountId, function(data){
+storage.getIncomingRequests = function() {
+   console.log("S11. Getting unresolved incoming requests from deployd.");
+    $.getJSON(deploydEndpoint + '/request?{"accountReciever": "' + accountId + '", "state": "8c35dc706cccbba6"}', function(data){
         $.each(data, function(index, value){
-            storage.addRequest(value);
+            storage.addIncomingRequest(value);
         });
     });
+};
+
+storage.getOutgoingRequests = function() {
+    console.log("S11. Getting unresolved incoming requests from deployd.");
+    $.getJSON(deploydEndpoint + '/request?{"accountInitiator": "' + accountId + '", "state": "8c35dc706cccbba6"}', function(data){
+        $.each(data, function(index, value){
+            storage.addOutgoingRequest(value);
+        });
+    });
+    
 };
 
 storage.getIncomingPayments = function () {
@@ -89,13 +102,31 @@ storage.getOutgoingPayments = function () {
     });
 };
 
-storage.addRequest = function(value){
+storage.addIncomingRequest = function(value){
     console.log("S1. Adding request: " + value);
-    if (storage.contains(storage.requests, value.id)){
+    if (storage.contains(storage.incomingRequests, value.id)){
         console.log("Storage:addRequest - Cannot insert, not unique element");
     }
     else {
-        storage.requests.push({
+        storage.incomingRequests.push({
+            accountInitiator: value.accountInitiator,
+            accountReciever: value.accountReciever,
+            amount: value.amount,
+            id: value.id,
+            reciever: value.reciever,
+            state: value.state
+        });
+        storage.saveTransaction();
+    }
+};
+
+storage.addOutgoingRequest = function(value){
+    console.log("S1. Adding request: " + value);
+    if (storage.contains(storage.outgoingRequests, value.id)){
+        console.log("Storage:addRequest - Cannot insert, not unique element");
+    }
+    else {
+        storage.outgoingRequests.push({
             accountInitiator: value.accountInitiator,
             accountReciever: value.accountReciever,
             amount: value.amount,

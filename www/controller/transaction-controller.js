@@ -5,8 +5,17 @@
 
 function showRequests()  {
     console.log("T1. - Showing requests");
-    var requests = storage.requests;
-     document.querySelector('#transaction-list').innerHTML=requests.map(function(item){
+    showIncomingRequests();
+    showOutgoingRequests();    
+    $(".transaction-item-detail").on("click", showTransactionDetail);
+};
+
+showIncomingRequests = function() {
+    if (storage.incomingRequests == null)
+        return;
+    document.querySelector('#transaction-list').innerHTML="<ons-list-header>Přijaté připomínky</ons-list-header>";
+    var requests = storage.incomingRequests;
+    document.querySelector('#transaction-list').innerHTML+=requests.map(function(item){
         return "<ons-list-item class='transaction-item-detail'> \
         <div class='left transaction-party'>" + item.reciever[0].fullName + "</div> \
         <div class='center transaction-amount'>" + item.amount + "</div> \
@@ -14,7 +23,21 @@ function showRequests()  {
         <div class='right'><ons-icon icon='ion-chevron-right'></ons-icon></div> \
         </ons-list-item>";
     }).join('');
-    $(".transaction-item-detail").on("click", showTransactionDetail);
+};
+
+showOutgoingRequests = function() {
+    if (storage.outgoingRequests == null)
+        return;
+    var requests = storage.outgoingRequests;
+    document.querySelector('#transaction-list').innerHTML+="<ons-list-header>Odeslané připomínky</ons-list-header>";
+    document.querySelector('#transaction-list').innerHTML+=requests.map(function(item){
+        return "<ons-list-item class='transaction-item-detail'> \
+        <div class='left transaction-party'>" + item.reciever[0].fullName + "</div> \
+        <div class='center transaction-amount'>" + item.amount + "</div> \
+        <div class='center transaction-state' style='margin-left: 1em'>" + item.state.stateName + "</div> \
+        <div class='right'><ons-icon icon='ion-chevron-right'></ons-icon></div> \
+        </ons-list-item>";
+    }).join('');
 };
 
 function showIncomingPayments() {
