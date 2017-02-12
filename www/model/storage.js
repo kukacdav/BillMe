@@ -16,7 +16,6 @@ var systemVariables = {
 
 storage.init = function(){
     console.log("S0. Initializing storage");
-    //storage.getRequests();
     storage.getIncomingRequests();
     storage.getOutgoingRequests();
     storage.getOutgoingPayments();
@@ -25,7 +24,7 @@ storage.init = function(){
     storage.getAccountDetail();
     //TMP, mocking contact data
     storage.getContactList();
-    };
+};
 
 storage.getUserDetail = function() {
     console.log("S9. Getting user detail from deployd.");
@@ -114,7 +113,9 @@ storage.addIncomingRequest = function(value){
             amount: value.amount,
             id: value.id,
             reciever: value.reciever,
-            state: value.state
+            state: value.state,
+            date: value.submitDate,
+            message: value.message
         });
         storage.saveTransaction();
     }
@@ -132,7 +133,9 @@ storage.addOutgoingRequest = function(value){
             amount: value.amount,
             id: value.id,
             reciever: value.reciever,
-            state: value.state
+            state: value.state,
+            date: value.submitDate,
+            message: value.message
         });
         storage.saveTransaction();
     }
@@ -151,7 +154,9 @@ storage.addOutgoingPayment = function(value){
             amount: value.amount,
             id: value.id,
             reciever: value.reciever,
-            state: value.state
+            state: value.state,
+            date: value.submitDate,
+            message: value.message
         });
         storage.saveTransaction();
     }
@@ -169,7 +174,9 @@ storage.addIncomingPayment = function(value){
             amount: value.amount,
             id: value.id,
             reciever: value.reciever,
-            state: value.state
+            state: value.state,
+            date: value.submitDate,
+            message: value.message
         });
         storage.saveTransaction();
     }

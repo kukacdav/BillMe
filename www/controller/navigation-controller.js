@@ -82,10 +82,9 @@ successfullRequest = function () {
     switchPage('view/html/success-submit-page.html');
 };
     
-    showTransactionDetail = function() {
-        storage.transaction.name = $(this.querySelector('.transaction-party')).text();
-        storage.transaction.amount = $(this.querySelector('.transaction-amount')).text();
-        storage.transaction.state = $(this.querySelector('.transaction-state')).text();
+showTransactionDetail = function() {
+        systemVariables.transactionType = $(this).attr('id');
+        systemVariables.elementIndex = $(this.querySelector('#transaction-index')).text();    
         switchPage('view/html/transaction-detail-page.html');
     };
     
