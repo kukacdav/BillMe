@@ -3,15 +3,18 @@
 // Function for filling content of elements on page transaction/payment-detail-page
 composeTransactionDetailPage = function () {
     var dataSource;
-    if (systemVariables.transactionType === "filter-incoming-payments")
+    if (systemVariables.transactionType === "filter-incoming-payments") {
         dataSource = storage.incomingPayments[systemVariables.elementIndex];
-    else if (systemVariables.transactionType === "filter-outgoing-payments")
+        hideRequestFields();
+    }
+    else if (systemVariables.transactionType === "filter-outgoing-payments"){
         dataSource = storage.outgoingPayments[systemVariables.elementIndex];
+        hideRequestFields();
+        }
     else if (systemVariables.transactionType === "filter-outgoing-requests")
         dataSource = storage.outgoingRequests[systemVariables.elementIndex];
     else if (systemVariables.transactionType === "filter-incoming-requests")
         dataSource = storage.incomingRequests[systemVariables.elementIndex];
-    console.log(storage.incomingRequests);
    document.querySelector('#transaction-party').innerHTML = dataSource.reciever[0].fullName;
    document.querySelector('#transaction-amount').innerHTML = dataSource.amount;
    document.querySelector('#transaction-state').innerHTML = dataSource.state.stateName;
@@ -19,6 +22,14 @@ composeTransactionDetailPage = function () {
    var submitDate = new Date(dataSource.date);
    document.querySelector('#transaction-date').innerHTML = submitDate.toString('yyyy-MM-d-h-mm-ss');
 };
+
+//Function for hidding parts of ttransaction-detail-template, which should be shown only for requests
+hideRequestFields = function() {
+    $('#response-message-field').hide();
+    $('#response-action-buttons').hide();
+    
+};
+
 
 // Function for filling content of elements on page request-detail-page
 composeRequestDetailPage = function () {
