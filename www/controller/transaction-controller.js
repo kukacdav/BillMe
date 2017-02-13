@@ -115,3 +115,12 @@ function rejectSelectedRequest() {
 function acceptSelectedRequest(){
     
 };
+
+function requestStateAltered() {
+    console.log("Table altered");
+    storage.incomingRequests.splice(0,storage.incomingRequests.length);
+    console.log(storage.incomingRequests);
+    storage.getIncomingRequests();
+    console.log(storage.incomingRequests);
+    document.querySelector('#pageNavigator').resetToPage('main-page-template');
+};
