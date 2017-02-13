@@ -51,3 +51,27 @@ getContraAccount = function(){
         systemVariables.newTransaction.contraAccountNumber = data[0].accountNumber;
     });
 };
+
+alterRequestInPersistence = function(dataSource, newState) {
+    console.log("= Altering data" + dataSource.id);
+    $.ajax(
+    {
+        type: "POST",
+        url: deploydEndpoint + '/request/' + dataSource.id,
+        data:
+        {
+            "accountInitiator": storage.account.accountId,
+            "accountReciever": systemVariables.newTransaction.contraAccountId,
+            "amount": systemVariables.newTransaction.amount,
+            "message": systemVariables.newTransaction.message,
+            "submitDate": Date.now(),
+            "state": "8c35dc706cccbba6"
+        },
+        success: function(data)
+        {
+            successfullRequest();
+        },
+        dataType: "json"
+    });
+    
+}

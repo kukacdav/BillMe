@@ -77,7 +77,8 @@ successfullPayment = function () {
 
 };
 successfullRequest = function () {
-    storage.getRequests();
+    storage.getOutgoingRequests();
+    storage.getIncomingRequests();
     systemVariables.clearOut();
     switchPage('view/html/success-submit-page.html');
 };

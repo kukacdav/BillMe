@@ -102,3 +102,16 @@ function submitTransaction() {
         console.log("Unexpected ERROR, while persisting new transaction: unknown transactionType");
 };
 
+function rejectSelectedRequest() {
+    if (systemVariables.transactionType === "filter-outgoing-requests")
+        dataSource = storage.outgoingRequests[systemVariables.elementIndex];
+    else if (systemVariables.transactionType === "filter-incoming-requests")
+        dataSource = storage.incomingRequests[systemVariables.elementIndex];
+    newState = 'e5479995d9eb08c3';
+    alterRequestInPersistence(dataSource, newState);
+    
+};
+
+function acceptSelectedRequest(){
+    
+};

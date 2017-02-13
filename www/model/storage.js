@@ -184,11 +184,20 @@ storage.addIncomingPayment = function(value){
 
 storage.contains = function(collection, id){
     console.log("S3. Contains" + collection);
-    $.each(collection, function(index, id){
-        if (index.id == id)
-            return true;
+    id.trim();
+    var flag = false;
+    console.log("Searching for id:"+id + ", length "+ id.length + "typeof " + typeof id);
+    $.each(collection, function(index){
+        console.log(collection[index]);
+        console.log("current id: "+ collection[index].id + ", length: " + collection[index].id.length);
+        if (id===collection[index].id.trim()){
+          console.log("contain duplicity");
+          flag = true;
+          return true;
+        }
     });
-    return false;
+    console.log("Without duplicity");
+    return flag;
 };
 storage.saveTransaction = function(){
     //TODO: Handle persisting datas in device memory
