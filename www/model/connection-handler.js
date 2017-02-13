@@ -8,7 +8,7 @@ persistPayment = function () {
         data:
         {
             "accountInitiator": storage.account.accountId,
-            "accountReciever": "7a5815ef7262fa55",            // STATIC - FIX ME, need to be dynamic
+            "accountReciever": systemVariables.newTransaction.contraAccountId,
             "amount": systemVariables.newTransaction.amount,
             "message": systemVariables.newTransaction.message,
             "submitDate": Date.now(),

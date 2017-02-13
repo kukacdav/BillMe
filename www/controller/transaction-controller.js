@@ -5,14 +5,16 @@
 
 function showRequests()  {
     console.log("T1. - Showing requests");
+    document.querySelector('#transaction-list').innerHTML="";
     systemVariables.filterFlag = "requests";
     showIncomingRequests();
-    showOutgoingRequests();    
+    showOutgoingRequests();
+    console.log(storage.incomingRequests);
     $(".transaction-item-detail").on("click", showTransactionDetail);
 };
 
 showIncomingRequests = function() {
-    if (storage.incomingRequests == null)
+    if (storage.incomingRequests.length === 0)
         return;
         var counter = -1;
     document.querySelector('#transaction-list').innerHTML="<ons-list-header>Přijaté připomínky</ons-list-header>";
@@ -31,7 +33,7 @@ showIncomingRequests = function() {
 };
 
 showOutgoingRequests = function() {
-    if (storage.outgoingRequests == null)
+    if (storage.outgoingRequests.length === 0)
         return;
         var counter = -1;
     var requests = storage.outgoingRequests;
