@@ -102,19 +102,32 @@ function submitTransaction() {
         console.log("Unexpected ERROR, while persisting new transaction: unknown transactionType");
 };
 
-function rejectSelectedRequest() {
+function buildRespondPayment(dataSource) {
+    systemVariables.newTransaction.transactionType = "payment";
+    systemVariables.newTransaction.contraAccountId = dataSource.accountInitiator;
+    systemVariables.newTransaction.amount = dataSource.amount;
+    console.log(document.querySelector('#response-message-input').value);
+    systemVariables.newTransaction.message = document.querySelector('#response-message-input').value;
+
+}
+
+function acceptSelectedRequest(newState) {
     if (systemVariables.transactionType === "filter-outgoing-requests")
         dataSource = storage.outgoingRequests[systemVariables.elementIndex];
     else if (systemVariables.transactionType === "filter-incoming-requests")
         dataSource = storage.incomingRequests[systemVariables.elementIndex];
-    newState = 'e5479995d9eb08c3';
     alterRequestInPersistence(dataSource, newState);
-    
-};
+    buildRespondPayment(dataSource);
+    submitTransaction();
+}
 
-function acceptSelectedRequest(){
-    
-};
+function rejectSelectedRequest(newState) {
+    if (systemVariables.transactionType === "filter-outgoing-requests")
+        dataSource = storage.outgoingRequests[systemVariables.elementIndex];
+    else if (systemVariables.transactionType === "filter-incoming-requests")
+        dataSource = storage.incomingRequests[systemVariables.elementIndex];
+    alterRequestInPersistence(dataSource, newState);
+}
 
 function requestStateAltered() {
     console.log("Table altered");

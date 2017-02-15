@@ -15,3 +15,7 @@ var deploydEndpoint = 'http://192.168.1.157:2403';
 //For HEROKU
 //??
 
+
+// CONFIGURATION VARIABLES
+acceptState = 'bef9877c0e1b78d6';
+rejectState = 'e5479995d9eb08c3';

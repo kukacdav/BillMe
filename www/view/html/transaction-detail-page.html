@@ -44,18 +44,18 @@
         <ons-list-item id="response-message-field">
             <ons-icon icon="ion-email" size="30px" ></ons-icon>
             <div class="right">
-                <ons-input class="message-input-field" id="message-input" float></ons-input>        
+                <ons-input class="message-input-field" id="response-message-input" float></ons-input>        
             </div>
         </ons-list-item>
     </ons-list>
     <ons-row id="response-action-buttons">
         <ons-col >
-        <ons-button modifier="large" onclick="rejectSelectedRequest()">
+        <ons-button modifier="large" onclick="rejectSelectedRequest(rejectState)">
                 Zrušit
             </ons-button>
         </ons-col>
         <ons-col >
-            <ons-button modifier="large" onclick="acceptSelectedRequest()">
+            <ons-button modifier="large" onclick="acceptSelectedRequest(acceptState)">
                 Zaplatit
             </ons-button>
         </ons-col>
