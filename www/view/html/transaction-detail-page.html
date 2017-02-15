@@ -48,7 +48,7 @@
             </div>
         </ons-list-item>
     </ons-list>
-    <ons-row id="response-action-buttons">
+    <ons-row id="incoming-requests-action-buttons">
         <ons-col >
         <ons-button modifier="large" onclick="rejectSelectedRequest(rejectState)">
                 Zrušit
@@ -57,6 +57,13 @@
         <ons-col >
             <ons-button modifier="large" onclick="acceptSelectedRequest(acceptState)">
                 Zaplatit
+            </ons-button>
+        </ons-col>
+    </ons-row>
+       <ons-row id="outgoing-requests-action-buttons">
+        <ons-col >
+            <ons-button modifier="large" onclick="cancelSelectedRequest(cancelState)">
+                Zrušit
             </ons-button>
         </ons-col>
     </ons-row>

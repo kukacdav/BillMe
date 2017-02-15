@@ -19,3 +19,4 @@ var deploydEndpoint = 'http://192.168.1.157:2403';
 // CONFIGURATION VARIABLES
 acceptState = 'bef9877c0e1b78d6';
 rejectState = 'e5479995d9eb08c3';
+cancelState = '51b5defa8e2e5a6a';

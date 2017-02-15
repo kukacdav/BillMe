@@ -5,16 +5,22 @@ composeTransactionDetailPage = function () {
     var dataSource;
     if (systemVariables.transactionType === "filter-incoming-payments") {
         dataSource = storage.incomingPayments[systemVariables.elementIndex];
-        hideRequestFields();
+        hideIncomingRequestFields();
+        hideOutgoingRequestFields();
     }
     else if (systemVariables.transactionType === "filter-outgoing-payments"){
         dataSource = storage.outgoingPayments[systemVariables.elementIndex];
-        hideRequestFields();
+        hideIncomingRequestFields();
+        hideOutgoingRequestFields();
         }
-    else if (systemVariables.transactionType === "filter-outgoing-requests")
+    else if (systemVariables.transactionType === "filter-outgoing-requests"){
+        hideIncomingRequestFields();
         dataSource = storage.outgoingRequests[systemVariables.elementIndex];
-    else if (systemVariables.transactionType === "filter-incoming-requests")
+    }
+    else if (systemVariables.transactionType === "filter-incoming-requests"){
         dataSource = storage.incomingRequests[systemVariables.elementIndex];
+        hideOutgoingRequestFields();
+    }
    document.querySelector('#transaction-party').innerHTML = dataSource.reciever[0].fullName;
    document.querySelector('#transaction-amount').innerHTML = dataSource.amount;
    document.querySelector('#transaction-state').innerHTML = dataSource.state.stateName;
@@ -24,10 +30,13 @@ composeTransactionDetailPage = function () {
 };
 
 //Function for hidding parts of ttransaction-detail-template, which should be shown only for requests
-hideRequestFields = function() {
+hideIncomingRequestFields = function() {
     $('#response-message-field').hide();
-    $('#response-action-buttons').hide();
-    
+    $('#incoming-requests-action-buttons').hide();
+};
+
+hideOutgoingRequestFields = function() {
+    $('#outgoing-requests-action-buttons').hide();
 };
 
 

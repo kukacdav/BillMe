@@ -121,6 +121,15 @@ function acceptSelectedRequest(newState) {
     submitTransaction();
 }
 
+
+function cancelSelectedRequest(newState) {
+    if (systemVariables.transactionType === "filter-outgoing-requests")
+        dataSource = storage.outgoingRequests[systemVariables.elementIndex];
+    else if (systemVariables.transactionType === "filter-incoming-requests")
+        dataSource = storage.incomingRequests[systemVariables.elementIndex];
+    alterRequestInPersistence(dataSource, newState);
+}
+
 function rejectSelectedRequest(newState) {
     if (systemVariables.transactionType === "filter-outgoing-requests")
         dataSource = storage.outgoingRequests[systemVariables.elementIndex];
@@ -131,9 +140,13 @@ function rejectSelectedRequest(newState) {
 
 function requestStateAltered() {
     console.log("Table altered");
-    storage.incomingRequests.splice(0,storage.incomingRequests.length);
-    console.log(storage.incomingRequests);
-    storage.getIncomingRequests();
-    console.log(storage.incomingRequests);
+    if (systemVariables.transactionType === "filter-outgoing-requests"){
+        storage.outgoingRequests.splice(0,storage.outgoingRequests.length);
+        storage.getOutgoingRequests();
+    }
+    if (systemVariables.transactionType === "filter-incoming-requests"){
+        storage.incomingRequests.splice(0,storage.incomingRequests.length);
+        storage.getIncomingRequests();
+    }
     document.querySelector('#pageNavigator').resetToPage('main-page-template');
 };
