@@ -112,10 +112,10 @@ storage.addIncomingRequest = function(value){
             accountReciever: value.accountReciever,
             amount: value.amount,
             id: value.id,
-            reciever: value.reciever,
+            initiator: value.initiator,
             state: value.state,
             date: value.submitDate,
-            message: value.message
+            message: value.message,
         });
         storage.saveTransaction();
     }

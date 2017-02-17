@@ -16,12 +16,14 @@ composeTransactionDetailPage = function () {
     else if (systemVariables.transactionType === "filter-outgoing-requests"){
         hideIncomingRequestFields();
         dataSource = storage.outgoingRequests[systemVariables.elementIndex];
+        document.querySelector('#transaction-party').innerHTML = dataSource.reciever[0].fullName;
     }
     else if (systemVariables.transactionType === "filter-incoming-requests"){
         dataSource = storage.incomingRequests[systemVariables.elementIndex];
+        document.querySelector('#transaction-party').innerHTML = dataSource.initiator[0].fullName;
         hideOutgoingRequestFields();
     }
-   document.querySelector('#transaction-party').innerHTML = dataSource.reciever[0].fullName;
+   
    document.querySelector('#transaction-amount').innerHTML = dataSource.amount;
    document.querySelector('#transaction-state').innerHTML = dataSource.state.stateName;
    document.querySelector('#transaction-message').innerHTML = dataSource.message;

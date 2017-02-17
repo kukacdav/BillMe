@@ -23,7 +23,7 @@ showIncomingRequests = function() {
                  counter++;
 
         return "<ons-list-item id='filter-incoming-requests' class='transaction-item-detail'> \
-        <div class='left transaction-party'>" + item.reciever[0].fullName + "</div> \
+        <div class='left transaction-party'>" + item.initiator[0].fullName + "</div> \
         <div class='center transaction-amount'>" + item.amount + "</div> \
         <div class='center transaction-state' style='margin-left: 1em'>" + item.state.stateName + "</div> \
         <div class='right'><ons-icon icon='ion-chevron-right'></ons-icon></div> \
@@ -94,8 +94,11 @@ function showOutgoingPayments() {
 
 function submitTransaction() {
     console.log("T3. - Submitting transaction");
-    if (systemVariables.newTransaction.transactionType === "payment")
+    if (systemVariables.newTransaction.transactionType === "payment"){
+        changeAccountBalance(systemVariables.newTransaction.contraAccountId, systemVariables.newTransaction.amount);
+        changeAccountBalance(storage.account.accountId, (-1)*(systemVariables.newTransaction.amount));
         persistPayment();
+    }
     else if (systemVariables.newTransaction.transactionType === "request")
         persistRequest();
     else 
@@ -103,22 +106,22 @@ function submitTransaction() {
 };
 
 function buildRespondPayment(dataSource) {
+    console.log("Building transaction: " + systemVariables.newTransaction);
+    console.log("data Source: " + dataSource);
     systemVariables.newTransaction.transactionType = "payment";
     systemVariables.newTransaction.contraAccountId = dataSource.accountInitiator;
-    systemVariables.newTransaction.amount = dataSource.amount;
+    systemVariables.newTransaction.amount = -1*(dataSource.amount);
     console.log(document.querySelector('#response-message-input').value);
     systemVariables.newTransaction.message = document.querySelector('#response-message-input').value;
 
 }
 
 function acceptSelectedRequest(newState) {
-    if (systemVariables.transactionType === "filter-outgoing-requests")
-        dataSource = storage.outgoingRequests[systemVariables.elementIndex];
-    else if (systemVariables.transactionType === "filter-incoming-requests")
-        dataSource = storage.incomingRequests[systemVariables.elementIndex];
-    alterRequestInPersistence(dataSource, newState);
+    dataSource = storage.incomingRequests[systemVariables.elementIndex];
     buildRespondPayment(dataSource);
-    submitTransaction();
+    changeAccountBalance(dataSource.accountInitiator, dataSource.amount);
+    changeAccountBalance(storage.account.accountId, (-1)*(dataSource.amount));
+    createLinkedPayment(dataSource, newState);    
 }
 
 
@@ -149,4 +152,28 @@ function requestStateAltered() {
         storage.getIncomingRequests();
     }
     document.querySelector('#pageNavigator').resetToPage('main-page-template');
+};
+
+paymentToRequestSuccessfull = function() {
+    storage.incomingRequests.splice(0,storage.incomingRequests.length);
+    storage.getIncomingRequests();
+    storage.incomingPayments.splice(0,storage.incomingPayments.length);
+    storage.getIncomingPayments();
+    storage.getAccountDetail();
+    switchPage('view/html/success-submit-page.html');
+
+};
+
+successfullPayment = function () {
+    storage.getOutgoingPayments();
+    systemVariables.clearOut();
+    storage.getAccountDetail();
+    switchPage('view/html/success-submit-page.html');
+
+};
+successfullRequest = function () {
+    storage.getOutgoingRequests();
+    storage.getIncomingRequests();
+    systemVariables.clearOut();
+    switchPage('view/html/success-submit-page.html');
 };

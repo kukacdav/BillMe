@@ -67,21 +67,6 @@ document.addEventListener('init', function(event)
     }
     
 });
-
-
-// THIS SHOULD NOT BE IN CONTROLLER
-successfullPayment = function () {
-    storage.getOutgoingPayments();
-    systemVariables.clearOut();
-    switchPage('view/html/success-submit-page.html');
-
-};
-successfullRequest = function () {
-    storage.getOutgoingRequests();
-    storage.getIncomingRequests();
-    systemVariables.clearOut();
-    switchPage('view/html/success-submit-page.html');
-};
     
 showTransactionDetail = function() {
         systemVariables.transactionType = $(this).attr('id');
