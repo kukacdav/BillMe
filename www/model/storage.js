@@ -1,7 +1,8 @@
 
 var accountId = 'b3162c0b1611b96e';
 var storage = {
-    requests: [],
+    incomingRequests: [],
+    outgoingRequests: [],
     incomingPayments: [],
     outgoingPayments: [],
     userContact: {},
@@ -10,19 +11,20 @@ var storage = {
     contactList: [],
 };
 var systemVariables = {
-
+    newTransaction: {}
 };
 
 storage.init = function(){
     console.log("S0. Initializing storage");
-    storage.getRequests();
+    storage.getIncomingRequests();
+    storage.getOutgoingRequests();
     storage.getOutgoingPayments();
     storage.getIncomingPayments();
     storage.getUserDetail();
     storage.getAccountDetail();
     //TMP, mocking contact data
     storage.getContactList();
-    };
+};
 
 storage.getUserDetail = function() {
     console.log("S9. Getting user detail from deployd.");
@@ -61,15 +63,26 @@ storage.getAccountDetail = function() {
         storage.account.balance = data.balance;
         storage.account.accountName = data.accountName;
     });
+    storage.account.accountId = accountId;
 };
 
-storage.getRequests = function () {
-    console.log("S7. Getting requests from deployd.");
-    $.getJSON(deploydEndpoint + '/request?accountInitiator=' + accountId, function(data){
+storage.getIncomingRequests = function() {
+   console.log("S11. Getting unresolved incoming requests from deployd.");
+    $.getJSON(deploydEndpoint + '/request?{"accountReciever": "' + accountId + '", "state": "8c35dc706cccbba6"}', function(data){
         $.each(data, function(index, value){
-            storage.addRequest(value);
+            storage.addIncomingRequest(value);
         });
     });
+};
+
+storage.getOutgoingRequests = function() {
+    console.log("S11. Getting unresolved incoming requests from deployd.");
+    $.getJSON(deploydEndpoint + '/request?{"accountInitiator": "' + accountId + '", "state": "8c35dc706cccbba6"}', function(data){
+        $.each(data, function(index, value){
+            storage.addOutgoingRequest(value);
+        });
+    });
+    
 };
 
 storage.getIncomingPayments = function () {
@@ -88,19 +101,41 @@ storage.getOutgoingPayments = function () {
     });
 };
 
-storage.addRequest = function(value){
+storage.addIncomingRequest = function(value){
     console.log("S1. Adding request: " + value);
-    if (storage.contains(storage.requests, value.id)){
+    if (storage.contains(storage.incomingRequests, value.id)){
         console.log("Storage:addRequest - Cannot insert, not unique element");
     }
     else {
-        storage.requests.push({
+        storage.incomingRequests.push({
+            accountInitiator: value.accountInitiator,
+            accountReciever: value.accountReciever,
+            amount: value.amount,
+            id: value.id,
+            initiator: value.initiator,
+            state: value.state,
+            date: value.submitDate,
+            message: value.message,
+        });
+        storage.saveTransaction();
+    }
+};
+
+storage.addOutgoingRequest = function(value){
+    console.log("S1. Adding request: " + value);
+    if (storage.contains(storage.outgoingRequests, value.id)){
+        console.log("Storage:addRequest - Cannot insert, not unique element");
+    }
+    else {
+        storage.outgoingRequests.push({
             accountInitiator: value.accountInitiator,
             accountReciever: value.accountReciever,
             amount: value.amount,
             id: value.id,
             reciever: value.reciever,
-            state: value.state
+            state: value.state,
+            date: value.submitDate,
+            message: value.message
         });
         storage.saveTransaction();
     }
@@ -119,7 +154,9 @@ storage.addOutgoingPayment = function(value){
             amount: value.amount,
             id: value.id,
             reciever: value.reciever,
-            state: value.state
+            state: value.state,
+            date: value.submitDate,
+            message: value.message
         });
         storage.saveTransaction();
     }
@@ -137,7 +174,9 @@ storage.addIncomingPayment = function(value){
             amount: value.amount,
             id: value.id,
             reciever: value.reciever,
-            state: value.state
+            state: value.state,
+            date: value.submitDate,
+            message: value.message
         });
         storage.saveTransaction();
     }
@@ -145,11 +184,20 @@ storage.addIncomingPayment = function(value){
 
 storage.contains = function(collection, id){
     console.log("S3. Contains" + collection);
-    $.each(collection, function(index, id){
-        if (index.id == id)
-            return true;
+    id.trim();
+    var flag = false;
+    console.log("Searching for id:"+id + ", length "+ id.length + "typeof " + typeof id);
+    $.each(collection, function(index){
+        console.log(collection[index]);
+        console.log("current id: "+ collection[index].id + ", length: " + collection[index].id.length);
+        if (id===collection[index].id.trim()){
+          console.log("contain duplicity");
+          flag = true;
+          return true;
+        }
     });
-    return false;
+    console.log("Without duplicity");
+    return flag;
 };
 storage.saveTransaction = function(){
     //TODO: Handle persisting datas in device memory
@@ -164,4 +212,8 @@ storage.filter = function(status){
     return this.transactions.filter(function(item){
             return item.status === status;
         });
+};
+
+systemVariables.clearOut = function () {
+  systemVariables.newTransaction = {};    
 };
