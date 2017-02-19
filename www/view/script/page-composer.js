@@ -170,6 +170,15 @@ composeSuccessSubmitPage = function() {
     
 };
 
+composeMoreOptionsPage = function() {
+    document.querySelector('#recievers-name3').innerHTML = storage.userContact.fullName;  
+    document.querySelector('#recievers-phone3').innerHTML = storage.userContact.phoneNumber;  
+    document.querySelector('#recievers-email3').innerHTML = storage.userContact.emailAddress;  
+    document.querySelector('#howto-page-link').onclick = function(){moreOptionsSwitchPage('view/html/more-options-subpages/howto-page.html')};
+    document.querySelector('#financial-overview-link').onclick = function(){moreOptionsSwitchPage('view/html/more-options-subpages/financial-overview-page.html')};
+    document.querySelector('#legal-scope-link').onclick = function(){moreOptionsSwitchPage('view/html/more-options-subpages/legal-scope-page.html')};
+};
+
 
 storeMessage = function(){
   var message = document.querySelector('#message-input').value;

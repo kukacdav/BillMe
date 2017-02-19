@@ -53,6 +53,7 @@ document.addEventListener('init', function(event)
     }
     else if (page.id === 'more-options-page')
     {
+        composeMoreOptionsPage();
     }
     else if (page.id === 'invite-friend-page')
     {
@@ -79,6 +80,10 @@ showTransactionDetail = function() {
     switchPage = function(target) {
         console.log("pushing page: " + target);
         document.querySelector('#pageNavigator').pushPage(target);
+};
+moreOptionsSwitchPage= function(target) {
+        console.log("More options navigator, pushing page: " + target);
+        document.querySelector('#moreOptionsNavigator').pushPage(target);
 };
 
 showContactListDetail = function() {

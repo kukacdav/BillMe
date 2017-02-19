@@ -16,6 +16,8 @@ var systemVariables = {
 
 storage.init = function(){
     console.log("S0. Initializing storage");
+    //UNCOMMENT FOR STORING DATA
+    //storage.loadStoredData();
     storage.getIncomingRequests();
     storage.getOutgoingRequests();
     storage.getOutgoingPayments();
@@ -24,6 +26,15 @@ storage.init = function(){
     storage.getAccountDetail();
     //TMP, mocking contact data
     storage.getContactList();
+};
+
+storage.loadStoredData = function() {
+    storage.incomingRequests = JSON.parse(localStorage.getItem('incomingRequests') || '[]' );  
+    storage.outgoingRequests = JSON.parse(localStorage.getItem('outgoingRequests') || '[]' );
+    storage.outgoingRequests = JSON.parse(localStorage.getItem('incomingPayments') || '[]' );  
+    storage.outgoingRequests = JSON.parse(localStorage.getItem('outgoingPayments') || '[]' );  
+    storage.account = JSON.parse(localStorage.getItem('account') || '{}' );
+    storage.account = JSON.parse(localStorage.getItem('userContact') || '{}' );  
 };
 
 storage.getUserDetail = function() {
@@ -59,11 +70,15 @@ storage.getContactList = function()
 storage.getAccountDetail = function() {
     console.log("S10. Getting account detail from deployd.");
     $.getJSON(deploydEndpoint + '/account?id=' + accountId, function(data){
+        console.log("Successfully getting accountDetail ");
         storage.account.accountNumber = data.accountNumber;
         storage.account.balance = data.balance;
         storage.account.accountName = data.accountName;
     });
     storage.account.accountId = accountId;
+    //UNCOMMENT FOR STORING DATA FUNCTION
+    //localStorage.setItem('account', JSON.stringify(this.storage.account));
+
 };
 
 storage.getIncomingRequests = function() {
