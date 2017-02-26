@@ -24,6 +24,35 @@
     float: right;
     
 }
+
+/* ----------------- Styles regarding authentication-page.html -----------------------------*/
+
+#authentication-block{
+    margin-top: 20%;
+}
+
+#main-logo{
+    margin-top: 10%
+    
+}
+
+.login-input-field {
+    border: 1px solid grey;
+    width: 88%;
+    padding-left: 2%;
+    margin-bottom: 5%
+}
+
+.login-icon{
+    margin: 1% 2%
+}
+
+#register-button {
+    position: absolute;
+    bottom: 5%;
+    background-color: grey;
+}
+
 /* ----------------- Styles regarding main-page.html -----------------------------*/
 
 .red {
