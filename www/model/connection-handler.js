@@ -2,6 +2,31 @@ changeAccountBalance = function () {
 
 };
 
+
+authenticateUser = function (username, password) {
+    $.ajax(
+    {
+        type: "POST",
+        url: deploydEndpoint + '/user/login',
+        data:
+        {
+            "username": username,
+            "password": password
+        },
+        success: function(data)
+        {
+            console.log ("OK");
+            window.location.href = './view/html/main-page.html';
+            },
+        error: function(data){
+            showFailedAuthorizationNote();
+        },
+        dataType: "json"
+    });
+    
+    
+};
+
 persistPayment = function () {
     $.ajax(
     {

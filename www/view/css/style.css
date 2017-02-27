@@ -53,6 +53,19 @@
     background-color: grey;
 }
 
+.red-text {
+    color: red;
+    font-family: Helvetica;
+    font-size: 0.8em;
+    margin: 0 0,5em;
+    
+}
+
+.incorrect-note {
+    margin: 0.5em;
+    
+}
+
 /* ----------------- Styles regarding main-page.html -----------------------------*/
 
 .red {
