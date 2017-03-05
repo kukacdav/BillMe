@@ -13,7 +13,8 @@ document.addEventListener('init', function(event)
     
     if (page.id === 'login-page')
     {    
-            console.log("N0. Initializing login page");
+        console.log("N0. Initializing login page");
+        document.getElementById('tabbar').setTabbarVisibility(false);
     }
     else if (page.id === 'main-page')
     {    
@@ -56,7 +57,7 @@ document.addEventListener('init', function(event)
     }
     else if (page.id === 'more-options-page')
     {
-        composeMoreOptionsPage();    
+        //composeMoreOptionsPage();    
     }
     else if (page.id === 'invite-friend-page')
     {

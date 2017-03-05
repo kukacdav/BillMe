@@ -6,6 +6,8 @@ storage.init = function(){
     console.log("S0. Initializing storage");
     //UNCOMMENT FOR STORING DATA
     //storage.loadStoredData();
+    storage.getContactList();
+
     storage.getUserData();
     //TMP, mocking contact data
 };
@@ -13,6 +15,11 @@ storage.init = function(){
 storage.getUserData = function() {
     console.log("S1. Getting data from deployd.");
     getUserData();
+};
+
+storage.getContactList = function() {
+    console.log("S2. Getting contacts from deployd.");
+    loadContactList();
 };
 
 storage.loadStoredData = function() {
@@ -33,7 +40,7 @@ storage.getUserDetail = function() {
         storage.userContact.facebookUsername = data[0].facebookUsername;
     });
 };
-
+/*
 //Temporary function for mocking contact list
 storage.getContactList = function()
 {
@@ -52,7 +59,7 @@ storage.getContactList = function()
             });
         });
     });
-};
+};*/
 
 storage.getAccountDetail = function() {
     console.log("S10. Getting account detail from deployd.");

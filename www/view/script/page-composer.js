@@ -2,6 +2,7 @@
 
 
 function composeMainPages() {
+    document.getElementById('tabbar').setTabbarVisibility(true);
     composeMainPage(document.querySelector('#main-page'));
     composeUserDetailPage(document.querySelector('#user-detail-page'));
     //composePhoneContactsPage(document.querySelector('#phone-contacts-page'));
@@ -185,9 +186,9 @@ composeSuccessSubmitPage = function() {
 };
 
 composeMoreOptionsPage = function() {
-    document.querySelector('#recievers-name3').innerHTML = storage.userContact.fullName;  
-    document.querySelector('#recievers-phone3').innerHTML = storage.userContact.phoneNumber;  
-    document.querySelector('#recievers-email3').innerHTML = storage.userContact.emailAddress;  
+    document.querySelector('#recievers-name3').innerHTML = storage.userData.fullName;  
+    document.querySelector('#recievers-phone3').innerHTML = storage.userData.contact.phone;  
+    document.querySelector('#recievers-email3').innerHTML = storage.userData.contact.email;  
     document.querySelector('#howto-page-link').onclick = function(){moreOptionsSwitchPage('view/html/more-options-subpages/howto-page.html')};
     document.querySelector('#financial-overview-link').onclick = function(){moreOptionsSwitchPage('view/html/more-options-subpages/financial-overview-page.html')};
     document.querySelector('#legal-scope-link').onclick = function(){moreOptionsSwitchPage('view/html/more-options-subpages/legal-scope-page.html')};

@@ -52,6 +52,24 @@ getUserData = function(){
     });
 };
 
+loadContactList = function(){
+    $.ajax(
+    {
+        type: "GET",
+        url: deploydEndpoint + '/user?{"$fields":{"bankAccount.accountBalance": 0, "bankAccount.accountName": 0}}',
+        success: function(data)
+        {
+            storage.contactList = data;
+            console.log("****Contact list: " + storage.contactList);
+        },
+        error: function(data){
+            console.log("User data query failed");
+        },
+        dataType: "json"
+    });
+};
+
+
 persistPayment = function () {
     $.ajax(
     {
