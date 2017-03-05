@@ -95,8 +95,6 @@ function showOutgoingPayments() {
 function submitTransaction() {
     console.log("T3. - Submitting transaction");
     if (systemVariables.newTransaction.transactionType === "payment"){
-        changeAccountBalance(systemVariables.newTransaction.contraAccountId, systemVariables.newTransaction.amount);
-        changeAccountBalance(storage.account.accountId, (-1)*(systemVariables.newTransaction.amount));
         persistPayment();
     }
     else if (systemVariables.newTransaction.transactionType === "request")
@@ -164,15 +162,13 @@ paymentToRequestSuccessfull = function() {
 };
 
 successfullPayment = function () {
-    storage.getOutgoingPayments();
+    getUserData();
     systemVariables.clearOut();
-    storage.getAccountDetail();
     switchPage('view/html/success-submit-page.html');
 
 };
 successfullRequest = function () {
-    storage.getOutgoingRequests();
-    storage.getIncomingRequests();
+    getUserData();
     systemVariables.clearOut();
     switchPage('view/html/success-submit-page.html');
 };

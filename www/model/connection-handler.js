@@ -71,18 +71,30 @@ loadContactList = function(){
 
 
 persistPayment = function () {
+    var contraAccount = storage.contactList[systemVariables.newTransactionItem];
     $.ajax(
     {
         type: "POST",
-        url: deploydEndpoint + '/payment?',
+        url: deploydEndpoint + '/payment',
         data:
         {
-            "accountInitiator": storage.account.accountId,
-            "accountReciever": systemVariables.newTransaction.contraAccountId,
+            "initiator": storage.userData.id,
+            "initiatorDetail": {
+                "fullName": storage.userData.fullName,
+                "phone": storage.userData.contact.phone,
+                "email":storage.userData.contact.email,
+                "facebook":storage.userData.contact.facebook
+            },
+            "reciever": contraAccount.id,
+            "recieverDetail": {
+                "fullName": contraAccount.fullName,
+                "phone": contraAccount.contact.phone,
+                "email":contraAccount.contact.email,
+                "facebook":contraAccount.contact.facebook
+            },
             "amount": systemVariables.newTransaction.amount,
             "message": systemVariables.newTransaction.message,
-            "submitDate": Date.now(),
-            "state": "8c35dc706cccbba6"
+            "submitDate": Date.now()
         },
         success: function(data)
         {
@@ -93,18 +105,30 @@ persistPayment = function () {
 };
 
 persistRequest = function () {
+    var contraAccount = storage.contactList[systemVariables.newTransactionItem];
     $.ajax(
     {
         type: "POST",
-        url: deploydEndpoint + '/request?',
+        url: deploydEndpoint + '/request',
         data:
         {
-            "accountInitiator": storage.account.accountId,
-            "accountReciever": systemVariables.newTransaction.contraAccountId,
+            "initiator": storage.userData.id,
+            "initiatorDetail": {
+                "fullName": storage.userData.fullName,
+                "phone": storage.userData.contact.phone,
+                "email":storage.userData.contact.email,
+                "facebook":storage.userData.contact.facebook
+            },
+            "reciever": contraAccount.id,
+            "recieverDetail": {
+                "fullName": contraAccount.fullName,
+                "phone": contraAccount.contact.phone,
+                "email":contraAccount.contact.email,
+                "facebook":contraAccount.contact.facebook
+            },
             "amount": systemVariables.newTransaction.amount,
             "message": systemVariables.newTransaction.message,
-            "submitDate": Date.now(),
-            "state": "8c35dc706cccbba6"
+            "submitDate": Date.now()
         },
         success: function(data)
         {

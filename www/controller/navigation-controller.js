@@ -27,7 +27,7 @@ document.addEventListener('init', function(event)
     }
     else if (page.id === 'phone-contacts-page')
     {
-        composePhoneContactsPage(page);
+        //composePhoneContactsPage(page);
     }
     else if (page.id === 'success-submit-page')
     {
@@ -61,7 +61,7 @@ document.addEventListener('init', function(event)
     }
     else if (page.id === 'invite-friend-page')
     {
-        console.log("N5. Invite-friend-page");
+        //console.log("N5. Invite-friend-page");
 
     }
     else if (page.id === 'set-amount-page')

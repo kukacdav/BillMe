@@ -180,6 +180,8 @@ composeSuccessSubmitPage = function() {
         document.querySelector('#success-submit-header').innerHTML = successSubmitHeaderRequest;
         document.querySelector('#success-submit-message').innerHTML = successSubmitMessageRequest;
     }
+        document.getElementById('tabbar').setTabbarVisibility(false);
+
     document.querySelector('#transaction-success-button').onclick = function(){document.querySelector('#pageNavigator').resetToPage('main-page-template');
         };
     
