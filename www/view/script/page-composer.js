@@ -123,8 +123,8 @@ composeSetAmountPage = function() {
     //END
     document.querySelector('#input-amount').focus();
     document.querySelector('#recievers-name').innerHTML = storage.contactList[systemVariables.newTransactionItem].fullName;  
-    document.querySelector('#recievers-phone').innerHTML = storage.contactList[systemVariables.newTransactionItem].phoneNumber;  
-    document.querySelector('#recievers-email').innerHTML = storage.contactList[systemVariables.newTransactionItem].emailAddress;  
+    document.querySelector('#recievers-phone').innerHTML = storage.contactList[systemVariables.newTransactionItem].contact.phone;  
+    document.querySelector('#recievers-email').innerHTML = storage.contactList[systemVariables.newTransactionItem].contact.email;  
     document.querySelector('#input-amount').onchange = function(){controlAmountInput()};
     document.querySelector('#submit-transaction-button').onclick = function(){switchPage('view/html/confirm-transaction-page.html')};
 };
@@ -153,8 +153,8 @@ composeConfirmTransactionPage = function() {
     else 
         composeConfirmTransactionRequestPage();
     document.querySelector('#recievers-name2').innerHTML = storage.contactList[systemVariables.newTransactionItem].fullName;  
-    document.querySelector('#recievers-phone2').innerHTML = storage.contactList[systemVariables.newTransactionItem].phoneNumber;  
-    document.querySelector('#recievers-email2').innerHTML = storage.contactList[systemVariables.newTransactionItem].emailAddress;  
+    document.querySelector('#recievers-phone2').innerHTML = storage.contactList[systemVariables.newTransactionItem].contact.phone;  
+    document.querySelector('#recievers-email2').innerHTML = storage.contactList[systemVariables.newTransactionItem].contact.email;  
     document.querySelector('#transaction-amount').innerHTML = systemVariables.newTransaction.amount+ " Kč";
     document.querySelector('#submit-button').onclick = function(){storeMessage(); submitTransaction();};
 };

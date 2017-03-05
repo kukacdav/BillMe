@@ -60,7 +60,7 @@ loadContactList = function(){
         success: function(data)
         {
             storage.contactList = data;
-            console.log("****Contact list: " + storage.contactList);
+            console.log("Contact list: " + storage.contactList);
         },
         error: function(data){
             console.log("User data query failed");

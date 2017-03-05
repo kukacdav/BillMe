@@ -94,6 +94,6 @@ moreOptionsSwitchPage= function(target) {
 
 showContactListDetail = function() {
     systemVariables.newTransactionItem = $(this.querySelector('.contact-index')).text();
-    getContraAccount();
+    //getContraAccount();
     switchPage('view/html/set-amount-page.html');
 };
