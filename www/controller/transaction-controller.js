@@ -14,18 +14,18 @@ function showRequests()  {
 };
 
 showIncomingRequests = function() {
-    if (storage.incomingRequests.length === 0)
+    if (storage.userData.incomingRequests.length === 0)
         return;
         var counter = -1;
     document.querySelector('#transaction-list').innerHTML="<ons-list-header>Přijaté připomínky</ons-list-header>";
-    var requests = storage.incomingRequests;
+    var requests = storage.userData.incomingRequests;
     document.querySelector('#transaction-list').innerHTML+=requests.map(function(item){
                  counter++;
 
         return "<ons-list-item id='filter-incoming-requests' class='transaction-item-detail'> \
-        <div class='left transaction-party'>" + item.initiator[0].fullName + "</div> \
+        <div class='left transaction-party'>" + item.initiatorDetail.fullName + "</div> \
         <div class='center transaction-amount'>" + item.amount + "</div> \
-        <div class='center transaction-state' style='margin-left: 1em'>" + item.state.stateName + "</div> \
+        <div class='center transaction-state' style='margin-left: 1em'>" + item.state + "</div> \
         <div class='right'><ons-icon icon='ion-chevron-right'></ons-icon></div> \
         <div id='transaction-index' class='hidden'>" + counter + "</div> \
         </ons-list-item>";
@@ -33,18 +33,18 @@ showIncomingRequests = function() {
 };
 
 showOutgoingRequests = function() {
-    if (storage.outgoingRequests.length === 0)
+    if (storage.userData.outgoingRequests.length === 0)
         return;
         var counter = -1;
-    var requests = storage.outgoingRequests;
+    var requests = storage.userData.outgoingRequests;
     document.querySelector('#transaction-list').innerHTML+="<ons-list-header>Odeslané připomínky</ons-list-header>";
     document.querySelector('#transaction-list').innerHTML+=requests.map(function(item){
                  counter++;
 
         return "<ons-list-item id='filter-outgoing-requests' class='transaction-item-detail'> \
-        <div class='left transaction-party'>" + item.reciever[0].fullName + "</div> \
+        <div class='left transaction-party'>" + item.recieverDetail.fullName + "</div> \
         <div class='center transaction-amount'>" + item.amount + "</div> \
-        <div class='center transaction-state' style='margin-left: 1em'>" + item.state.stateName + "</div> \
+        <div class='center transaction-state' style='margin-left: 1em'>" + item.state + "</div> \
         <div class='right'><ons-icon icon='ion-chevron-right'></ons-icon></div> \
         <div id='transaction-index' class='hidden'>" + counter + "</div> \
         </ons-list-item>";
@@ -53,7 +53,7 @@ showOutgoingRequests = function() {
 
 function showIncomingPayments() {
    console.log("T2. - Showing payments");
-    var payments = storage.incomingPayments;
+    var payments = storage.userData.incomingPayments;
     var counter = -1;
     systemVariables.filterFlag = "incomingPayments";
     console.log(payments);
@@ -61,9 +61,9 @@ function showIncomingPayments() {
      document.querySelector('#transaction-list').innerHTML=payments.map(function(item){
          counter++;
         return "<ons-list-item id='filter-incoming-payments' class='transaction-item-detail'> \
-        <div class='left transaction-party'>" + item.reciever[0].fullName + "</div> \
+        <div class='left transaction-party'>" + item.recieverDetail.fullName + "</div> \
         <div class='center transaction-amount'>" + item.amount + "</div> \
-        <div class='center transaction-state' style='margin-left: 1em'>" + item.state.stateName + "</div> \
+        <div class='center transaction-state' style='margin-left: 1em'>" + item.state + "</div> \
         <div class='right'><ons-icon icon='ion-chevron-right'></ons-icon></div> \
         <div id='transaction-index' class='hidden'>" + counter + "</div> \
         </ons-list-item>";
@@ -74,16 +74,16 @@ function showIncomingPayments() {
 function showOutgoingPayments() {
    console.log("T2. - Showing outgoing payments");
    systemVariables.filterFlag = "outgoingPayments";
-    var payments = storage.outgoingPayments;
+    var payments = storage.userData.outgoingPayments;
     var counter = -1;
     console.log(payments);
     console.log(document.querySelector('#transaction-list'));
     document.querySelector('#transaction-list').innerHTML=payments.map(function(item){
                  counter++;
         return "<ons-list-item id='filter-outgoing-payments' class='transaction-item-detail'> \
-        <div class='left transaction-party'>" + item.reciever[0].fullName + "</div> \
+        <div class='left transaction-party'>" + item.recieverDetail.fullName + "</div> \
         <div class='center transaction-amount'>" + item.amount + "</div> \
-        <div class='center transaction-state' style='margin-left: 1em'>" + item.state.stateName + "</div> \
+        <div class='center transaction-state' style='margin-left: 1em'>" + item.state + "</div> \
         <div class='right'><ons-icon icon='ion-chevron-right'></ons-icon></div> \
         <div id='transaction-index' class='hidden'>" + counter + "</div> \
         </ons-list-item>";
@@ -113,7 +113,6 @@ function buildRespondPayment(dataSource) {
     systemVariables.newTransaction.amount = -1*(dataSource.amount);
     console.log(document.querySelector('#response-message-input').value);
     systemVariables.newTransaction.message = document.querySelector('#response-message-input').value;
-
 }
 
 function acceptSelectedRequest(newState) {

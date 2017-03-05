@@ -1,7 +1,8 @@
+var sid;
+
 changeAccountBalance = function () {
 
 };
-
 
 authenticateUser = function (username, password) {
     $.ajax(
@@ -15,16 +16,40 @@ authenticateUser = function (username, password) {
         },
         success: function(data)
         {
-            console.log ("OK");
-            window.location.href = './view/html/main-page.html';
+            console.log ("Successfull authentication");
+            console.log("sessionId: " + data.id);
+            sid = data.id;
+            storage.uid = data.uid;
+            storage.init();
+            document.querySelector('#tabbar').setActiveTab(1);
             },
         error: function(data){
+            console.log("Authentication failed");
             showFailedAuthorizationNote();
         },
         dataType: "json"
     });
-    
-    
+};
+
+getUserData = function(){
+    $.ajax(
+    {
+        type: "GET",
+        url: deploydEndpoint + '/user?id=' + storage.uid,
+        success: function(data)
+        {
+            console.log(data);
+            console.log ("Successfully queried user data");
+            storage.userData = data;
+            console.log(storage.userData);
+            storage.dataLoaded = true;
+            composeMainPages();
+        },
+        error: function(data){
+            console.log("User data query failed");
+        },
+        dataType: "json"
+    });
 };
 
 persistPayment = function () {

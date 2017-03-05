@@ -2,7 +2,7 @@
 
 showContactList = function()
 {
-    var contacts = storage.contactList;
+/*    var contacts = storage.contactList;
     console.log(contacts);
     var counter = 0;
     document.querySelector('#contact-list')
@@ -13,5 +13,5 @@ showContactList = function()
                 .replace('{{phoneNumber}}', item.phoneNumber)
                 .replace('{{index}}', counter++);        
         })
-        .join('');
+        .join('');*/
 };

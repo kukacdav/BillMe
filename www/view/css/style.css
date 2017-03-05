@@ -27,6 +27,11 @@
 
 /* ----------------- Styles regarding authentication-page.html -----------------------------*/
 
+#login-template{
+    width: 1px;
+    
+}
+
 #authentication-block{
     margin-top: 20%;
 }

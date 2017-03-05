@@ -1,31 +1,18 @@
 
-var accountId = 'b3162c0b1611b96e';
-var storage = {
-    incomingRequests: [],
-    outgoingRequests: [],
-    incomingPayments: [],
-    outgoingPayments: [],
-    userContact: {},
-    account: {},
-    transaction: {},
-    contactList: [],
-};
-var systemVariables = {
-    newTransaction: {}
-};
 
 storage.init = function(){
+    if (storage.state === "initialized")
+        return;
     console.log("S0. Initializing storage");
     //UNCOMMENT FOR STORING DATA
     //storage.loadStoredData();
-    storage.getIncomingRequests();
-    storage.getOutgoingRequests();
-    storage.getOutgoingPayments();
-    storage.getIncomingPayments();
-    storage.getUserDetail();
-    storage.getAccountDetail();
+    storage.getUserData();
     //TMP, mocking contact data
-    storage.getContactList();
+};
+
+storage.getUserData = function() {
+    console.log("S1. Getting data from deployd.");
+    getUserData();
 };
 
 storage.loadStoredData = function() {

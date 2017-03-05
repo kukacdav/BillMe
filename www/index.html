@@ -15,12 +15,13 @@
   <link rel="stylesheet" href="view/css/tabbar.css">
   <link rel="stylesheet" href="view/css/select-box.css">
   
-
+  
+  
+  <script src="model/script.js"></script>
   <script src="controller/config.js"></script>
   <script src="controller/login-controller.js"></script>
-  <script src="model/storage.js"></script>
-  <script src="model/script.js"></script>
   <script src="model/connection-handler.js"></script>
+  <script src="model/storage.js"></script>
   <script src="controller/navigation-controller.js"></script>
   <script src="controller/transaction-controller.js"></script>
   <script src="controller/user-detail-controller.js"></script>
@@ -31,9 +32,27 @@
   
   
   <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" />
-  <body>
   
-    <div class="center-block">
+ </head> 
+<body>
+
+
+<ons-tabbar id="tabbar">
+        <ons-tab id="login-template" page="login-page-template" active="true"></ons-tab>
+        <ons-tab icon="ion-ios-settings-strong" label="Aktivity" page="main-page-template"></ons-tab>
+        <ons-tab icon="ion-ios-paper-outline" label="Profil" page="user-detail-page-template"> </ons-tab>
+        <ons-tab icon="ion-person-stalker" label="Kontakty" page="phone-contacts-page-template"> </ons-tab>
+        <ons-tab icon="ion-android-share-alt" label="Pozvat" page="invite-friend-page-template"> </ons-tab>
+        <ons-tab icon="ion-ios-more-outline" label="Více" page="more-options-page-template"> </ons-tab>
+</ons-tabbar>
+
+
+                    <!-- LOGIN PAGE TEMPLATE-->
+                    
+<ons-template id="login-page-template">
+    <ons-page id="login-page">
+
+  <div class="center-block">
     <img id="main-logo" src="./view/icons/billMe-logo.png" alt="Ikona aplikace" />
     </div>
     <div id="authentication-block">
@@ -52,7 +71,300 @@
     <ons-button modifier="large--cta" onclick="login()" id="login-button">Příhlásit se</ons-button>    
     <ons-button modifier="large--cta" onclick="register()" id="register-button">Registrovat se</ons-button>    
 </div>
+</ons-page>
+</ons-template>
+
+ <ons-template id="main-page-template">
+    <ons-navigator id="pageNavigator">
+    <ons-page id="main-page">
+    <ons-list>
+        <ons-list-header>Můj účet</ons-list-header>
+        <ons-list-item>
+            <ons-row>
+                <ons-col width="70%">
+                    <div class="left" id="account-name"></div>
+                </ons-col>
+                
+                <ons-col>
+                    <div class="center" id="account-balance"></div>
+                </ons-col>
+                          
+                
+            </ons-row>
+            <ons-row>
+                <ons-col id="account-number"></ons-col>
+            </ons-row>
+        </ons-list-item>
+        <ons-list-header> Rychlé akce </ons-list-header>
+        <ons-row>
+            <ons-col>
+                <ons-button id="create-payment-button" modifier="large">
+                    <ons-icon icon="ion-arrow-up-c" size="50px" fixed-width="true"></ons-icon>
+                    <p class="button-label">
+                        Zaplatit
+                    </p>
+                </ons-button>
+            </ons-col>
+            <ons-col class="left-border">
+                <ons-button id="create-request-button" modifier="large">
+                    <ons-icon icon="ion-arrow-down-c" size="50px" fixed-width="true"></ons-icon>
+                <p class="button-label">Připomenout se</p>
+                    
+                </ons-button>
+            </ons-col>
+        </ons-row>
+        <ons-list-header>Přehled toků</ons-list-header>
+        <ons-row class="select-box">
+            <ons-col>
+                <ons-button class="select-box-item-active select-box-left" id="incoming-payments-filter" data-filter="incoming" modifier="large">Přijaté</ons-button>
+            </ons-col>
+            <ons-col>
+                <ons-button class="select-box-item select-box-center" id="outgoing-payments-filter" data-filter="outgoing" modifier="large">Odeslané</ons-button>
+            </ons-col>
+            <ons-col>
+                <ons-button class="select-box-item select-box-right" id="unresolved-transactions-filter" data-filter="filter" modifier="large">Nevyřízené</ons-button>
+            </ons-col>
+        </ons-row>
+    </ons-list>
+    <div>
+    <ons-list id="transaction-list"></ons-list>
+    
+    <script id="transaction-list-item" type="text/template">
+        <ons-list-item class="transaction-item-detail" >
+            <div class="left transaction-party">{{name}}</div>
+            <div class="center transaction-amount">{{amount}}</div>
+            <div class="center transaction-state" style="margin-left: 1em">{{state}}</div>
+            <div class="right"><ons-icon icon="ion-chevron-right"></ons-icon></div>
+        </ons-list-item>
+    </script>
+        
+    </div>
+</ons-page>
+</ons-navigator>
+</ons-template>
+
+
+
+
+
+
+<!--           USER DETAIL PAGE VIEW               -->
+<ons-template id="user-detail-page-template">
+<ons-page id="user-detail-page">
+    <ons-list>
+        <ons-list-header>Detail uživatele</ons-list-header>
+        <ons-list-item>
+            <div class="left">Jméno</div>
+            <div class="right" id="username-line"></div>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="left">Telefon</div>
+            <div class="right" id="phone-number-line"></div>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="left">Email</div>
+            <div class="right" id="email-line"></div>
+        </ons-list-item>
+        <ons-list-item>
+            <div class="left">Facebook</div>
+            <div class="right" id="facebook-contact-line"></div>
+        </ons-list-item>
+    </ons-list>
+    </ons-page>
+</ons-template>
+
+
+<ons-template id="phone-contacts-page-template">
+    
+
+   <ons-page id="phone-contacts-page">
+    <ons-toolbar>
+        <div class="center">Kontakty</div>
+    </ons-toolbar>
+    <ons-list id="contact-list"></ons-list>
+    
+    <ons-row class="contact-toolbar">
+        <ons-col class="center-block">
+            <ons-icon icon="ion-search" size="40px"></ons-icon>
+            <p class="contact-button-label">Vyhledat kontakt</p>
+        </ons-col>
+        <ons-col class="center-block">
+            <ons-icon icon="ion-person-add" size="40px"></ons-icon>
+            <p class="contact-button-label">Vytvořit kontakt</p>
+        </ons-col>
+        <ons-col class="center-block">
+            <ons-icon icon="ion-star" size="40px"></ons-icon>
+            <p class="contact-button-label">Nastavit oblíbené</p>
+        </ons-col>
+    </ons-row>
+    
+</ons-page>
+</ons-template>
+
+
+<!--               INVITE FRIEND PAGE VIEW                  -->
+<ons-template id="invite-friend-page-template">
+<ons-page id="invite-friend-page">
+        
+    <ons-toolbar>
+        <div class="center">Pozvat kamaráda</div>
+    </ons-toolbar>
+    <div class="invite-friend-block">
+        <ons-icon size="70px" icon="ion-person-add" ></ons-icon>
+        <h1 class="invite-friend-header">
+            Pozvi kamaráda k používání Bill Me
+        </h1>
+        <p>
+            Nasdílej pozvánku kamarádovi přímo nebo skrze kontakty aplikace</p>
+ 
+    </div>  
+    <ons-row>
+        <ons-col class="center-block">
+            <ons-icon size="50px" icon="ion-social-facebook"></ons-icon>
+            <p>
+                Sdílej pozvánku
+            </p>
+        </ons-col>
+        <ons-col class="center-block">
+            <ons-icon size="50px" icon="ion-person-stalker"></ons-icon>
+            <p>
+                Vyber kontakt
+            </p>
+        </ons-col>
+    </ons-row>
     
     
-    </body>
+    
+    
+</ons-page>
+
+</ons-template>
+
+
+
+<!--               MORE OPTIONS PAGE VIEW                  -->
+<ons-template id="more-options-page-template">
+    <ons-navigator id="moreOptionsNavigator">
+
+        <ons-page id="more-options-page">
+    <ons-toolbar>
+        <div class="center">Rozšířená nabídka</div>
+    </ons-toolbar>
+    <ons-row>
+        <ons-col class="center-block upper-margin">
+            <p  class="header-name" id="recievers-name3"></p>
+        </ons-col>
+        <ons-col class="center-block">
+            <ons-icon  icon="ion-person" size="70px"></ons-icon>
+        </ons-col>
+        <ons-col class="center-block upper-margin">
+            <p class="contact-detail" id="recievers-phone3"></p>
+            <p class="contact-detail" id="recievers-email3"></p>
+        </ons-col>
+    </ons-row>
+    <ons-list>
+        <ons-list-header>Moje nastavení</ons-list-header>
+        <ons-list-item>
+            <ons-row>
+                <ons-col>
+                    <img src="./view/icons/contact-card-black.png" alt="Ikona detailu kontaktní karty" />
+                </ons-col>
+                <ons-col width="70%">
+                    Nastavení profilu        
+                </ons-col>
+                <ons-col>
+                    <ons-icon class="right-floater" icon="ion-chevron-right" size="20px"></ons-icon>
+                </ons-col>
+            </ons-row>
+        </ons-list-item>
+        <ons-list-item>
+        <ons-row>
+                <ons-col>
+                    <img src="./view/icons/lock-black.png" alt="Ikona detailu kontaktní karty" />
+                </ons-col>
+                <ons-col width="70%">
+                    Nastavení zabezpečení        
+                </ons-col>
+                <ons-col>
+                    <ons-icon class="right-floater" icon="ion-chevron-right" size="20px"></ons-icon>
+                </ons-col>
+            </ons-row>
+                
+            </ons-list-item>
+        <ons-list-item>
+        <ons-row>
+                <ons-col>
+                    <img src="./view/icons/notification-black.png" alt="Ikona detailu kontaktní karty" />
+                </ons-col>
+                <ons-col width="70%">
+                    Změna notifikací        
+                </ons-col>
+                <ons-col>
+                    <ons-icon class="right-floater" icon="ion-chevron-right" size="20px"></ons-icon>
+                </ons-col>
+            </ons-row>
+            
+                
+            </ons-list-item>
+        <ons-list-header>Ostatní</ons-list-header>
+        <ons-list-item>
+         <ons-row id="financial-overview-link">
+                <ons-col>
+                    <img src="./view/icons/money-black.png" alt="Ikona detailu kontaktní karty" />
+                </ons-col>
+                <ons-col width="70%">
+                    Finanční přehled        
+                </ons-col>
+                <ons-col>
+                    <ons-icon class="right-floater" icon="ion-chevron-right" size="20px"></ons-icon>
+                </ons-col>
+            </ons-row>
+            </ons-list-item>
+        <ons-list-item>
+        <ons-row>
+                <ons-col>
+                    <img src="./view/icons/talk-male-black.png" alt="Ikona detailu kontaktní karty" />
+                </ons-col>
+                <ons-col width="70%">
+                    Pozvi kámoše        
+                </ons-col>
+                <ons-col>
+                    <ons-icon class="right-floater" icon="ion-chevron-right" size="20px"></ons-icon>
+                </ons-col>
+            </ons-row>
+            </ons-list-item>
+        <ons-list-item>
+        <ons-row id="howto-page-link">
+                <ons-col>
+                    <img src="./view/icons/question-black.png" alt="Ikona detailu kontaktní karty" />
+                </ons-col>
+                <ons-col width="70%">
+                    Pomocné návody        
+                </ons-col>
+                <ons-col>
+                    <ons-icon class="right-floater" icon="ion-chevron-right" size="20px"></ons-icon>
+                </ons-col>
+            </ons-row></ons-list-item>
+        <ons-list-item>
+        <ons-row id="legal-scope-link">
+                <ons-col>
+                    <img src="./view/icons/law-black.png" alt="Ikona detailu kontaktní karty" />
+                </ons-col>
+                <ons-col width="70%">
+                    Právní rámec        
+                </ons-col>
+                <ons-col>
+                    <ons-icon class="right-floater" icon="ion-chevron-right" size="20px"></ons-icon>
+                </ons-col>
+            </ons-row>
+            </ons-list-item>
+    </ons-list>
+     
+    </ons-page>
+    </ons-navigator>
+</ons-template>
+
+</body>
+
+
     </html>

@@ -1,5 +1,16 @@
 // This is a JavaScript file
 
+
+function composeMainPages() {
+    composeMainPage(document.querySelector('#main-page'));
+    composeUserDetailPage(document.querySelector('#user-detail-page'));
+    //composePhoneContactsPage(document.querySelector('#phone-contacts-page'));
+    //composeMainPage(document.querySelector('#invite-friend-page'));
+    composeMoreOptionsPage(document.querySelector('#more-options-page'));
+
+}
+
+
 // Function for filling content of elements on page transaction/payment-detail-page
 composeTransactionDetailPage = function () {
     var dataSource;
@@ -64,21 +75,24 @@ composeDefineTransactionPage = function() {
 
 //Function for composing dynamic parts of page
 composeMainPage = function(page) {
-        page.querySelector('#account-name').innerHTML = storage.account.accountName;
-        page.querySelector('#account-number').innerHTML = storage.account.accountNumber;
-        page.querySelector('#account-balance').innerHTML = storage.account.balance + " Kč";
+        if (storage.dataLoaded==true){
+        console.log("Composing main page");
+        page.querySelector('#account-name').innerHTML = storage.userData.bankAccount.accountName;
+        page.querySelector('#account-number').innerHTML = storage.userData.bankAccount.accountPrefix + "-" + storage.userData.bankAccount.accountNumber + "/" + storage.userData.bankAccount.bankCode;
+        page.querySelector('#account-balance').innerHTML = storage.userData.bankAccount.accountBalance;
         page.querySelector('#create-payment-button').onclick = function(){systemVariables.newTransaction.transactionType="payment";switchPage('view/html/contact-list-page.html');};
         page.querySelector('#create-request-button').onclick = function(){systemVariables.newTransaction.transactionType="request";switchPage('view/html/contact-list-page.html');};
         page.querySelector('#incoming-payments-filter').onclick = function(){activateIncomingPayments();showIncomingPayments();};
         page.querySelector('#outgoing-payments-filter').onclick = function(){activateOutgoingPayments();showOutgoingPayments();};
         page.querySelector('#unresolved-transactions-filter').onclick = function(){activateUnresolvedTransactions(); showRequests();};
         showIncomingPayments();
-      document.querySelector('#pageNavigator').addEventListener('prepop', function(event) {
+        document.querySelector('#pageNavigator').addEventListener('prepop', function(event) {
         if(event.currentPage.id === "contact-list-page") {
             document.getElementById('tabbar').setTabbarVisibility(true);
         }
-    });
       
+    });
+        }
 };
 
 composeContactListPage = function(page) {
@@ -189,4 +203,12 @@ storeMessage = function(){
 };
 
 
+
+
+function composeUserDetailPage() {
+    document.querySelector('#username-line').innerHTML = storage.userData.fullName;
+    document.querySelector('#phone-number-line').innerHTML = storage.userData.contact.phone;
+    document.querySelector('#email-line').innerHTML = storage.userData.contact.email;
+    document.querySelector('#facebook-contact-line').innerHTML = storage.userData.contact.facebook;
+}
 

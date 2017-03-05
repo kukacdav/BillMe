@@ -10,11 +10,15 @@ document.addEventListener('init', function(event)
 {
     console.log("Navigation handler..");
     var page = event.target;
-
-    if (page.id === 'main-page')
+    
+    if (page.id === 'login-page')
     {    
-        console.log("N1. Initializing Main Page ");
-        composeMainPage(page);
+            console.log("N0. Initializing login page");
+    }
+    else if (page.id === 'main-page')
+    {    
+            console.log("N1. Initializing Main Page ");
+            composeMainPage(page);
     }
     else if (page.id === 'contact-list-page')
     {
@@ -39,7 +43,6 @@ document.addEventListener('init', function(event)
     else if (page.id === 'user-detail-page') {
         console.log("N5. Initializing user-detail-page");
         showUserData();
-
     }
     else if (page.id === 'transaction-detail-page')
     {
@@ -53,10 +56,12 @@ document.addEventListener('init', function(event)
     }
     else if (page.id === 'more-options-page')
     {
-        composeMoreOptionsPage();
+        composeMoreOptionsPage();    
     }
     else if (page.id === 'invite-friend-page')
     {
+        console.log("N5. Invite-friend-page");
+
     }
     else if (page.id === 'set-amount-page')
     {

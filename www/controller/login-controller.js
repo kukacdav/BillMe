@@ -1,22 +1,13 @@
-// This is a JavaScript file
-
-
-
-
-
 login = function() {
   var username = document.querySelector('#login-username').value;
   var password = document.querySelector('#login-password').value;
-  console.log(username);
-  console.log(password);
+  console.log("Username: " + username + ", password: " + password);
   if ( username === "" ||  password === "" ) {
       showIncompleteLoggingInfo();
       return;
   }  
-  authenticateUser(username, password);
-  
+  authenticateUser(username, password);  
 };
-
 
 showFailedAuthorizationNote = function() {
     document.querySelector('#login-note').innerHTML = "Špatné Uživatelské jméno nebo Heslo";    
@@ -26,4 +17,8 @@ showFailedAuthorizationNote = function() {
 
 showIncompleteLoggingInfo = function () {
   document.querySelector('#login-note').innerHTML = "Pro přihlášení musíte vyplnit Uživatelské jméno a Heslo";  
+};
+
+goToMainPage = function() {
+    //document.querySelector('#login-navigator').pushPage('view/html/main-page.html');
 };
