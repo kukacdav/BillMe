@@ -1,5 +1,5 @@
 
-//var accountId = 'b3162c0b1611b96e';
+
 var storage = {
     userData: {},
     incomingRequests: [],
@@ -13,4 +13,13 @@ var storage = {
 };
 var systemVariables = {
     newTransaction: {}
+};
+
+var communicationController = {};
+var navigationController = {};
+var pageController = {};
+
+window.fn = {};
+fn.Login = function(){
+  document.getElementById('main-navigator').replacePage('main-multi-page-template');
 };

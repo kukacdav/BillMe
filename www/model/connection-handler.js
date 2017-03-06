@@ -4,53 +4,6 @@ changeAccountBalance = function () {
 
 };
 
-authenticateUser = function (username, password) {
-    $.ajax(
-    {
-        type: "POST",
-        url: deploydEndpoint + '/user/login',
-        data:
-        {
-            "username": username,
-            "password": password
-        },
-        success: function(data)
-        {
-            console.log ("Successfull authentication");
-            console.log("sessionId: " + data.id);
-            sid = data.id;
-            storage.uid = data.uid;
-            storage.init();
-            document.querySelector('#tabbar').setActiveTab(1);
-            },
-        error: function(data){
-            console.log("Authentication failed");
-            showFailedAuthorizationNote();
-        },
-        dataType: "json"
-    });
-};
-
-getUserData = function(){
-    $.ajax(
-    {
-        type: "GET",
-        url: deploydEndpoint + '/user?id=' + storage.uid,
-        success: function(data)
-        {
-            console.log(data);
-            console.log ("Successfully queried user data");
-            storage.userData = data;
-            console.log(storage.userData);
-            storage.dataLoaded = true;
-            composeMainPages();
-        },
-        error: function(data){
-            console.log("User data query failed");
-        },
-        dataType: "json"
-    });
-};
 
 loadContactList = function(){
     $.ajax(
@@ -70,73 +23,6 @@ loadContactList = function(){
 };
 
 
-persistPayment = function () {
-    var contraAccount = storage.contactList[systemVariables.newTransactionItem];
-    $.ajax(
-    {
-        type: "POST",
-        url: deploydEndpoint + '/payment',
-        data:
-        {
-            "initiator": storage.userData.id,
-            "initiatorDetail": {
-                "fullName": storage.userData.fullName,
-                "phone": storage.userData.contact.phone,
-                "email":storage.userData.contact.email,
-                "facebook":storage.userData.contact.facebook
-            },
-            "reciever": contraAccount.id,
-            "recieverDetail": {
-                "fullName": contraAccount.fullName,
-                "phone": contraAccount.contact.phone,
-                "email":contraAccount.contact.email,
-                "facebook":contraAccount.contact.facebook
-            },
-            "amount": systemVariables.newTransaction.amount,
-            "message": systemVariables.newTransaction.message,
-            "submitDate": Date.now()
-        },
-        success: function(data)
-        {
-            successfullPayment();
-        },
-        dataType: "json"
-    });
-};
-
-persistRequest = function () {
-    var contraAccount = storage.contactList[systemVariables.newTransactionItem];
-    $.ajax(
-    {
-        type: "POST",
-        url: deploydEndpoint + '/request',
-        data:
-        {
-            "initiator": storage.userData.id,
-            "initiatorDetail": {
-                "fullName": storage.userData.fullName,
-                "phone": storage.userData.contact.phone,
-                "email":storage.userData.contact.email,
-                "facebook":storage.userData.contact.facebook
-            },
-            "reciever": contraAccount.id,
-            "recieverDetail": {
-                "fullName": contraAccount.fullName,
-                "phone": contraAccount.contact.phone,
-                "email":contraAccount.contact.email,
-                "facebook":contraAccount.contact.facebook
-            },
-            "amount": systemVariables.newTransaction.amount,
-            "message": systemVariables.newTransaction.message,
-            "submitDate": Date.now()
-        },
-        success: function(data)
-        {
-            successfullRequest();
-        },
-        dataType: "json"
-    });
-};
 
 getContraAccount = function(){
     console.log("= getting data");

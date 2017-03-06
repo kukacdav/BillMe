@@ -6,7 +6,7 @@ login = function() {
       showIncompleteLoggingInfo();
       return;
   }  
-  authenticateUser(username, password);  
+  communicationController.authenticateUser(username, password);  
 };
 
 showFailedAuthorizationNote = function() {
@@ -17,8 +17,4 @@ showFailedAuthorizationNote = function() {
 
 showIncompleteLoggingInfo = function () {
   document.querySelector('#login-note').innerHTML = "Pro přihlášení musíte vyplnit Uživatelské jméno a Heslo";  
-};
-
-goToMainPage = function() {
-    //document.querySelector('#login-navigator').pushPage('view/html/main-page.html');
 };

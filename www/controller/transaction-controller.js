@@ -94,13 +94,7 @@ function showOutgoingPayments() {
 
 function submitTransaction() {
     console.log("T3. - Submitting transaction");
-    if (systemVariables.newTransaction.transactionType === "payment"){
-        persistPayment();
-    }
-    else if (systemVariables.newTransaction.transactionType === "request")
-        persistRequest();
-    else 
-        console.log("Unexpected ERROR, while persisting new transaction: unknown transactionType");
+    console.log("Unexpected ERROR, while persisting new transaction: unknown transactionType");
 };
 
 function buildRespondPayment(dataSource) {
@@ -163,8 +157,7 @@ paymentToRequestSuccessfull = function() {
 
 successfullPayment = function () {
     getUserData();
-    systemVariables.clearOut();
-    switchPage('view/html/success-submit-page.html');
+    
 
 };
 successfullRequest = function () {

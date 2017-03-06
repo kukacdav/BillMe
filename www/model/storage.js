@@ -1,26 +1,75 @@
 
 
-storage.init = function(){
-    if (storage.state === "initialized")
-        return;
+storage.init = function(data){
     console.log("S0. Initializing storage");
     //UNCOMMENT FOR STORING DATA
     //storage.loadStoredData();
-    storage.getContactList();
-
-    storage.getUserData();
-    //TMP, mocking contact data
+    storage.storeSessionData(data);
+    var storageInitialized = $.when(communicationController.getUserData(storage.uid), communicationController.loadContactList());
+    storageInitialized.done(function(userData, contactList)
+    {
+        storage.storeUserData(userData);
+        storage.storeContactList(contactList);
+        navigationController.switchToMainPage();
+    });
+    
 };
 
-storage.getUserData = function() {
-    console.log("S1. Getting data from deployd.");
-    getUserData();
+// Method for storing user data querried from server
+storage.storeUserData = function(data){
+    storage.userData = data;
+};
+// Method for storing contact list querried from server
+storage.storeContactList = function(data){
+    storage.contactList = data;
+};
+//Method for storing sessionData gotten when authenticating
+storage.storeSessionData = function(data){
+    storage.id = data.id;
+    storage.uid = data.uid;
 };
 
-storage.getContactList = function() {
-    console.log("S2. Getting contacts from deployd.");
-    loadContactList();
+//Method for storing submited message
+storage.storeNewTransactionMessage= function(message){
+    if (message == null)
+        systemVariables.newTransaction.message = "";
+    else
+        systemVariables.newTransaction.message = message;
+    storage.submitTransaction();
 };
+
+// Method for sending new transaction to backend server
+storage.submitTransaction = function(){
+    var storageInitialized;
+    if (systemVariables.newTransaction.transactionType === "payment")
+        storageInitialized = $.when(communicationController.persistTransaction("payment"));
+    else if (systemVariables.newTransaction.transactionType === "request")
+        storageInitialized = $.when(communicationController.persistTransaction("request"));
+    storageInitialized.done(function(data)
+    {
+        storage.updateUserData();
+    });
+};
+
+//Method for retrieving fresh data from backend server
+storage.updateUserData = function(){
+    console.log("Updating user data");
+    var storageInitialized = $.when(communicationController.getUserData(storage.uid));
+    storageInitialized.done(function(userData)
+    {
+        storage.storeUserData(userData);
+        navigationController.switchPage('view/html/success-submit-page.html');
+    });
+};
+
+//Method for wipping out data about previous request
+storage.clearOutSystemVariables = function () {
+    console.log("Clearing out system data");
+  systemVariables.newTransaction = {};    
+};
+
+    
+
 
 storage.loadStoredData = function() {
     storage.incomingRequests = JSON.parse(localStorage.getItem('incomingRequests') || '[]' );  
@@ -31,35 +80,7 @@ storage.loadStoredData = function() {
     storage.account = JSON.parse(localStorage.getItem('userContact') || '{}' );  
 };
 
-storage.getUserDetail = function() {
-    console.log("S9. Getting user detail from deployd.");
-    $.getJSON(deploydEndpoint + '/contact?accountId=' + accountId, function(data){
-        storage.userContact.fullName = data[0].fullName;
-        storage.userContact.emailAddress = data[0].emailAddress;
-        storage.userContact.phoneNumber = data[0].phoneNumber;
-        storage.userContact.facebookUsername = data[0].facebookUsername;
-    });
-};
-/*
-//Temporary function for mocking contact list
-storage.getContactList = function()
-{
-    $.getJSON(deploydEndpoint + '/contact?', function(data)
-    {
-        $.each(data, function(index, value)
-        {
-            console.log(index);
-            storage.contactList.push(
-            {
-                fullName: data[index].fullName,
-                emailAddress: data[index].emailAddress,
-                phoneNumber: data[index].phoneNumber,
-                facebookUsername: data[index].facebookUsername,
-                accountId: data[index].accountId
-            });
-        });
-    });
-};*/
+
 
 storage.getAccountDetail = function() {
     console.log("S10. Getting account detail from deployd.");
@@ -74,6 +95,10 @@ storage.getAccountDetail = function() {
     //localStorage.setItem('account', JSON.stringify(this.storage.account));
 
 };
+
+
+
+
 
 storage.getIncomingRequests = function() {
    console.log("S11. Getting unresolved incoming requests from deployd.");
@@ -223,6 +248,4 @@ storage.filter = function(status){
         });
 };
 
-systemVariables.clearOut = function () {
-  systemVariables.newTransaction = {};    
-};
+
