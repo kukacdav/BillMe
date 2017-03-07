@@ -33,18 +33,12 @@ document.addEventListener('init', function(event)
         pageController.composeDefineTransactionPage(page);
     else if (page.id === 'confirm-transaction-page')
         pageController.composeConfirmTransactionPage(page);
-            else if (page.id === 'success-submit-page')
+    else if (page.id === 'success-submit-page')
         pageController.composeSuccessSubmitPage(page);
     else if (page.id === 'transaction-detail-page')
-    {
-        console.log("N6 - Showing transactionDetail");
-        composeTransactionDetailPage();
-    }
+        pageController.composeTransactionDetailPage();
     else if (page.id === 'reuqest-detail-page')
-    {
-        console.log("N6 - Showing transactionDetail");
-        composeRequestDetailPage();
-    } 
+        pageController.composeRequestDetailPage();
 });
 
 navigationController.switchPage = function(target) {
@@ -52,15 +46,9 @@ navigationController.switchPage = function(target) {
         document.querySelector('#pageNavigator').pushPage(target);
 };
 
-    
-showTransactionDetail = function() {
-        systemVariables.transactionType = $(this).attr('id');
-        systemVariables.elementIndex = $(this.querySelector('#transaction-index')).text();    
-        switchPage('view/html/transaction-detail-page.html');
-    };
-    
-
-    
+navigationController.resetToMainPage = function(){
+    document.querySelector('#pageNavigator').resetToPage('main-page-template'); 
+};
 
 moreOptionsSwitchPage= function(target) {
         console.log("More options navigator, pushing page: " + target);

@@ -47,18 +47,19 @@ storage.submitTransaction = function(){
         storageInitialized = $.when(communicationController.persistTransaction("request"));
     storageInitialized.done(function(data)
     {
-        storage.updateUserData();
+        callback = function(){navigationController.switchPage('view/html/success-submit-page.html');};
+        storage.updateUserData(callback);
     });
 };
 
 //Method for retrieving fresh data from backend server
-storage.updateUserData = function(){
+storage.updateUserData = function(callback){
     console.log("Updating user data");
     var storageInitialized = $.when(communicationController.getUserData(storage.uid));
     storageInitialized.done(function(userData)
     {
         storage.storeUserData(userData);
-        navigationController.switchPage('view/html/success-submit-page.html');
+        callback();
     });
 };
 
@@ -68,7 +69,51 @@ storage.clearOutSystemVariables = function () {
   systemVariables.newTransaction = {};    
 };
 
-    
+// Method when creating new transaction
+storage.createNewTransaction = function(transactionType) {
+    systemVariables.newTransaction.transactionType=transactionType;
+    navigationController.switchPage('view/html/contact-list-page.html');
+};
+
+//Method for showing detail of transaction
+storage.showTransactionDetail = function(id, elementIndex) {
+        systemVariables.transactionType = id;
+        systemVariables.elementIndex = elementIndex;    
+        navigationController.switchPage('view/html/transaction-detail-page.html');
+};
+
+// Method for rejecting incoming request
+storage.rejectSelectedRequest = function() {
+    dataSource = storage.userData.incomingRequests[systemVariables.elementIndex];
+    newState = "rejected";
+    var storageInitialized = $.when(communicationController.changeRequestState(dataSource, newState));
+    storageInitialized.done(function(data) {
+        callback = function(){navigationController.resetToMainPage();};
+        storage.updateUserData(callback);
+    });
+};
+
+storage.acceptSelectedRequest = function() {
+    dataSource = storage.userData.incomingRequests[systemVariables.elementIndex];
+    buildRespondPayment(dataSource);
+    changeAccountBalance(dataSource.accountInitiator, dataSource.amount);
+    changeAccountBalance(storage.account.accountId, (-1)*(dataSource.amount));
+    createLinkedPayment(dataSource, newState);    
+};
+
+// Method for canceling outgoing request
+storage.cancelSelectedRequest = function() {
+    newState = "canceled";
+    dataSource = storage.userData.outgoingRequests[systemVariables.elementIndex];
+    var storageInitialized = $.when(communicationController.changeRequestState(dataSource, newState));
+    storageInitialized.done(function(data) {
+        callback = function(){navigationController.resetToMainPage();};
+        storage.updateUserData(callback);
+    });
+};
+
+
+
 
 
 storage.loadStoredData = function() {

@@ -7,12 +7,12 @@ pageController.composeMainPage = function (page) {
         page.querySelector('#account-name').innerHTML = storage.userData.bankAccount.accountName;
         page.querySelector('#account-number').innerHTML = storage.userData.bankAccount.accountPrefix + "-" + storage.userData.bankAccount.accountNumber + "/" + storage.userData.bankAccount.bankCode;
         page.querySelector('#account-balance').innerHTML = storage.userData.bankAccount.accountBalance;
-        page.querySelector('#create-payment-button').onclick = function(){systemVariables.newTransaction.transactionType="payment";navigationController.switchPage('view/html/contact-list-page.html');};
-        page.querySelector('#create-request-button').onclick = function(){systemVariables.newTransaction.transactionType="request";navigationController.switchPage('view/html/contact-list-page.html');};
-        page.querySelector('#incoming-payments-filter').onclick = function(){activateIncomingPayments();showIncomingPayments();};
-        page.querySelector('#outgoing-payments-filter').onclick = function(){activateOutgoingPayments();showOutgoingPayments();};
-        page.querySelector('#unresolved-transactions-filter').onclick = function(){activateUnresolvedTransactions(); showRequests();};
-        showIncomingPayments();
+        page.querySelector('#create-payment-button').onclick = function(){storage.createNewTransaction("payment");};
+        page.querySelector('#create-request-button').onclick = function(){storage.createNewTransaction("request");};
+        page.querySelector('#incoming-payments-filter').onclick = function(){activateIncomingPayments();pageController.showIncomingPayments();};
+        page.querySelector('#outgoing-payments-filter').onclick = function(){activateOutgoingPayments();pageController.showOutgoingPayments();};
+        page.querySelector('#unresolved-transactions-filter').onclick = function(){activateUnresolvedTransactions(); pageController.showRequests();};
+        pageController.showIncomingPayments();
         document.querySelector('#pageNavigator').addEventListener('prepop', function(event) {
         if(event.currentPage.id === "contact-list-page") {
             document.getElementById('tabbar').setTabbarVisibility(true);
@@ -136,7 +136,152 @@ pageController.composeSuccessSubmitPage = function(page) {
     document.getElementById('tabbar').setTabbarVisibility(false);
     document.querySelector('#transaction-success-button').onclick = function() {
         storage.clearOutSystemVariables();
-        document.querySelector('#pageNavigator').resetToPage('main-page-template'); //SHOULD DO NAVIGATION CONTROLLER
+        navigationController.resetToMainPage();
     };
 };
+
+
+//Support method for showing reuqests
+pageController.showRequests = function ()  {
+    console.log("Page controller: Showing requests");
+    document.querySelector('#transaction-list').innerHTML="";
+    systemVariables.filterFlag = "requests";
+    this.showIncomingRequests(storage.userData.incomingRequests);
+    this.showOutgoingRequests(storage.userData.outgoingRequests);
+    $(".transaction-item-detail").on("click", function(){
+        id = $(this).attr('id');
+        elementIndex = $(this.querySelector('#transaction-index')).text();
+        storage.showTransactionDetail(id, elementIndex);
+        
+        });
+};
+
+
+//Support method for listing incomingReuqests
+pageController.showIncomingRequests = function(dataSource) {
+    if (dataSource.length === 0)
+        return;
+        var counter = -1;
+    document.querySelector('#transaction-list').innerHTML="<ons-list-header>Přijaté připomínky</ons-list-header>";
+    document.querySelector('#transaction-list').innerHTML+=dataSource.map(function(item){
+                 counter++;
+        return "<ons-list-item id='filter-incoming-requests' class='transaction-item-detail'> \
+        <div class='left transaction-party'>" + item.initiatorDetail.fullName + "</div> \
+        <div class='center transaction-amount'>" + item.amount + "</div> \
+        <div class='center transaction-state' style='margin-left: 1em'>" + item.state + "</div> \
+        <div class='right'><ons-icon icon='ion-chevron-right'></ons-icon></div> \
+        <div id='transaction-index' class='hidden'>" + counter + "</div> \
+        </ons-list-item>";
+    }).join('');
+};
+
+//Support method for showing ougoing requests
+pageController.showOutgoingRequests = function(dataSource) {
+    if (dataSource.length === 0)
+        return;
+        var counter = -1;
+    document.querySelector('#transaction-list').innerHTML+="<ons-list-header>Odeslané připomínky</ons-list-header>";
+    document.querySelector('#transaction-list').innerHTML+=dataSource.map(function(item){
+                 counter++;
+        return "<ons-list-item id='filter-outgoing-requests' class='transaction-item-detail'> \
+        <div class='left transaction-party'>" + item.recieverDetail.fullName + "</div> \
+        <div class='center transaction-amount'>" + item.amount + "</div> \
+        <div class='center transaction-state' style='margin-left: 1em'>" + item.state + "</div> \
+        <div class='right'><ons-icon icon='ion-chevron-right'></ons-icon></div> \
+        <div id='transaction-index' class='hidden'>" + counter + "</div> \
+        </ons-list-item>";
+    }).join('');
+};
+
+// Support method for showing incoming payments
+pageController.showIncomingPayments = function() {
+    var payments = storage.userData.incomingPayments;
+    var counter = -1;
+    systemVariables.filterFlag = "incomingPayments";
+     document.querySelector('#transaction-list').innerHTML=payments.map(function(item){
+         counter++;
+        return "<ons-list-item id='filter-incoming-payments' class='transaction-item-detail'> \
+        <div class='left transaction-party'>" + item.recieverDetail.fullName + "</div> \
+        <div class='center transaction-amount'>" + item.amount + "</div> \
+        <div class='center transaction-state' style='margin-left: 1em'>" + item.state + "</div> \
+        <div class='right'><ons-icon icon='ion-chevron-right'></ons-icon></div> \
+        <div id='transaction-index' class='hidden'>" + counter + "</div> \
+        </ons-list-item>";
+    }).join('');
+     $(".transaction-item-detail").on("click", function(){
+        id = $(this).attr('id');
+        elementIndex = $(this.querySelector('#transaction-index')).text();
+        storage.showTransactionDetail(id, elementIndex);
+        
+        });
+};
+
+// Support method for showing outgoing payments
+pageController.showOutgoingPayments = function() {
+   systemVariables.filterFlag = "outgoingPayments";
+    var payments = storage.userData.outgoingPayments;
+    var counter = -1;
+    document.querySelector('#transaction-list').innerHTML=payments.map(function(item){
+                 counter++;
+        return "<ons-list-item id='filter-outgoing-payments' class='transaction-item-detail'> \
+        <div class='left transaction-party'>" + item.recieverDetail.fullName + "</div> \
+        <div class='center transaction-amount'>" + item.amount + "</div> \
+        <div class='center transaction-state' style='margin-left: 1em'>" + item.state + "</div> \
+        <div class='right'><ons-icon icon='ion-chevron-right'></ons-icon></div> \
+        <div id='transaction-index' class='hidden'>" + counter + "</div> \
+        </ons-list-item>";
+    }).join('');    
+    $(".transaction-item-detail").on("click", function(){
+        id = $(this).attr('id');
+        elementIndex = $(this.querySelector('#transaction-index')).text();
+        storage.showTransactionDetail(id, elementIndex);
+        
+        });
+    $(".transaction-amount").addClass("red");
+};
+
+// Method for composing Transaction Detail Page  
+pageController.composeTransactionDetailPage = function(){
+    var dataSource;
+    if (systemVariables.transactionType === "filter-incoming-payments") {
+        dataSource = storage.userData.incomingPayments[systemVariables.elementIndex];
+        this.hideIncomingRequestFields();
+        this.hideOutgoingRequestFields();
+        document.querySelector('#transaction-party').innerHTML = dataSource.initiatorDetail.fullName;
+    }
+    else if (systemVariables.transactionType === "filter-outgoing-payments"){
+        dataSource = storage.userData.outgoingPayments[systemVariables.elementIndex];
+        this.hideIncomingRequestFields();
+        this.hideOutgoingRequestFields();
+        document.querySelector('#transaction-party').innerHTML = dataSource.recieverDetail.fullName;
+        }
+    else if (systemVariables.transactionType === "filter-outgoing-requests"){
+        this.hideIncomingRequestFields();
+        dataSource = storage.userData.outgoingRequests[systemVariables.elementIndex];
+        document.querySelector('#transaction-party').innerHTML = dataSource.recieverDetail.fullName;
+    }
+    else if (systemVariables.transactionType === "filter-incoming-requests"){
+        dataSource = storage.userData.incomingRequests[systemVariables.elementIndex];
+        document.querySelector('#transaction-party').innerHTML = dataSource.initiatorDetail.fullName;
+        this.hideOutgoingRequestFields();
+    }   
+   document.querySelector('#transaction-amount').innerHTML = dataSource.amount;
+   document.querySelector('#transaction-state').innerHTML = dataSource.state;
+   document.querySelector('#transaction-message').innerHTML = dataSource.message;
+   var submitDate = new Date(dataSource.date);
+   document.querySelector('#transaction-date').innerHTML = submitDate.toString('yyyy-MM-d-h-mm-ss');
+};
+
+// Support method for hidding incoming requests
+pageController.hideIncomingRequestFields = function() {
+    $('#response-message-field').hide();
+    $('#incoming-requests-action-buttons').hide();
+};
+
+// Support method for hidding outgoing requests
+pageController.hideOutgoingRequestFields = function() {
+    $('#outgoing-requests-action-buttons').hide();
+};
+
+
 

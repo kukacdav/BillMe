@@ -44,7 +44,7 @@ communicationController.getUserData = function(uid){
     return deferred.promise();
 };
 
-
+//Method for retrieving contactList from server
 communicationController.loadContactList = function(){
     var deferred = $.Deferred();
     $.ajax(
@@ -103,6 +103,29 @@ communicationController.persistTransaction = function (collection) {
 
 };
 
+//Method for changing state of request in persistence
+communicationController.changeRequestState = function(dataSource, newState) {
+    var deferred = $.Deferred();
+    $.ajax(
+    {
+        type: "POST",
+        url: deploydEndpoint + '/request/' + dataSource.id,
+        data:
+        {
+            "state": newState
+        },
+        success: function(data)
+        {
+            deferred.resolve(data);
+
+        },
+        dataType: "json"
+    });
+    return deferred.promise();
+    
+};
+
+//TODO: REMOVEME<
 persistRequest = function () {
     var contraAccount = storage.contactList[systemVariables.newTransactionItem];
     $.ajax(

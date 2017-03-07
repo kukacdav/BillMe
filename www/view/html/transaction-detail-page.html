@@ -50,19 +50,19 @@
     </ons-list>
     <ons-row id="incoming-requests-action-buttons">
         <ons-col >
-        <ons-button modifier="large" onclick="rejectSelectedRequest(rejectState)">
+        <ons-button modifier="large" onclick="storage.rejectSelectedRequest()">
                 Zrušit
             </ons-button>
         </ons-col>
         <ons-col >
-            <ons-button modifier="large" onclick="acceptSelectedRequest(acceptState)">
+            <ons-button modifier="large" onclick="storage.acceptSelectedRequest()">
                 Zaplatit
             </ons-button>
         </ons-col>
     </ons-row>
        <ons-row id="outgoing-requests-action-buttons">
         <ons-col >
-            <ons-button modifier="large" onclick="cancelSelectedRequest(cancelState)">
+            <ons-button modifier="large" onclick="storage.cancelSelectedRequest()">
                 Zrušit
             </ons-button>
         </ons-col>
