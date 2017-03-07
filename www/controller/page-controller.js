@@ -201,7 +201,7 @@ pageController.showIncomingPayments = function() {
      document.querySelector('#transaction-list').innerHTML=payments.map(function(item){
          counter++;
         return "<ons-list-item id='filter-incoming-payments' class='transaction-item-detail'> \
-        <div class='left transaction-party'>" + item.recieverDetail.fullName + "</div> \
+        <div class='left transaction-party'>" + item.initiatorDetail.fullName + "</div> \
         <div class='center transaction-amount'>" + item.amount + "</div> \
         <div class='center transaction-state' style='margin-left: 1em'>" + item.state + "</div> \
         <div class='right'><ons-icon icon='ion-chevron-right'></ons-icon></div> \
