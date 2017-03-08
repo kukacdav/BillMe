@@ -6,15 +6,6 @@
 
 
 
-function buildRespondPayment(dataSource) {
-    console.log("Building transaction: " + systemVariables.newTransaction);
-    console.log("data Source: " + dataSource);
-    systemVariables.newTransaction.transactionType = "payment";
-    systemVariables.newTransaction.contraAccountId = dataSource.accountInitiator;
-    systemVariables.newTransaction.amount = -1*(dataSource.amount);
-    console.log(document.querySelector('#response-message-input').value);
-    systemVariables.newTransaction.message = document.querySelector('#response-message-input').value;
-}
 
 function acceptSelectedRequest(newState) {
     dataSource = storage.incomingRequests[systemVariables.elementIndex];

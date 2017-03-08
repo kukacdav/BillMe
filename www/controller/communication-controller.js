@@ -67,7 +67,7 @@ communicationController.loadContactList = function(){
 // Method for submitting new transaction
 communicationController.persistTransaction = function (collection) {
     var deferred = $.Deferred();
-    var contraAccount = storage.contactList[systemVariables.newTransactionItem];
+    var contraAccount = systemVariables.newTransaction;
     $.ajax(
     {
         type: "POST",
@@ -81,15 +81,15 @@ communicationController.persistTransaction = function (collection) {
                 "email":storage.userData.contact.email,
                 "facebook":storage.userData.contact.facebook
             },
-            "reciever": contraAccount.id,
+            "reciever": contraAccount.reciever,
             "recieverDetail": {
-                "fullName": contraAccount.fullName,
-                "phone": contraAccount.contact.phone,
-                "email":contraAccount.contact.email,
-                "facebook":contraAccount.contact.facebook
+                "fullName": contraAccount.recieverDetail.fullName,
+                "phone": contraAccount.recieverDetail.phone,
+                "email":contraAccount.recieverDetail.email,
+                "facebook":contraAccount.recieverDetail.facebook
             },
-            "amount": systemVariables.newTransaction.amount,
-            "message": systemVariables.newTransaction.message,
+            "amount": contraAccount.amount,
+            "message": contraAccount.message,
             "submitDate": Date.now()
         },
         success: function(data)
@@ -155,6 +155,25 @@ persistRequest = function () {
         success: function(data)
         {
             successfullRequest();
+        },
+        dataType: "json"
+    });
+};
+
+// Method for completing request - changing state and linking new payment
+communicationController.completeRequest = function(requestId, payment){
+    $.ajax(
+    {
+        type: "PUT",
+        url: deploydEndpoint + '/request?id=' + requestId,
+        data:
+        {
+            "state": "completed",
+            "payment": payment
+        },
+        success: function(data)
+        {
+            console.log("Request succesfully completed");
         },
         dataType: "json"
     });

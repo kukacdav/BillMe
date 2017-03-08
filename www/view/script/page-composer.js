@@ -1,20 +1,6 @@
 // This is a JavaScript file
 
 
-// Function for filling content of elements on page transaction/payment-detail-page
-
-
-//Function for hidding parts of ttransaction-detail-template, which should be shown only for requests
-hideIncomingRequestFields = function() {
-    $('#response-message-field').hide();
-    $('#incoming-requests-action-buttons').hide();
-};
-
-hideOutgoingRequestFields = function() {
-    $('#outgoing-requests-action-buttons').hide();
-};
-
-
 // Function for filling content of elements on page request-detail-page
 composeRequestDetailPage = function () {
    document.querySelector('#request-party').innerHTML = storage.transaction.name;

@@ -93,13 +93,7 @@ storage.rejectSelectedRequest = function() {
     });
 };
 
-storage.acceptSelectedRequest = function() {
-    dataSource = storage.userData.incomingRequests[systemVariables.elementIndex];
-    buildRespondPayment(dataSource);
-    changeAccountBalance(dataSource.accountInitiator, dataSource.amount);
-    changeAccountBalance(storage.account.accountId, (-1)*(dataSource.amount));
-    createLinkedPayment(dataSource, newState);    
-};
+
 
 // Method for canceling outgoing request
 storage.cancelSelectedRequest = function() {
@@ -112,9 +106,35 @@ storage.cancelSelectedRequest = function() {
     });
 };
 
+//Method for accepting request
+storage.acceptSelectedRequest = function() {
+    dataSource = storage.userData.incomingRequests[systemVariables.elementIndex];
+    this.buildRespondPayment(dataSource);
+    var storageInitialized = $.when(communicationController.persistTransaction("payment"));
+    storageInitialized.done(function(data) {
+        var requestUpdated = $.when(communicationController.completeRequest(storage.userData.incomingRequests[systemVariables.elementIndex].id, data.id));
+        requestUpdated.done(function(data) {
+        callback = function(){navigationController.resetToMainPage();};
+        storage.updateUserData(callback);
+        });
+    });
+};
+
+storage.buildRespondPayment = function(dataSource) {
+    console.log("*** " + dataSource.id);
+    systemVariables.newTransaction.reciever = dataSource.initiator;
+    console.log(dataSource);
+    systemVariables.newTransaction.recieverDetail = dataSource.initiatorDetail;
+    systemVariables.newTransaction.recieverDetail.email = dataSource.initiatorDetail.email;
+    systemVariables.newTransaction.recieverDetail.facebook = dataSource.initiatorDetail.facebook;
+    systemVariables.newTransaction.recieverDetail.fullName = dataSource.initiatorDetail.fullName;
+    systemVariables.newTransaction.amount = dataSource.amount;
+    systemVariables.newTransaction.message = document.querySelector('#response-message-input').value;
+};
 
 
 
+/* NOT REFACTORED*/
 
 storage.loadStoredData = function() {
     storage.incomingRequests = JSON.parse(localStorage.getItem('incomingRequests') || '[]' );  
