@@ -1,88 +1,62 @@
 // Navigation controller
 // author: David Kukacka
+// Navigation controller handles all logic asocieted with navigation through multiple pages. 
+// Navigation controller listens for page initalization and calls pageController to handle content loading
 
-// Navigation controller handles all logic asocieted with navigation through multiple pages, adding eventListeners and such events
-
-
+navigationController.replacePageWith = function(target) {
+    console.log("Switching to main page");
+    document.querySelector('#main-navigator').replacePage(target);
+};
 
 
 document.addEventListener('init', function(event)
 {
-    console.log("Navigation handler..");
     var page = event.target;
+    console.log("Navigation controler: " + page.id);
 
     if (page.id === 'main-page')
-    {    
-        console.log("N1. Initializing Main Page ");
-        composeMainPage(page);
-    }
-    else if (page.id === 'contact-list-page')
-    {
-        composeContactListPage(page);
-    }
+            pageController.composeMainPage(page);
+    else if (page.id === 'user-detail-page')
+        pageController.composeUserDetailPage(page);
     else if (page.id === 'phone-contacts-page')
-    {
-        composePhoneContactsPage(page);
-    }
-    else if (page.id === 'success-submit-page')
-    {
-        console.log("N3. Initializing submit-success-page ");
-        composeSuccessSubmitPage();
-        //page.querySelector('#transaction-success-button').onclick = function(){switchPage('view/html/main-page.html');};
-    }
-    else if (page.id === 'define-transaction-page')
-    {
-        console.log("N4. Initializing define-transaction-page ");
-        //page.querySelector('#submit-transaction-button').onclick = function(){switchPage('view/html/success-submit-page.html');};
-        composeDefineTransactionPage();
-    }
-    else if (page.id === 'user-detail-page') {
-        console.log("N5. Initializing user-detail-page");
-        showUserData();
-
-    }
-    else if (page.id === 'transaction-detail-page')
-    {
-        console.log("N6 - Showing transactionDetail");
-        composeTransactionDetailPage();
-    }
-    else if (page.id === 'reuqest-detail-page')
-    {
-        console.log("N6 - Showing transactionDetail");
-        composeRequestDetailPage();
-    }
+        pageController.composePhoneContactsPage(page);
     else if (page.id === 'more-options-page')
-    {
-    }
+        pageController.composeMoreOptionsPage(page);
     else if (page.id === 'invite-friend-page')
-    {
-    }
+        pageController.composeInviteFriendPage(page);
+    else if (page.id === 'contact-list-page')
+        pageController.composeContactListPage(page);
     else if (page.id === 'set-amount-page')
-    {
-        composeSetAmountPage();
-    }
+        pageController.composeSetAmountPage(page);
+    else if (page.id === 'define-transaction-page')
+        pageController.composeDefineTransactionPage(page);
     else if (page.id === 'confirm-transaction-page')
-    {
-        composeConfirmTransactionPage();
-    }
-    
+        pageController.composeConfirmTransactionPage(page);
+    else if (page.id === 'success-submit-page')
+        pageController.composeSuccessSubmitPage(page);
+    else if (page.id === 'transaction-detail-page')
+        pageController.composeTransactionDetailPage();
+    else if (page.id === 'reuqest-detail-page')
+        pageController.composeRequestDetailPage();
 });
-    
-showTransactionDetail = function() {
-        systemVariables.transactionType = $(this).attr('id');
-        systemVariables.elementIndex = $(this.querySelector('#transaction-index')).text();    
-        switchPage('view/html/transaction-detail-page.html');
-    };
-    
 
-    
-    switchPage = function(target) {
+navigationController.switchPage = function(target) {
         console.log("pushing page: " + target);
         document.querySelector('#pageNavigator').pushPage(target);
 };
 
-showContactListDetail = function() {
-    systemVariables.newTransactionItem = $(this.querySelector('.contact-index')).text();
-    getContraAccount();
-    switchPage('view/html/set-amount-page.html');
+navigationController.resetToMainPage = function(){
+    document.querySelector('#pageNavigator').resetToPage('main-page-template'); 
 };
+
+
+//To Refactor
+moreOptionsSwitchPage= function(target) {
+        console.log("More options navigator, pushing page: " + target);
+        document.querySelector('#moreOptionsNavigator').pushPage(target);
+};
+
+setToMainPage = function() {
+    document.querySelector('#main-navigator').pushPage('view/html/main-page.html');
+    composeMainPage();
+}

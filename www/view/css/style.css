@@ -15,7 +15,65 @@
     margin-top: 20%;
     
 }
+
+.header-name {
+    margin-top: 0;
     
+}    
+.right-floater{
+    float: right;
+    
+}
+
+.smaller-text{
+    font-size: 0.8em
+}
+
+/* ----------------- Styles regarding authentication-page.html -----------------------------*/
+
+#login-template{
+    width: 1px;
+    
+}
+
+#authentication-block{
+    margin-top: 20%;
+}
+
+#main-logo{
+    margin-top: 10%
+    
+}
+
+.login-input-field {
+    border: 1px solid grey;
+    width: 88%;
+    padding-left: 2%;
+    margin-bottom: 5%
+}
+
+.login-icon{
+    margin: 1% 2%
+}
+
+#register-button {
+    margin-top: 30%;
+    background-color: grey;
+}
+
+.red-text {
+    color: red;
+    font-family: Helvetica;
+    font-size: 0.8em;
+    margin: 0 0,5em;
+    
+}
+
+.incorrect-note {
+    margin: 0.5em;
+    
+}
+
 /* ----------------- Styles regarding main-page.html -----------------------------*/
 
 .red {
@@ -29,6 +87,16 @@
 .left-border{
     border-left: 1px solid white;
 }
+
+.transaction-amount{
+    text-align: center;
+    padding-left: 15px
+}
+
+.transaction-party{
+    width: 65%
+}
+
 /* ----------------- Styles regarding invite-freind-page.html --------------------*/
 
 .invite-friend-block{
