@@ -67,7 +67,7 @@ communicationController.loadContactList = function(){
 // Method for submitting new transaction
 communicationController.persistTransaction = function (collection) {
     var deferred = $.Deferred();
-    var contraAccount = systemVariables.newTransaction;
+    var contraAccount = storage.newTransaction;
     $.ajax(
     {
         type: "POST",

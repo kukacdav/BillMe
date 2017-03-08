@@ -55,12 +55,6 @@ moreOptionsSwitchPage= function(target) {
         document.querySelector('#moreOptionsNavigator').pushPage(target);
 };
 
-
-navigationController.showContactListDetail = function() {
-    systemVariables.newTransactionItem = $(this.querySelector('.contact-index')).text(); // THIS SHOULD HANDLE MODEL
-    navigationController.switchPage('view/html/set-amount-page.html');
-};
-
 setToMainPage = function() {
     document.querySelector('#main-navigator').pushPage('view/html/main-page.html');
     composeMainPage();

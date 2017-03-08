@@ -53,11 +53,11 @@ pageController.composeContactListPage = function(page){
     document.getElementById('tabbar').setTabbarVisibility(false);
     pageController.assembleContactList(page);
     console.log("Composing contact list page");
-    $(".contact-list-detail").on("click", navigationController.showContactListDetail);
-    if (systemVariables.newTransaction.transactionType === "payment"){
+    $(".contact-list-detail").on("click", function(){storage.transactionContactSelected($(this.querySelector('.contact-index')).text());});
+    if (storage.newTransaction.transactionType === "payment"){
         page.querySelector('#page-title').innerHTML = "Přímá platba";
     }
-    else if (systemVariables.newTransaction.transactionType === "request"){
+    else if (storage.newTransaction.transactionType === "request"){
         page.querySelector('#page-title').innerHTML = "Připomínka";
     }
     else
@@ -81,31 +81,54 @@ pageController.assembleContactList = function(page) {
 
 //Method for building page for setting transaction amount
 pageController.composeSetAmountPage = function(page){
-    page.querySelector('#recievers-name').innerHTML = storage.contactList[systemVariables.newTransactionItem].fullName;  
-    page.querySelector('#recievers-phone').innerHTML = storage.contactList[systemVariables.newTransactionItem].contact.phone;  
-    page.querySelector('#recievers-email').innerHTML = storage.contactList[systemVariables.newTransactionItem].contact.email;  
-    page.querySelector('#input-amount').onchange = function(){controlAmountInput()};
+    page.querySelector('#recievers-name').innerHTML = storage.contactList[storage.newTransaction.contactIndex].fullName;  
+    page.querySelector('#recievers-phone').innerHTML = storage.contactList[storage.newTransaction.contactIndex].contact.phone;  
+    page.querySelector('#recievers-email').innerHTML = storage.contactList[storage.newTransaction.contactIndex].contact.email;  
+    page.querySelector('#input-amount').onchange = function(){pageController.controlAmountInput()}; //ADD BALANCE CHECK
     page.querySelector('#submit-transaction-button').onclick = function(){navigationController.switchPage('view/html/confirm-transaction-page.html')};
 };
 
+//Support method for veryfing, whether set balance is OK
+pageController.controlAmountInput = function() {
+  var amount = document.querySelector('#input-amount').value;
+  if ( $.isNumeric(amount) && amount > 0 ){
+    document.querySelector('#submit-transaction-button').disabled=false;
+        $('#input-amount').removeClass("incorrect-input-field");
+        $('#input-amount').addClass("correct-input-field");
+        storage.newTransaction.amount = amount;  // SHOULD HANDLE MODEL
+    console.log("je cislo");
+  }
+    else{
+        document.querySelector('#submit-transaction-button').disabled=true;
+        console.log("neni uplne");
+        $('#input-amount').removeClass("correct-input-field");
+        $('#input-amount').addClass("incorrect-input-field");
+    }
+};
+
+
+
+
+
+
 //Method for building page for defining transactionDetail
 pageController.composeDefineTransactionPage = function(page) {
-    if (systemVariables.newTransaction.transactionType === "payment")
+    if (storage.newTransaction.transactionType === "payment")
         page.querySelector('#page-header').innerHTML = "New payment";
-    else if (systemVariables.newTransaction.transactionType === "request")
+    else if (storage.newTransaction.transactionType === "request")
         page.querySelector('#page-header').innerHTML = "New request";
 };
 
 // Method for building transactionConfirmPage
 pageController.composeConfirmTransactionPage = function(page) {
-    if (systemVariables.newTransaction.transactionType === "payment")
+    if (storage.newTransaction.transactionType === "payment")
         pageController.composeConfirmTransactionPaymentPage(page);
     else 
         pageController.composeConfirmTransactionRequestPage(page);
-    page.querySelector('#recievers-name2').innerHTML = storage.contactList[systemVariables.newTransactionItem].fullName;  
-    page.querySelector('#recievers-phone2').innerHTML = storage.contactList[systemVariables.newTransactionItem].contact.phone;  
-    page.querySelector('#recievers-email2').innerHTML = storage.contactList[systemVariables.newTransactionItem].contact.email;  
-    page.querySelector('#transaction-amount').innerHTML = systemVariables.newTransaction.amount+ " Kč";
+    page.querySelector('#recievers-name2').innerHTML = storage.contactList[storage.newTransaction.contactIndex].fullName;  
+    page.querySelector('#recievers-phone2').innerHTML = storage.contactList[storage.newTransaction.contactIndex].contact.phone;  
+    page.querySelector('#recievers-email2').innerHTML = storage.contactList[storage.newTransaction.contactIndex].contact.email;  
+    page.querySelector('#transaction-amount').innerHTML = storage.newTransaction.amount+ " Kč";
     page.querySelector('#submit-button').onclick = function(){ storage.storeNewTransactionMessage(document.querySelector('#message-input').value);};
 };
 
@@ -125,7 +148,7 @@ pageController.composeConfirmTransactionRequestPage = function(page){
 
 // Method for composing success submit page
 pageController.composeSuccessSubmitPage = function(page) {
-    if (systemVariables.newTransaction.transactionType === "payment") {
+    if (storage.newTransaction.transactionType === "payment") {
         page.querySelector('#success-submit-header').innerHTML = successSubmitHeaderPayment;
         page.querySelector('#success-submit-message').innerHTML = successSubmitMessagePayment;
     }

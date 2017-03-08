@@ -53,8 +53,7 @@
 }
 
 #register-button {
-    position: absolute;
-    bottom: 5%;
+    margin-top: 30%;
     background-color: grey;
 }
 

@@ -32,18 +32,28 @@ storage.storeSessionData = function(data){
 //Method for storing submited message
 storage.storeNewTransactionMessage= function(message){
     if (message == null)
-        systemVariables.newTransaction.message = "";
+        storage.newTransaction.message = "";
     else
-        systemVariables.newTransaction.message = message;
+        storage.newTransaction.message = message;
+    storage.buildTransactionReciever();
     storage.submitTransaction();
+};
+
+storage.buildTransactionReciever = function(){
+    console.log(storage.contactList[storage.newTransaction.contactIndex]);
+    storage.newTransaction.reciever = storage.contactList[storage.newTransaction.contactIndex].id;
+    storage.newTransaction.recieverDetail.fullName = storage.contactList[storage.newTransaction.contactIndex].fullName;
+    storage.newTransaction.recieverDetail.phone = storage.contactList[storage.newTransaction.contactIndex].contact.phone;
+    storage.newTransaction.recieverDetail.email = storage.contactList[storage.newTransaction.contactIndex].contact.email;
+    storage.newTransaction.recieverDetail.facebook = storage.contactList[storage.newTransaction.contactIndex].contact.facebook;    
 };
 
 // Method for sending new transaction to backend server
 storage.submitTransaction = function(){
     var storageInitialized;
-    if (systemVariables.newTransaction.transactionType === "payment")
+    if (storage.newTransaction.transactionType === "payment")
         storageInitialized = $.when(communicationController.persistTransaction("payment"));
-    else if (systemVariables.newTransaction.transactionType === "request")
+    else if (storage.newTransaction.transactionType === "request")
         storageInitialized = $.when(communicationController.persistTransaction("request"));
     storageInitialized.done(function(data)
     {
@@ -66,15 +76,25 @@ storage.updateUserData = function(callback){
 //Method for wipping out data about previous request
 storage.clearOutSystemVariables = function () {
     console.log("Clearing out system data");
-  systemVariables.newTransaction = {};    
+    console.log(storage.newTransaction);
+  storage.newTransaction.recieverData = {};
+  storage.newTransaction.amount = "";
+  storage.newTransaction.message = "";
+  storage.newTransaction.reciever = "";
 };
 
 // Method when creating new transaction
-storage.createNewTransaction = function(transactionType) {
-    systemVariables.newTransaction.transactionType=transactionType;
+storage.createNewTransaction = function(type) {
+    storage.newTransaction.transactionType = type;
     navigationController.switchPage('view/html/contact-list-page.html');
 };
 
+//Method for storing index of seleceted contact 
+storage.transactionContactSelected = function(index) {
+    storage.newTransaction.contactIndex = index;
+    navigationController.switchPage('view/html/set-amount-page.html');  
+};
+  
 //Method for showing detail of transaction
 storage.showTransactionDetail = function(id, elementIndex) {
         systemVariables.transactionType = id;
@@ -122,14 +142,14 @@ storage.acceptSelectedRequest = function() {
 
 storage.buildRespondPayment = function(dataSource) {
     console.log("*** " + dataSource.id);
-    systemVariables.newTransaction.reciever = dataSource.initiator;
+    storage.newTransaction.reciever = dataSource.initiator;
     console.log(dataSource);
-    systemVariables.newTransaction.recieverDetail = dataSource.initiatorDetail;
-    systemVariables.newTransaction.recieverDetail.email = dataSource.initiatorDetail.email;
-    systemVariables.newTransaction.recieverDetail.facebook = dataSource.initiatorDetail.facebook;
-    systemVariables.newTransaction.recieverDetail.fullName = dataSource.initiatorDetail.fullName;
-    systemVariables.newTransaction.amount = dataSource.amount;
-    systemVariables.newTransaction.message = document.querySelector('#response-message-input').value;
+    storage.newTransaction.recieverDetail = dataSource.initiatorDetail;
+    storage.newTransaction.recieverDetail.email = dataSource.initiatorDetail.email;
+    storage.newTransaction.recieverDetail.facebook = dataSource.initiatorDetail.facebook;
+    storage.newTransaction.recieverDetail.fullName = dataSource.initiatorDetail.fullName;
+    storage.newTransaction.amount = dataSource.amount;
+    storage.newTransaction.message = document.querySelector('#response-message-input').value;
 };
 
 

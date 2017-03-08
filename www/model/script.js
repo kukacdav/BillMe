@@ -10,6 +10,9 @@ var storage = {
     account: {},
     transaction: {},
     contactList: [],
+    newTransaction: {
+        recieverDetail: {}
+    }
 };
 var systemVariables = {
     newTransaction: {}
