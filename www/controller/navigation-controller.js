@@ -49,6 +49,8 @@ navigationController.resetToMainPage = function(){
     document.querySelector('#pageNavigator').resetToPage('main-page-template'); 
 };
 
+
+//To Refactor
 moreOptionsSwitchPage= function(target) {
         console.log("More options navigator, pushing page: " + target);
         document.querySelector('#moreOptionsNavigator').pushPage(target);
