@@ -10,7 +10,7 @@ storage.init = function(data){
     {
         storage.storeUserData(userData);
         storage.storeContactList(contactList);
-        navigationController.switchToMainPage();
+        navigationController.replacePageWith('main-multi-page-template');
     });
     
 };

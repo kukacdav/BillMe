@@ -51,6 +51,34 @@
             </div>
         </ons-page>
     </ons-template>
+    <ons-template id="register-template">
+        <ons-page>
+          <ons-toolbar>
+          <div class="left">
+            <ons-back-button>Zpět</ons-back-button>
+        </div>
+                <div class="center">Registrace</div>
+            </ons-toolbar>
+        <ons-list>
+            <ons-list-header>Osobní údaje</ons-list-header>
+            <ons-list-item><ons-input id="register-username" modifier="underbar" placeholder="Uživatelské jméno" float ></ons-input></ons-list-item>
+            <ons-list-item><ons-input id="register-forename" modifier="underbar" placeholder="Křestní jméno"></ons-input></ons-list-item>
+            <ons-list-item><ons-input id="register-surname" modifier="underbar" placeholder="Příjmení"></ons-input></ons-list-item>
+            <ons-list-header>Kontaktní údaje</ons-list-header>
+            <ons-list-item><ons-input id="register-phone" modifier="underbar" placeholder="Telefonní číslo" float></ons-input></ons-list-item>
+            <ons-list-item><ons-input id="register-email" modifier="underbar" placeholder="Emailové spojení"></ons-input></ons-list-item>
+            <ons-list-item><ons-input id="register-facebook" modifier="underbar" placeholder="Facebook username"></ons-input></ons-list-item>
+            <ons-list-header>Údaje o bankovním účtu</ons-list-header>
+            <ons-list-item><ons-input id="register-prefix" modifier="underbar" placeholder="Předčíslí účtu" float></ons-input></ons-list-item>
+            <ons-list-item><ons-input id="register-account" modifier="underbar" placeholder="Číslo účtu"></ons-input></ons-list-item>
+            <ons-list-item><ons-input id="register-bankCode" modifier="underbar" placeholder="Kód banky"></ons-input></ons-list-item>
+            <ons-list-header>Heslo</ons-list-header>
+            <ons-list-item><ons-input id="register-password" type="password" modifier="underbar" placeholder="Heslo" float></ons-input></ons-list-item>
+        </ons-list>
+        <ons-button modifier="large--cta" onclick="submitRegistration()">Dokončit registraci</ons-button>
+
+        </ons-page>
+    </ons-template>
     <ons-template id="main-multi-page-template">
         <ons-page id="main-multi-page">
             <ons-tabbar id="tabbar">

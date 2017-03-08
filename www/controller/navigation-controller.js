@@ -3,10 +3,9 @@
 // Navigation controller handles all logic asocieted with navigation through multiple pages. 
 // Navigation controller listens for page initalization and calls pageController to handle content loading
 
-navigationController.switchToMainPage = function() {
+navigationController.replacePageWith = function(target) {
     console.log("Switching to main page");
-    document.querySelector('#main-navigator').replacePage('main-multi-page-template');
-    //pageController.composeMainPage();
+    document.querySelector('#main-navigator').replacePage(target);
 };
 
 

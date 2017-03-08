@@ -24,6 +24,31 @@ communicationController.authenticateUser = function (username, password) {
     });
 };
 
+//Method for creating newUser
+communicationController.createNewUser = function (newContact){
+    $.ajax(
+    {
+        type: "POST",
+        url: deploydEndpoint + '/user',
+         data:
+        {
+           "fullName": newContact.forename + " " + newContact.surname,
+           "bankAccount": newContact.bankAccount,
+           "contact": newContact.contact,
+           "username": newContact.username,
+           "password": newContact.password
+        },
+        success: function(data)
+        {
+            
+        },
+        error: function(data){
+        },
+        dataType: "json"
+    });
+    
+};
+
 // Querring userData from server
 communicationController.getUserData = function(uid){
     var deferred = $.Deferred();
