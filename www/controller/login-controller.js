@@ -63,5 +63,12 @@ backToLogin = function() {
     navigationController.replacePageWith('login-template');        
 };
 
+logout = function() {
+     var storageInitialized = $.when(communicationController.logoutUser());
+    storageInitialized.done(function(userData)
+    {
+        navigationController.replacePageWith('login-template');
+    });    
+};
 
     

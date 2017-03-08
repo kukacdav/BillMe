@@ -25,6 +25,10 @@
     
 }
 
+.smaller-text{
+    font-size: 0.8em
+}
+
 /* ----------------- Styles regarding authentication-page.html -----------------------------*/
 
 #login-template{

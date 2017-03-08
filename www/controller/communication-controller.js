@@ -203,3 +203,25 @@ communicationController.completeRequest = function(requestId, payment){
         dataType: "json"
     });
 };
+
+// Method for logging out current user
+communicationController.logoutUser = function(){
+    var deferred = $.Deferred();
+    $.ajax(
+    {
+        type: "POST",
+        url: deploydEndpoint + '/user/logout',
+        success: function(data)
+        {
+            console.log("Successfully loged out");
+            deferred.resolve(data);
+
+        },
+        error: function(data){
+            console.log("ERROR when logging out");
+            deferred.resolve(data);
+        },
+        dataType: "json"
+    });
+    return deferred.promise();
+};
