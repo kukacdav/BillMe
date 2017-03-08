@@ -6,7 +6,7 @@ pageController.composeMainPage = function (page) {
         console.log("Composing main page");
         page.querySelector('#account-name').innerHTML = storage.userData.bankAccount.accountName;
         page.querySelector('#account-number').innerHTML = storage.userData.bankAccount.accountPrefix + "-" + storage.userData.bankAccount.accountNumber + "/" + storage.userData.bankAccount.bankCode;
-        page.querySelector('#account-balance').innerHTML = storage.userData.bankAccount.accountBalance;
+        page.querySelector('#account-balance').innerHTML = storage.userData.accountBalance;
         page.querySelector('#create-payment-button').onclick = function(){storage.createNewTransaction("payment");};
         page.querySelector('#create-request-button').onclick = function(){storage.createNewTransaction("request");};
         page.querySelector('#incoming-payments-filter').onclick = function(){activateIncomingPayments();pageController.showIncomingPayments();};
