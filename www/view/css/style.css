@@ -88,6 +88,14 @@
     border-left: 1px solid white;
 }
 
+.transaction-amount{
+    text-align: center;
+    padding-left: 15px
+}
+
+.transaction-party{
+    width: 65%
+}
 
 /* ----------------- Styles regarding invite-freind-page.html --------------------*/
 
