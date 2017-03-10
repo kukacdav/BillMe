@@ -28,3 +28,7 @@ ons-page{
 ons-list-item{
     background-color: #f1f1f1;
 }
+
+.icon {
+    color: #2987bb !important;    
+}

@@ -6,7 +6,7 @@ pageController.composeMainPage = function (page) {
         console.log("Composing main page");
         page.querySelector('#account-name').innerHTML = storage.userData.bankAccount.accountName;
         page.querySelector('#account-number').innerHTML = storage.userData.bankAccount.accountPrefix + "-" + storage.userData.bankAccount.accountNumber + "/" + storage.userData.bankAccount.bankCode;
-        page.querySelector('#account-balance').innerHTML = storage.userData.accountBalance + "Kč";
+        page.querySelector('#account-balance').innerHTML = storage.userData.accountBalance + " Kč";
         page.querySelector('#create-payment-button').onclick = function(){storage.createNewTransaction("payment");};
         page.querySelector('#create-request-button').onclick = function(){storage.createNewTransaction("request");};
         page.querySelector('#incoming-payments-filter').onclick = function(){activateIncomingPayments();pageController.showIncomingPayments();};
@@ -378,9 +378,30 @@ pageController.composeTransactionDetailPage = function(){
    document.querySelector('#transaction-amount').innerHTML = dataSource.amount;
    document.querySelector('#transaction-state').innerHTML = dataSource.state;
    document.querySelector('#transaction-message').innerHTML = dataSource.message;
-   var submitDate = new Date(dataSource.date);
-   document.querySelector('#transaction-date').innerHTML = submitDate.toString('yyyy-MM-d-h-mm-ss');
+    var submitDate = getDate(dataSource.submitDate);
+   document.querySelector('#transaction-date').innerHTML = submitDate;
 };
+
+//Function for converting date to right format
+getDate = function(timestamp){
+    console.log(timestamp + ", " + typeof timestamp);
+     var today = new Date(Number(timestamp));
+    console.log("Today " + today);
+    var dd = today.getDate();
+    console.log("Day " + dd);
+    var mm = today.getMonth()+1; //January is 0!
+    console.log("Month " + mm);
+    var yyyy = today.getFullYear();
+    if(dd<10) {
+        dd='0'+dd;
+    } 
+    if(mm<10) {
+        mm='0'+mm;
+    } 
+    today = dd+'. '+mm+'. '+yyyy;
+    return today;
+};
+
 
 // Support method for hidding incoming requests
 pageController.hideIncomingRequestFields = function() {
