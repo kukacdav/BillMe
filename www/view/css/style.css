@@ -37,7 +37,7 @@
 }
 
 #authentication-block{
-    margin-top: 20%;
+    margin-top: 15%;
 }
 
 #main-logo{
@@ -46,23 +46,23 @@
 }
 
 .login-input-field {
-    border: 1px solid grey;
-    width: 88%;
+    width: 70%;
     padding-left: 2%;
     margin-bottom: 5%
 }
 
 .login-icon{
-    margin: 1% 2%
+    margin: -1.7% 5%;
+    color: #2987bb;
 }
 
 #register-button {
-    margin-top: 30%;
+    margin-top: 20%;
     background-color: grey;
 }
 
 .red-text {
-    color: red;
+    color: #ec8b72;
     font-family: Helvetica;
     font-size: 0.8em;
     margin: 0 0,5em;
@@ -77,7 +77,7 @@
 /* ----------------- Styles regarding main-page.html -----------------------------*/
 
 .red {
-    color: red;
+    color: #ec8b72;
 }
 .button-label{
     margin: 0;

@@ -6,7 +6,7 @@ pageController.composeMainPage = function (page) {
         console.log("Composing main page");
         page.querySelector('#account-name').innerHTML = storage.userData.bankAccount.accountName;
         page.querySelector('#account-number').innerHTML = storage.userData.bankAccount.accountPrefix + "-" + storage.userData.bankAccount.accountNumber + "/" + storage.userData.bankAccount.bankCode;
-        page.querySelector('#account-balance').innerHTML = storage.userData.accountBalance;
+        page.querySelector('#account-balance').innerHTML = storage.userData.accountBalance + "Kč";
         page.querySelector('#create-payment-button').onclick = function(){storage.createNewTransaction("payment");};
         page.querySelector('#create-request-button').onclick = function(){storage.createNewTransaction("request");};
         page.querySelector('#incoming-payments-filter').onclick = function(){activateIncomingPayments();pageController.showIncomingPayments();};
@@ -205,7 +205,7 @@ pageController.showIncomingRequests = function(dataSource) {
                  counter++;
         return "<ons-list-item id='filter-incoming-requests' class='transaction-item-detail'> \
         <div class='left transaction-party'>" + item.initiatorDetail.fullName + "</div> \
-        <div class='center transaction-amount'>" + item.amount + "</div> \
+        <div class='center transaction-amount'>" + item.amount + " Kč</div> \
         <div class='right'><ons-icon icon='ion-chevron-right'></ons-icon></div> \
         <div id='transaction-index' class='hidden'>" + counter + "</div> \
         </ons-list-item>";
@@ -243,7 +243,7 @@ pageController.showOutgoingRequests = function(dataSource) {
                  counter++;
         return "<ons-list-item id='filter-outgoing-requests' class='transaction-item-detail'> \
         <div class='left transaction-party'>" + item.recieverDetail.fullName + "</div> \
-        <div class='center transaction-amount'>" + item.amount + "</div> \
+        <div class='center transaction-amount'>" + item.amount + " Kč</div> \
         <div class='right'><ons-icon icon='ion-chevron-right'></ons-icon></div> \
         <div id='transaction-index' class='hidden'>" + counter + "</div> \
         </ons-list-item>";
@@ -284,7 +284,7 @@ pageController.showIncomingPayments = function() {
          counter++;
         return "<ons-list-item id='filter-incoming-payments' class='transaction-item-detail'> \
         <div class='left transaction-party'>" + item.initiatorDetail.fullName + "</div> \
-        <div class='center transaction-amount'>" + item.amount + "</div> \
+        <div class='center transaction-amount'>" + item.amount + " Kč</div> \
         <div class='right'><ons-icon icon='ion-chevron-right'></ons-icon></div> \
         <div id='transaction-index' class='hidden'>" + counter + "</div> \
         </ons-list-item>";
@@ -335,7 +335,7 @@ pageController.showOutgoingPayments = function() {
                  counter++;
         return "<ons-list-item id='filter-outgoing-payments' class='transaction-item-detail'> \
         <div class='left transaction-party'>" + item.recieverDetail.fullName + "</div> \
-        <div class='center transaction-amount'>" + item.amount + "</div> \
+        <div class='center transaction-amount'>" + item.amount + " Kč</div> \
         <div class='right'><ons-icon icon='ion-chevron-right'></ons-icon></div> \
         <div id='transaction-index' class='hidden'>" + counter + "</div> \
         </ons-list-item>";

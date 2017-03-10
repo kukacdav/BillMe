@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
     <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
     <link rel="stylesheet" href="view/css/style.css">
-    <link rel="stylesheet" href="view/css/tabbar.css">
     <link rel="stylesheet" href="view/css/select-box.css">
+    <link rel="stylesheet" href="view/css/design.css">
     <script src="model/script.js"></script>
     <script src="controller/page-controller.js"></script>
     <script src="socketio/socket.io.js"></script>
@@ -32,21 +32,23 @@
     <ons-navigator id="main-navigator" page="login-template"></ons-navigator>
     <ons-template id="login-template">
         <ons-page>
+        <div class="page">
             <div class="center-block"> <img id="main-logo" src="./view/icons/billMe-logo.png" alt="Ikona aplikace" /> </div>
             <div id="authentication-block">
                 <div class="center-block incorrect-note">
                     <p id="login-note" class="red-text"></p>
                 </div>
                 <ons-row>
-                    <ons-icon class="right-floater login-icon" icon="ion-person" size="20px"></ons-icon>
+                    <ons-icon class="right-floater login-icon" icon="ion-person" size="2em" color="#1894ac"></ons-icon>
                     <ons-input class="login-input-field" id="login-username" modifier="underbar" placeholder="Uživatelské jméno" float></ons-input>
                 </ons-row>
                 <ons-row>
-                    <ons-icon class="right-floater login-icon" icon="ion-locked" size="20px"></ons-icon>
+                    <ons-icon class="right-floater login-icon" icon="ion-locked" size="2em"></ons-icon>
                     <ons-input class="login-input-field" id="login-password" type="password" modifier="underbar" placeholder="Heslo" float></ons-input>
                 </ons-row>
-                <ons-button modifier="large--cta" onclick="login()" id="login-button">Příhlásit se</ons-button>
-                <ons-button modifier="large--cta" onclick="register()" id="register-button">Registrovat se</ons-button>
+                <ons-button class="accept-button" modifier="large--cta" onclick="login()" id="login-button">Příhlásit se</ons-button>
+                <ons-button class="neutral-button" modifier="large--cta" onclick="register()" id="register-button">Registrovat se</ons-button>
+            </div>
             </div>
         </ons-page>
     </ons-template>
@@ -117,14 +119,15 @@
                     <ons-list-header> Rychlé akce </ons-list-header>
                     <ons-row>
                         <ons-col>
-                            <ons-button id="create-payment-button" modifier="large">
-                                <ons-icon icon="ion-arrow-up-c" size="50px" fixed-width="true"></ons-icon>
+                            <ons-button class="accept-button" id="create-payment-button" modifier="large">
+                                <img alt="Ikona zaplacení" src="view/icons/payment.png"/>
+                                
                                 <p class="button-label"> Zaplatit </p>
                             </ons-button>
                         </ons-col>
                         <ons-col class="left-border">
-                            <ons-button id="create-request-button" modifier="large">
-                                <ons-icon icon="ion-arrow-down-c" size="50px" fixed-width="true"></ons-icon>
+                            <ons-button class="accept-button" id="create-request-button" modifier="large">
+                                <img alt="Ikona připomínky" src="view/icons/request.png"/>
                                 <p class="button-label">Připomenout se</p>
                             </ons-button>
                         </ons-col>
@@ -132,13 +135,13 @@
                     <ons-list-header>Přehled toků</ons-list-header>
                     <ons-row class="select-box">
                         <ons-col>
-                            <ons-button class="select-box-item-active select-box-left" id="incoming-payments-filter" data-filter="incoming" modifier="large">Přijaté</ons-button>
+                            <ons-button class="select-box-item-active select-box-left " id="incoming-payments-filter" data-filter="incoming" modifier="large">Přijaté</ons-button>
                         </ons-col>
                         <ons-col>
-                            <ons-button class="select-box-item select-box-center" id="outgoing-payments-filter" data-filter="outgoing" modifier="large">Odeslané</ons-button>
+                            <ons-button class="select-box-item select-box-center " id="outgoing-payments-filter" data-filter="outgoing" modifier="large">Odeslané</ons-button>
                         </ons-col>
                         <ons-col>
-                            <ons-button class="select-box-item select-box-right" id="unresolved-transactions-filter" data-filter="filter" modifier="large">Nevyřízené</ons-button>
+                            <ons-button class="select-box-item select-box-right " id="unresolved-transactions-filter" data-filter="filter" modifier="large">Nevyřízené</ons-button>
                         </ons-col>
                     </ons-row>
                 </ons-list>
