@@ -17,6 +17,7 @@ pageController.composeMainPage = function (page) {
         if(event.currentPage.id === "contact-list-page") {
             document.getElementById('tabbar').setTabbarVisibility(true);
         }
+        
     });  
 };
 

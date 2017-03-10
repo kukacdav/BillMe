@@ -16,16 +16,15 @@ communicationController.initializeApplicationListeners = function(){
     socket.on('payment:' + storage.uid, function(data){
         console.log("---- COLLECTION CHANGE ------" );
         console.log(JSON.stringify(data));
-        storage.userData.incomingPayments.unshift(data);
-        pageController.showIncomingPayments();
+        //storage.userData.incomingPayments.unshift(data);
+        storage.newIncomingPayment(data);
     });
     socket.on('request:' + storage.uid, function(data){
         console.log("---- COLLECTION CHANGE ------" );
         console.log(JSON.stringify(data));
-        storage.userData.incomingRequests.unshift(data);
-        pageController.showIncomingRequests(storage.userData.incomingRequests);
+        //storage.userData.incomingRequests.unshift(data);
+        storage.newIncomingRequest(data);
     });
-    
 };
 
 // Method for authenticating user against server side

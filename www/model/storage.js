@@ -155,6 +155,49 @@ storage.buildRespondPayment = function(dataSource) {
 
 
 
+// Method for showing newly arriven payment
+storage.newIncomingPayment = function(data){
+    if (this.contains(this.userData.incomingPayments, data)){
+        console.log("Item not unique");
+        return;
+    }
+    console.log("Unique item");
+    this.userData.incomingPayments.unshift(data);
+    if (currentFilter === 'incomingPayments')
+        pageController.showIncomingPayments();
+};
+
+// Method for showing newly arriven request
+storage.newIncomingRequest = function(data){
+        if (this.contains(this.userData.incomingRequests, data)){
+        console.log("Item not unique");
+        return;
+    }
+    console.log("Unique item");
+    this.userData.incomingRequests.unshift(data);
+    if (currentFilter === 'unresolvedTransactions')
+        pageController.showIncomingRequests(this.userData.incomingRequests);
+};
+
+
+
+//Method for establishing, whether datasource contains item
+// Returns true, if  data id is contained in dataSource 
+storage.contains = function(dataSource, data){
+  console.log(data);
+  for (var i=0; i < dataSource.length; i++){
+      if (dataSource[i].id === data.id){
+          console.log("Found match: " + dataSource[i].id + " " + data.id );
+          return true;
+      }
+  }
+  console.log("No match found");
+  return false;
+};
+
+
+
+
 /* NOT REFACTORED*/
 
 storage.loadStoredData = function() {
