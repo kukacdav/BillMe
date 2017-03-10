@@ -5,7 +5,7 @@ storage.init = function(data){
     //UNCOMMENT FOR STORING DATA
     //storage.loadStoredData();
     storage.storeSessionData(data);
-    var storageInitialized = $.when(communicationController.getUserData(storage.uid), communicationController.loadContactList());
+    var storageInitialized = $.when(communicationController.getUserData(storage.uid), communicationController.loadContactList(),communicationController.initializeApplicationListeners());
     storageInitialized.done(function(userData, contactList)
     {
         storage.storeUserData(userData);

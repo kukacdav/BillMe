@@ -1,4 +1,32 @@
 
+/*
+communicationController.createSocket = function(){
+    console.log("Creating socekt");
+    var socket = io.connect(deploydEndpoint);
+    socket.on('note:aaa', function(data){
+        console.log("---- COLLECTION CHANGE ------" + data);
+    });
+};*/
+
+// Method for establishing socket communication
+communicationController.initializeApplicationListeners = function(){
+    console.log("Creating socket listeners");
+    console.log(storage.uid);
+    var socket = io.connect(deploydEndpoint);
+    socket.on('payment:' + storage.uid, function(data){
+        console.log("---- COLLECTION CHANGE ------" );
+        console.log(JSON.stringify(data));
+        storage.userData.incomingPayments.unshift(data);
+        pageController.showIncomingPayments();
+    });
+    socket.on('request:' + storage.uid, function(data){
+        console.log("---- COLLECTION CHANGE ------" );
+        console.log(JSON.stringify(data));
+        storage.userData.incomingRequests.unshift(data);
+        pageController.showIncomingRequests(storage.userData.incomingRequests);
+    });
+    
+};
 
 // Method for authenticating user against server side
 communicationController.authenticateUser = function (username, password) {

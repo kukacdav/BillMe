@@ -1,5 +1,3 @@
-
-
 var storage = {
     userData: {},
     incomingRequests: [],
