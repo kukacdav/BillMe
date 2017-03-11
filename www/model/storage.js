@@ -21,8 +21,43 @@ storage.storeUserData = function(data){
 };
 // Method for storing contact list querried from server
 storage.storeContactList = function(data){
-    storage.contactList = data;
+    this.compareLocalList(data);
 };
+
+//Method for comparing local list with retieved data - TEMPORARY
+storage.compareLocalList = function(data){
+    console.log("Comparing user data: " + data.length + " x " + storage.cordovaContacts.length);
+    for (var i = 0; i < data.length; i++) {
+        var contact = data[i].contact;
+        for (var z = 0; z < storage.cordovaContacts.length; z++) {
+            var stor = storage.cordovaContacts[z];
+            if (contact.phone === stor.phoneNumber){
+                console.log("Found match: " + stor.phoneNumber);
+                this.createNewContactEntry(storage.cordovaContacts[z], data[i]);
+            }
+            console.log(data[i].contact.phone + " not matching " + storage.cordovaContacts[z].phoneNumber);
+        }
+    }
+    console.log("Comparasion Done..");
+};
+
+//Method for assembling contact entry
+storage.createNewContactEntry = function(user, data){
+    console.log("Creating new enrty");
+    user.valid = true;
+    var bankAccount = {};
+    bankAccount.accountPrefix = data.bankAccount.accountPrefix;
+    bankAccount.accountNumber = data.bankAccount.accountNumber;
+    bankAccount.bankCode = data.bankAccount.bankCode;
+    user.bankAccount = bankAccount;
+    var contact = {};
+    contact.email = data.contact.email;
+    contact.facebook = data.contact.facebook;
+    user.contact = contact;
+    user.id = data.id;
+    console.log("User data successfully assembled");  
+};
+
 //Method for storing sessionData gotten when authenticating
 storage.storeSessionData = function(data){
     storage.id = data.id;

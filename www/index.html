@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="view/css/select-box.css">
     <link rel="stylesheet" href="view/css/design.css">
     <script src="model/script.js"></script>
+    <script src="model/contact-manager.js"></script>
     <script src="controller/page-controller.js"></script>
     <script src="socketio/socket.io.js"></script>
     <script src="controller/navigation-controller.js"></script>
@@ -26,12 +27,21 @@
     <script src="view/script/select-box.js"></script>
     <script src="view/script/texts.js"></script>
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" /> </head>
+ 
+ <script>
+              document.addEventListener("deviceready", onDeviceReady, false);
+                function onDeviceReady() {
+                console.log(navigator.contacts);
+                contactManager.initialize();
+                }
+                
+          </script>
 <!-- LOGIN PAGE TEMPLATE-->
 
 <body>
     <ons-navigator id="main-navigator" page="login-template"></ons-navigator>
     <ons-template id="login-template">
-        <ons-page>
+        <ons-page id="login-page">
         <div class="page">
             <div class="center-block"> <img id="main-logo" src="./view/icons/billMe-logo.png" alt="Ikona aplikace" /> </div>
             <div id="authentication-block">
@@ -55,6 +65,7 @@
     <ons-template id="register-template">
         <ons-page>
           <ons-toolbar>
+          
           <div class="left">
             <ons-back-button>Zpět</ons-back-button>
         </div>
@@ -196,7 +207,8 @@
             <ons-list id="contact-list"></ons-list>
             <script id="contact-list-item" type="text/template">
                 <ons-list-item class="contact-list-detail">
-                    <div class="left contact-name">{{name}}</div>
+                    <div class="left contact-name">{{name}} {{indicator}}</div>
+                    
                     <div class="center contact-phone">{{phoneNumber}}</div>
                     <div class="right">
                         <ons-icon class="icon" icon="ion-chevron-right"></ons-icon>
