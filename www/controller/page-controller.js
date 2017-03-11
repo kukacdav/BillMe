@@ -86,26 +86,34 @@ pageController.composeSetAmountPage = function(page){
     page.querySelector('#recievers-phone').innerHTML = storage.contactList[storage.newTransaction.contactIndex].contact.phone;  
     page.querySelector('#recievers-email').innerHTML = storage.contactList[storage.newTransaction.contactIndex].contact.email;  
     page.querySelector('#input-amount').onchange = function(){pageController.controlAmountInput()}; //ADD BALANCE CHECK
-    page.querySelector('#submit-transaction-button').onclick = function(){navigationController.switchPage('view/html/confirm-transaction-page.html')};
+    page.querySelector('#submit-transaction-button').onclick = function(){pageController.controlAmountInput();};
 };
 
 //Support method for veryfing, whether set balance is OK
 pageController.controlAmountInput = function() {
   var amount = document.querySelector('#input-amount').value;
-  if ( $.isNumeric(amount) && amount > 0 ){
+  if ( $.isNumeric(amount) && amount <= storage.userData.accountBalance && amount > 0 ){
     document.querySelector('#submit-transaction-button').disabled=false;
         $('#input-amount').removeClass("incorrect-input-field");
         $('#input-amount').addClass("correct-input-field");
-        storage.newTransaction.amount = amount;  // SHOULD HANDLE MODEL
-    console.log("je cislo");
-  }
-    else{
-        document.querySelector('#submit-transaction-button').disabled=true;
-        console.log("neni uplne");
-        $('#input-amount').removeClass("correct-input-field");
-        $('#input-amount').addClass("incorrect-input-field");
+        document.querySelector('#insufficientBalanceNote').innerHTML = "";
+        storage.newTransaction.amount = amount;  // SHOULD HANDLE MODEL    
+        navigationController.switchPage('view/html/confirm-transaction-page.html');
+        return;
     }
+    else if (amount > storage.userData.accountBalance)
+        pageController.showInsufficientBalanceNote();
+    document.querySelector('#submit-transaction-button').disabled=true;
+    $('#input-amount').removeClass("correct-input-field");
+    $('#input-amount').addClass("incorrect-input-field");
 };
+
+pageController.showInsufficientBalanceNote = function(){
+    console.log("Showing insufficient balance note");
+    document.querySelector('#insufficientBalanceNote').innerHTML = "Nemáte na účtě dostatečný zůstatek.";
+};
+
+
 
 //Method for building page for defining transactionDetail
 pageController.composeDefineTransactionPage = function(page) {
@@ -206,7 +214,7 @@ pageController.showIncomingRequests = function(dataSource) {
         return "<ons-list-item id='filter-incoming-requests' class='transaction-item-detail'> \
         <div class='left transaction-party'>" + item.initiatorDetail.fullName + "</div> \
         <div class='center transaction-amount'>" + item.amount + " Kč</div> \
-        <div class='right'><ons-icon icon='ion-chevron-right'></ons-icon></div> \
+        <div class='right'><ons-icon class='icon' icon='ion-chevron-right'></ons-icon></div> \
         <div id='transaction-index' class='hidden'>" + counter + "</div> \
         </ons-list-item>";
     }).join('');
@@ -244,7 +252,7 @@ pageController.showOutgoingRequests = function(dataSource) {
         return "<ons-list-item id='filter-outgoing-requests' class='transaction-item-detail'> \
         <div class='left transaction-party'>" + item.recieverDetail.fullName + "</div> \
         <div class='center transaction-amount'>" + item.amount + " Kč</div> \
-        <div class='right'><ons-icon icon='ion-chevron-right'></ons-icon></div> \
+        <div class='right'><ons-icon class='icon' icon='ion-chevron-right'></ons-icon></div> \
         <div id='transaction-index' class='hidden'>" + counter + "</div> \
         </ons-list-item>";
     }).join('');
@@ -285,7 +293,7 @@ pageController.showIncomingPayments = function() {
         return "<ons-list-item id='filter-incoming-payments' class='transaction-item-detail'> \
         <div class='left transaction-party'>" + item.initiatorDetail.fullName + "</div> \
         <div class='center transaction-amount'>" + item.amount + " Kč</div> \
-        <div class='right'><ons-icon icon='ion-chevron-right'></ons-icon></div> \
+        <div class='right'><ons-icon class='icon' icon='ion-chevron-right'></ons-icon></div> \
         <div id='transaction-index' class='hidden'>" + counter + "</div> \
         </ons-list-item>";
     }).join('');
@@ -336,7 +344,7 @@ pageController.showOutgoingPayments = function() {
         return "<ons-list-item id='filter-outgoing-payments' class='transaction-item-detail'> \
         <div class='left transaction-party'>" + item.recieverDetail.fullName + "</div> \
         <div class='center transaction-amount'>" + item.amount + " Kč</div> \
-        <div class='right'><ons-icon icon='ion-chevron-right'></ons-icon></div> \
+        <div class='right'><ons-icon class='icon' icon='ion-chevron-right'></ons-icon></div> \
         <div id='transaction-index' class='hidden'>" + counter + "</div> \
         </ons-list-item>";
     }).join('');    

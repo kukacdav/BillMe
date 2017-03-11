@@ -128,6 +128,7 @@ storage.cancelSelectedRequest = function() {
 
 //Method for accepting request
 storage.acceptSelectedRequest = function() {
+    if (this.controlInputAmount(storage.userData.incomingRequests[systemVariables.elementIndex].amount)){
     dataSource = storage.userData.incomingRequests[systemVariables.elementIndex];
     this.buildRespondPayment(dataSource);
     var storageInitialized = $.when(communicationController.persistTransaction("payment"));
@@ -137,7 +138,17 @@ storage.acceptSelectedRequest = function() {
         callback = function(){navigationController.resetToMainPage();};
         storage.updateUserData(callback);
         });
-    });
+    });}
+};
+
+storage.controlInputAmount = function(amount){
+  if (amount <= this.userData.accountBalance){
+    console.log("Sufficient balance to pay for request");
+    document.querySelector('#insufficientBalanceNote').innerHTML = "";
+    return true;
+  }
+  document.querySelector('#insufficientBalanceNote').innerHTML = "Nemáte na účtě dostatečný zůstatek.";
+  return false;
 };
 
 //Method for building data payload of data to be sent

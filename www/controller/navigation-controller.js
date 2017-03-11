@@ -59,4 +59,6 @@ moreOptionsSwitchPage= function(target) {
 setToMainPage = function() {
     document.querySelector('#main-navigator').pushPage('view/html/main-page.html');
     composeMainPage();
-}
+};
+
+
