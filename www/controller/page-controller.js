@@ -89,6 +89,7 @@ pageController.assembleContactList = function(page) {
         page.querySelector('#contact-list')
         .innerHTML = contacts.map(function(item)
         {
+            // Condition for contact list page - to show only valid contacts
             if (page.id==='contact-list-page' && (!item.hasOwnProperty('valid') || item.valid !== true)){
                 counter++;
                 return '';
@@ -166,29 +167,36 @@ pageController.composeDefineTransactionPage = function(page) {
 
 // Method for building transactionConfirmPage
 pageController.composeConfirmTransactionPage = function(page) {
+    console.log("Composing confirm transaction page") ;
+    console.log("Reciever: " + storage.cordovaContacts[storage.newTransaction.contactIndex].name) ;
+    console.log("Phone: " + storage.cordovaContacts[storage.newTransaction.contactIndex].phoneNumber) ;
+    console.log("Amount: " + storage.newTransaction.amount);
+    console.log("Type: " + storage.newTransaction.transactionType);
     if (storage.newTransaction.transactionType === "payment")
         pageController.composeConfirmTransactionPaymentPage(page);
     else 
         pageController.composeConfirmTransactionRequestPage(page);
-    page.querySelector('#recievers-name2').innerHTML = storage.contactList[storage.newTransaction.contactIndex].fullName;  
-    page.querySelector('#recievers-phone2').innerHTML = storage.contactList[storage.newTransaction.contactIndex].contact.phone;  
-    page.querySelector('#recievers-email2').innerHTML = storage.contactList[storage.newTransaction.contactIndex].contact.email;  
+    page.querySelector('#recievers-name2').innerHTML = storage.cordovaContacts[storage.newTransaction.contactIndex].name;    
+    page.querySelector('#recievers-phone2').innerHTML = storage.cordovaContacts[storage.newTransaction.contactIndex].phoneNumber;    
+    console.log("Name and phone assembled");
+    // SHOULD VALIDATE page.querySelector('#recievers-email2').innerHTML = storage.contactList[storage.newTransaction.contactIndex].contact.email;  
     page.querySelector('#transaction-amount').innerHTML = storage.newTransaction.amount+ " Kč";
     page.querySelector('#submit-button').onclick = function(){ storage.storeNewTransactionMessage(document.querySelector('#message-input').value);};
 };
 
 //Support method for building compose confirm page - payment
 pageController.composeConfirmTransactionPaymentPage = function(page){
-    page.querySelector('#page-header').innerHTML = confirmTransactionPaymentHeader;
-    page.querySelector('#transaction-amount-header').innerHTML = paymentAmountHeader;    
-    page.querySelector('#submit-button').innerHTML = submitPaymentButton;
+    page.querySelector('#page-header').innerHTML = "Detail platby";
+    page.querySelector('#transaction-amount-header').innerHTML = "Odesílaná částka";    
+    page.querySelector('#submit-button').innerHTML = "Zaplatit";
+    console.log("Payment page titles builded");
 };
 
 //Support method for building compose confirm page - transaction
 pageController.composeConfirmTransactionRequestPage = function(page){
-    page.querySelector('#page-header').innerHTML = confirmTransactionRequestHeader;
-    page.querySelector('#transaction-amount-header').innerHTML = requestAmountHeader;    
-    page.querySelector('#submit-button').innerHTML = submitRequestButton;
+    page.querySelector('#page-header').innerHTML = "Detail připomínky";
+    page.querySelector('#transaction-amount-header').innerHTML = "Žádaná částka";    
+    page.querySelector('#submit-button').innerHTML = "Požádat";
 };
 
 // Method for composing success submit page

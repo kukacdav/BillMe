@@ -5,12 +5,19 @@ storage.init = function(data){
     //UNCOMMENT FOR STORING DATA
     //storage.loadStoredData();
     storage.storeSessionData(data);
-    var storageInitialized = $.when(communicationController.getUserData(storage.uid), communicationController.loadContactList(),communicationController.initializeApplicationListeners());
-    storageInitialized.done(function(userData, contactList)
+    var storageInitialized = $.when(communicationController.getUserData(storage.uid), communicationController.initializeApplicationListeners());
+    var contactListInitialized = $.when(communicationController.loadContactList());
+    storageInitialized.done(function(userData)
     {
         storage.storeUserData(userData);
-        storage.storeContactList(contactList);
+        //storage.storeContactList(contactList);
         navigationController.replacePageWith('main-multi-page-template');
+    });
+    contactListInitialized.done(function(contactList)
+    {
+        storage.storeContactList(contactList);
+        console.log("Contact: Rebuilding contact page");
+        pageController.composePhoneContactsPage(document);
     });
     
 };
@@ -21,6 +28,7 @@ storage.storeUserData = function(data){
 };
 // Method for storing contact list querried from server
 storage.storeContactList = function(data){
+    console.log("Contacts: Storing contact list");
     this.compareLocalList(data);
 };
 
@@ -75,12 +83,12 @@ storage.storeNewTransactionMessage= function(message){
 };
 
 storage.buildTransactionReciever = function(){
-    console.log(storage.contactList[storage.newTransaction.contactIndex]);
-    storage.newTransaction.reciever = storage.contactList[storage.newTransaction.contactIndex].id;
-    storage.newTransaction.recieverDetail.fullName = storage.contactList[storage.newTransaction.contactIndex].fullName;
-    storage.newTransaction.recieverDetail.phone = storage.contactList[storage.newTransaction.contactIndex].contact.phone;
-    storage.newTransaction.recieverDetail.email = storage.contactList[storage.newTransaction.contactIndex].contact.email;
-    storage.newTransaction.recieverDetail.facebook = storage.contactList[storage.newTransaction.contactIndex].contact.facebook;    
+    console.log(storage.cordovaContacts[storage.newTransaction.contactIndex] );
+    storage.newTransaction.reciever = storage.cordovaContacts[storage.newTransaction.contactIndex].id;
+    storage.newTransaction.recieverDetail.fullName = storage.cordovaContacts[storage.newTransaction.contactIndex].name;
+    storage.newTransaction.recieverDetail.phone = storage.cordovaContacts[storage.newTransaction.contactIndex].phoneNumber;
+    //storage.newTransaction.recieverDetail.email = storage.contactList[storage.newTransaction.contactIndex].contact.email;
+    //storage.newTransaction.recieverDetail.facebook = storage.contactList[storage.newTransaction.contactIndex].contact.facebook;    
 };
 
 // Method for sending new transaction to backend server
@@ -120,6 +128,7 @@ storage.clearOutSystemVariables = function () {
 
 // Method when creating new transaction
 storage.createNewTransaction = function(type) {
+    console.log("Setting new transaction tzpe: " + type);
     storage.newTransaction.transactionType = type;
     navigationController.switchPage('view/html/contact-list-page.html');
 };
