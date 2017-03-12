@@ -43,18 +43,18 @@
     <ons-template id="login-template">
         <ons-page id="login-page">
         <div class="page">
-            <div class="center-block"> <img id="main-logo" src="./view/icons/billMe-logo.png" alt="Ikona aplikace" /> </div>
+            <div class="center-block"> <img id="main-logo" src="./view/icons/billMe-transparent.png" alt="Ikona aplikace" /> </div>
             <div id="authentication-block">
                 <div class="center-block incorrect-note">
                     <p id="login-note" class="red-text"></p>
                 </div>
                 <ons-row>
-                    <ons-icon class="right-floater login-icon" icon="ion-person" size="2em" color="#1894ac"></ons-icon>
-                    <ons-input class="login-input-field" id="login-username" modifier="underbar" placeholder="Uživatelské jméno" float></ons-input>
+                    <ons-icon class="right-floater login-icon" icon="ion-person" size="2em" ></ons-icon>
+                    <ons-input class="login-input-field login-text" id="login-username" modifier="underbar" placeholder="Uživatelské jméno" float></ons-input>
                 </ons-row>
                 <ons-row>
                     <ons-icon class="right-floater login-icon" icon="ion-locked" size="2em"></ons-icon>
-                    <ons-input class="login-input-field" id="login-password" type="password" modifier="underbar" placeholder="Heslo" float></ons-input>
+                    <ons-input class="login-input-field login-text" id="login-password" type="password" modifier="underbar" placeholder="Heslo" float></ons-input>
                 </ons-row>
                 <ons-button class="accept-button" modifier="large--cta" onclick="login()" id="login-button">Příhlásit se</ons-button>
                 <ons-button class="neutral-button" modifier="large--cta" onclick="register()" id="register-button">Registrovat se</ons-button>

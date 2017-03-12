@@ -13,7 +13,7 @@ pageController.composeMainPage = function (page) {
         page.querySelector('#outgoing-payments-filter').onclick = function(){activateOutgoingPayments();pageController.showOutgoingPayments();};
         page.querySelector('#unresolved-transactions-filter').onclick = function(){activateUnresolvedTransactions(); pageController.showRequests();};
         pageController.showIncomingPayments();
-        document.querySelector('#pageNavigator').addEventListener('prepop', function(event) {
+        document.querySelector('#main-navigator').addEventListener('prepop', function(event) {
         if(event.currentPage.id === "contact-list-page") {
             document.getElementById('tabbar').setTabbarVisibility(true);
         }

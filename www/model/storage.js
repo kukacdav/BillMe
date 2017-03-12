@@ -24,8 +24,25 @@ storage.init = function(data){
 
 // Method for storing user data querried from server
 storage.storeUserData = function(data){
+    for (var i = 0; i < data.incomingPayments.length; i++) {
+        var fullName = this.translateName(data.incomingPayments[i].initiatorDetail.phone, data.incomingPayments[i].initiatorDetail.fullName);
+        data.incomingPayments[i].initiatorDetail.fullName = fullName;
+    }
+    for (var i = 0; i < data.outgoingPayments.length; i++) {
+        var fullName = this.translateName(data.outgoingPayments[i].initiatorDetail.phone, data.outgoingPayments[i].initiatorDetail.fullName);
+        data.outgoingPayments[i].initiatorDetail.fullName = fullName;
+    }
+    for (var i = 0; i < data.incomingRequests.length; i++) {
+        var fullName = this.translateName(data.incomingRequests[i].initiatorDetail.phone, data.incomingRequests[i].initiatorDetail.fullName);
+        data.incomingRequests[i].initiatorDetail.fullName = fullName;
+    }
+    for (var i = 0; i < data.outgoingRequests.length; i++) {
+        var fullName = this.translateName(data.outgoingRequests[i].initiatorDetail.phone, data.outgoingRequests[i].initiatorDetail.fullName);
+        data.outgoingRequests[i].initiatorDetail.fullName = fullName;
+    }
     storage.userData = data;
 };
+
 // Method for storing contact list querried from server
 storage.storeContactList = function(data){
     console.log("Contacts: Storing contact list");
@@ -128,7 +145,6 @@ storage.clearOutSystemVariables = function () {
 
 // Method when creating new transaction
 storage.createNewTransaction = function(type) {
-    console.log("Setting new transaction tzpe: " + type);
     storage.newTransaction.transactionType = type;
     navigationController.switchPage('view/html/contact-list-page.html');
 };
@@ -217,6 +233,8 @@ storage.newIncomingPayment = function(data){
         return;
     }
     console.log("Unique item");
+    var fullName = this.translateName(data.initiatorDetail.phone, data.initiatorDetail.fullName);
+    data.initiatorDetail.fullName = fullName;
     this.userData.incomingPayments.unshift(data);
     if (currentFilter === 'incomingPayments')
         pageController.showIncomingPayments();
@@ -229,11 +247,23 @@ storage.newIncomingRequest = function(data){
         return;
     }
     console.log("Unique item");
+    var fullName = this.translateName(data.initiatorDetail.phone, data.initiatorDetail.fullName);
+    data.initiatorDetail.fullName = fullName;
     this.userData.incomingRequests.unshift(data);
     if (currentFilter === 'unresolvedTransactions')
         pageController.showIncomingRequests(this.userData.incomingRequests);
 };
 
+//Method for translating name of second party
+storage.translateName = function(phone, fullName){
+    for (var z = 0; z < storage.cordovaContacts.length; z++) {
+        if (storage.cordovaContacts[z].phoneNumber === phone){
+            return storage.cordovaContacts[z].name;
+        }
+    }
+    console.log("Storage, transalate: NameUnknown number..");
+    return fullName;
+};
 
 
 //Method for establishing, whether datasource contains item
@@ -250,6 +280,18 @@ storage.contains = function(dataSource, data){
   return false;
 };
 
+storage.requestStateChanged = function(data){
+    for (var i=0; i < storage.userData.outgoingRequests; i++){
+        if (data.id === storage.userData.outgoingRequests[i]){
+            console.log("Storage: Request state changed!!");
+            storage.userData.outgoingRequests[i].state = data.state;       
+        }
+        console.log("Storage ERR: Request not foun changed!!");
+    }
+    if (currentFilter === 'unresolvedTransactions')
+        pageController.showRequests();
+    
+};
 
 
 

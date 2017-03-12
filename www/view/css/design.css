@@ -16,13 +16,12 @@ ons-page{
 
 .select-box{
     padding: 3px 1px 3px 1px;
-    background-color: #2987bb
+    background-color: #2987bb;
     }
     
 .select-box-item {
     background-color: #2987bb;    
 }
-
 
 
 ons-list-item{
@@ -32,3 +31,8 @@ ons-list-item{
 .icon {
     color: #2987bb !important;    
 }
+/*
+.page{
+    background-image: url("../icons/arch.jpg") !important;
+}
+*/

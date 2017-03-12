@@ -34,9 +34,9 @@
 }
 /* ----------------- Styles regarding authentication-page.html -----------------------------*/
 
+
 #login-template{
     width: 1px;
-    
 }
 
 #authentication-block{
@@ -44,8 +44,8 @@
 }
 
 #main-logo{
-    margin-top: 10%
-    
+    margin-top: 5%;
+    margin-left: 55%;
 }
 
 .login-input-field {
@@ -54,13 +54,18 @@
     margin-bottom: 5%
 }
 
+.login-text{
+    color: white !important;
+}
+
 .login-icon{
     margin: -1.7% 5%;
     color: #2987bb;
+
 }
 
 #register-button {
-    margin-top: 8%;
+    margin-top: 20%;
     background-color: grey;
 }
 

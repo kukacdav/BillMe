@@ -25,6 +25,12 @@ communicationController.initializeApplicationListeners = function(){
         //storage.userData.incomingRequests.unshift(data);
         storage.newIncomingRequest(data);
     });
+    socket.on('outgoingRequest:' + storage.uid, function(data){
+        console.log("---- COLLECTION CHANGE ------" );
+        console.log(JSON.stringify(data));
+        //storage.userData.incomingRequests.unshift(data);
+        storage.requestStateChanged(data);
+    });
 };
 
 // Method for authenticating user against server side
@@ -102,7 +108,7 @@ communicationController.loadContactList = function(){
     $.ajax(
     {
         type: "GET",
-        url: deploydEndpoint + '/user?{"$fields":{"bankAccount.accountBalance": 0, "bankAccount.accountName": 0}}',
+        url: deploydEndpoint + '/user?',
         success: function(data)
         {
             console.log("3. Succesfully queried contactList.");
