@@ -38,6 +38,8 @@ document.addEventListener('init', function(event)
         pageController.composeTransactionDetailPage();
     else if (page.id === 'reuqest-detail-page')
         pageController.composeRequestDetailPage();
+    else if (page.id === 'register-outcome-page')
+        pageController.composeRegisterOutcomePage(page);
     //else if (page.id=== 'login-page')
     //    navigationController.runTest();
 });

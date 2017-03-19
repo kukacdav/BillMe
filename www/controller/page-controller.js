@@ -1,5 +1,23 @@
 // This is a JavaScript file
 
+// Method for composing register outcome page
+pageController.composeRegisterOutcomePage = function(page) {
+    console.log("Composing registration outcome page");
+    console.log(JSON.stringify(storage.registrationOutcome));
+    if (storage.registrationOutcome === 'success'){
+        page.querySelector('#register-outcome-header').innerHTML = "Úspěšná registrace";
+        page.querySelector('#register-outcome-image').innerHTML = '<ons-icon icon="ion-checkmark-circled" size="80px" class="center-block green-icon"></ons-icon>';
+        page.querySelector('#register-outcome-text').innerHTML = "Registrace proběhla úspěšně. Nyní se můžete přihlásit do aplikace.";
+        
+    }
+    else{
+        page.querySelector('#register-outcome-header').innerHTML = "Neúspěšná registrace";
+        page.querySelector('#register-outcome-image').innerHTML = '<ons-icon icon="ion-close-circled" size="80px" class="center-block green-icon"></ons-icon>';
+        page.querySelector('#register-outcome-text').innerHTML = "Registrace proběhla neúspěšně. Vámi zadané údaje nejsou v aplikaci jedinečné.";
+    }
+};
+
+
 //Method for composing main page
 pageController.composeMainPage = function (page) {
         document.getElementById('tabbar').setTabbarVisibility(true);

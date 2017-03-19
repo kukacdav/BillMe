@@ -94,6 +94,18 @@ ons-input .login-input-field{
     background-color: transparent; 
 }
 
+.green-icon{
+    color: green;
+}
+
+.red-icon{
+    color: red;
+}
+
+.formatting-block{
+    margin: 30% 3% 0 3%;
+}
+
 /* ----------------- Styles regarding main-page.html -----------------------------*/
 
 .red {

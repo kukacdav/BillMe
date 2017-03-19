@@ -56,6 +56,7 @@ function transform(phone){
     phone = phone.replace(/-/g, '');
 	phone = phone.replace(/ /g,'');
     if (phone.length != 9){
+        //alert("Unknown format: " + phone);
         // console.log("Unknown phone format: " + phone + " " + phone.length);
         return "NaP";
     }

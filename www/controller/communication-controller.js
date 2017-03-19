@@ -66,11 +66,15 @@ communicationController.createNewUser = function (newContact){
         success: function(data)
         {
             console.log("Create new user success");
-            document.querySelector('#main-navigator').resetToPage('login-template');
+            storage.registrationOutcome = "success";
+            document.querySelector('#main-navigator').resetToPage('register-outcome-template');            
+            //document.querySelector('#main-navigator').resetToPage('login-template');
         },
         error: function(data){
             console.log("Create new suer failed");
-            unsuccesfullRegistration();
+            storage.registrationOutcome = "error";
+            document.querySelector('#main-navigator').resetToPage('register-outcome-template');            
+            //unsuccesfullRegistration();
         },
         dataType: "json"
     });

@@ -39,8 +39,12 @@ submitRegistration = function() {
     newUser.password = document.querySelector('#register-password').value;
     newUser.pin = document.querySelector('#register-pin').value;
     
-    if (newUser.username === "" || newUser.forename === "" || newUser.surname === "" || newUser.phone === "" || bankAccount.accountNumber === "" || bankAccount.accountName === "" || bankAccount.bankCode === "" || newUser.password === "" || newUser.pin==="")
+    if (newUser.username === "" || newUser.forename === "" || newUser.surname === "" || newUser.phoneNumber === "" || bankAccount.accountNumber === "" || bankAccount.accountName === "" || bankAccount.bankCode === "" || newUser.password === "" || newUser.pin==="")
     {
+        if (newUser.phoneNumber === ""){
+            alert("\'" + newUser.phoneNumber +  "\'");
+        }
+            
         ons.notification.alert(
         {
             message: 'Všechna pole musí být vyplněna!'
