@@ -73,6 +73,7 @@ communicationController.createNewUser = function (newContact){
         error: function(data){
             console.log("Create new suer failed");
             storage.registrationOutcome = "error";
+            alert(JSON.stringify(data));
             document.querySelector('#main-navigator').resetToPage('register-outcome-template');            
             //unsuccesfullRegistration();
         },

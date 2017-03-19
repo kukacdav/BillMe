@@ -6,13 +6,13 @@ pageController.composeRegisterOutcomePage = function(page) {
     console.log(JSON.stringify(storage.registrationOutcome));
     if (storage.registrationOutcome === 'success'){
         page.querySelector('#register-outcome-header').innerHTML = "Úspěšná registrace";
-        page.querySelector('#register-outcome-image').innerHTML = '<ons-icon icon="ion-checkmark-circled" size="80px" class="center-block green-icon"></ons-icon>';
+        page.querySelector('#register-outcome-image').innerHTML = '<ons-icon icon="ion-checkmark-circled" size="90px" class="center-block green-icon"></ons-icon>';
         page.querySelector('#register-outcome-text').innerHTML = "Registrace proběhla úspěšně. Nyní se můžete přihlásit do aplikace.";
         
     }
     else{
         page.querySelector('#register-outcome-header').innerHTML = "Neúspěšná registrace";
-        page.querySelector('#register-outcome-image').innerHTML = '<ons-icon icon="ion-close-circled" size="80px" class="center-block green-icon"></ons-icon>';
+        page.querySelector('#register-outcome-image').innerHTML = '<ons-icon icon="ion-close-circled" size="90px" class="center-block red-icon"></ons-icon>';
         page.querySelector('#register-outcome-text').innerHTML = "Registrace proběhla neúspěšně. Vámi zadané údaje nejsou v aplikaci jedinečné.";
     }
 };
@@ -224,12 +224,13 @@ pageController.composeConfirmTransactionRequestPage = function(page){
 pageController.composeSuccessSubmitPage = function(page) {
     if (storage.newTransaction.transactionType === "payment") {
         page.querySelector('#success-submit-header').innerHTML = successSubmitHeaderPayment;
-        page.querySelector('#success-submit-message').innerHTML = successSubmitMessagePayment;
+        page.querySelector('#success-submit-message').innerHTML = successSubmitMessagePayment;        
     }
     else {
         page.querySelector('#success-submit-header').innerHTML = successSubmitHeaderRequest;
         page.querySelector('#success-submit-message').innerHTML = successSubmitMessageRequest;
     }
+    page.querySelector('#transaction-success-image').innerHTML = '<ons-icon icon="ion-checkmark-circled" size="90px" class="center-block green-icon"></ons-icon>';
     document.getElementById('tabbar').setTabbarVisibility(false);
     document.querySelector('#transaction-success-button').onclick = function() {
         storage.clearOutSystemVariables();
