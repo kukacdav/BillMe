@@ -269,8 +269,14 @@ storage.newIncomingRequest = function(data){
     var fullName = this.translateName(data.initiatorDetail.phone, data.initiatorDetail.fullName);
     data.initiatorDetail.fullName = fullName;
     this.userData.incomingRequests.unshift(data);
-    if (currentFilter === 'unresolvedTransactions')
+    if (currentFilter === 'unresolvedTransactions'){
         pageController.showIncomingRequests(this.userData.incomingRequests);
+        $(".transaction-item-detail").on("click", function(){
+        id = $(this).attr('id');
+        elementIndex = $(this.querySelector('#transaction-index')).text();
+        storage.showTransactionDetail(id, elementIndex);
+        });
+    }
 };
 
 //Method for translating name of second party
@@ -300,16 +306,18 @@ storage.contains = function(dataSource, data){
 };
 
 storage.requestStateChanged = function(data){
-    for (var i=0; i < storage.userData.outgoingRequests; i++){
-        if (data.id === storage.userData.outgoingRequests[i]){
+    console.log("Reuqest changed, length : " + storage.userData.outgoingRequests.length);
+    for (var i=0; i < storage.userData.outgoingRequests.length; i++){
+        console.log("comparing: " + data.id + " " + storage.userData.outgoingRequests[i].id);
+        if (data.id === storage.userData.outgoingRequests[i].id){
             console.log("Storage: Request state changed!!");
-            storage.userData.outgoingRequests[i].state = data.state;       
+            storage.userData.outgoingRequests.splice(i, 1); 
+            break;
         }
-        console.log("Storage ERR: Request not foun changed!!");
+        
     }
     if (currentFilter === 'unresolvedTransactions')
         pageController.showRequests();
-    
 };
 
 

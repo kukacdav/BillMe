@@ -5,19 +5,19 @@ communicationController.initializeApplicationListeners = function(){
     console.log(storage.uid);
     var socket = io.connect(deploydEndpoint);
     socket.on('payment:' + storage.uid, function(data){
-        console.log("---- COLLECTION CHANGE ------" );
+        console.log("---- COLLECTION CHANGE: New payment ------" );
         console.log(JSON.stringify(data));
         //storage.userData.incomingPayments.unshift(data);
         storage.newIncomingPayment(data);
     });
     socket.on('request:' + storage.uid, function(data){
-        console.log("---- COLLECTION CHANGE ------" );
+        console.log("---- COLLECTION CHANGE: incoming request ------" );
         console.log(JSON.stringify(data));
         //storage.userData.incomingRequests.unshift(data);
         storage.newIncomingRequest(data);
     });
     socket.on('outgoingRequest:' + storage.uid, function(data){
-        console.log("---- COLLECTION CHANGE ------" );
+        console.log("---- COLLECTION CHANGE: outgoing request ------" );
         console.log(JSON.stringify(data));
         //storage.userData.incomingRequests.unshift(data);
         storage.requestStateChanged(data);
