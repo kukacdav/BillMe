@@ -370,6 +370,8 @@ getDate = function(timestamp){
 pageController.hideIncomingRequestFields = function() {
     $('#response-message-field').hide();
     $('#incoming-requests-action-buttons').hide();
+    $('#request-pin-header').hide();
+    $('#request-pin-body').hide();
 };
 
 // Support method for hidding outgoing requests
