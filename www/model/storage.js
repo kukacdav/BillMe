@@ -166,7 +166,8 @@ storage.transactionContactSelected = function(index) {
 //Method for showing detail of transaction
 storage.showTransactionDetail = function(id, elementIndex) {
         systemVariables.transactionType = id;
-        systemVariables.elementIndex = elementIndex;    
+        systemVariables.elementIndex = elementIndex;
+        document.getElementById('tabbar').setTabbarVisibility(false);
         navigationController.switchPage('view/html/transaction-detail-page.html');
 };
 
@@ -196,6 +197,15 @@ storage.cancelSelectedRequest = function() {
 
 //Method for accepting request
 storage.acceptSelectedRequest = function() {
+    var pin = document.querySelector('#pin-input').value;
+    if (pin !== this.userData.pin){
+        console.log("inncorrect pin!!!");
+        $('#pin-input').addClass("incorrect-pin");  
+        document.querySelector('#pin-input').value = "";
+        return;
+    }
+    else{
+    
     if (this.controlInputAmount(storage.userData.incomingRequests[systemVariables.elementIndex].amount)){
     dataSource = storage.userData.incomingRequests[systemVariables.elementIndex];
     this.buildRespondPayment(dataSource);
@@ -207,6 +217,7 @@ storage.acceptSelectedRequest = function() {
         storage.updateUserData(callback);
         });
     });}
+    }
 };
 
 storage.controlInputAmount = function(amount){

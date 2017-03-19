@@ -14,7 +14,7 @@ pageController.composeMainPage = function (page) {
         page.querySelector('#unresolved-transactions-filter').onclick = function(){activateUnresolvedTransactions(); pageController.showRequests();};
         pageController.showIncomingPayments();
         document.querySelector('#main-navigator').addEventListener('prepop', function(event) {
-        if(event.currentPage.id === "contact-list-page") {
+        if(event.currentPage.id === "contact-list-page" || event.currentPage.id === 'transaction-detail-page' ) {
             document.getElementById('tabbar').setTabbarVisibility(true);
         }
         contactManager.runTest();    
@@ -231,7 +231,6 @@ pageController.showRequests = function ()  {
         id = $(this).attr('id');
         elementIndex = $(this.querySelector('#transaction-index')).text();
         storage.showTransactionDetail(id, elementIndex);
-        
         });
 };
 
@@ -341,7 +340,6 @@ pageController.composeTransactionDetailPage = function(){
         this.hideOutgoingRequestFields();
     }   
    document.querySelector('#transaction-amount').innerHTML = dataSource.amount;
-   document.querySelector('#transaction-state').innerHTML = dataSource.state;
    document.querySelector('#transaction-message').innerHTML = dataSource.message;
     var submitDate = getDate(dataSource.submitDate);
    document.querySelector('#transaction-date').innerHTML = submitDate;
