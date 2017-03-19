@@ -1,5 +1,6 @@
 /*------------------------CORDOVA TEST----------------------------------*/
 
+// Functions for getting name of the contact
 function getName(c) {
     var name = c.displayName;
     if(!name || name === "") {
@@ -12,18 +13,17 @@ function getName(c) {
     return name;
 }
 
+// Function for handeling success during loading device contacts
 function onSuccess(contacts) {
-    //alert('Found ' + contacts.length + ' contacts.');
-    console.log("Cordova: Getting phone contact list");
+    console.log("Cordova: Phone contacts loaded successfully");
+    storage.cordovaContacts = [];
     for (var i = 0; i < contacts.length; i++) {
         var item={};
-        
         var name = getName(contacts[i]);
-        console.log("Name " + name);
         item.name = name;
+        item.valid = false;
         var contact = contacts[i];
         if (contact.phoneNumbers == null) {
-            console.log (name + " has no number!");
             continue;
         }
         else{
@@ -31,30 +31,32 @@ function onSuccess(contacts) {
             if (phoneNumber =="NaP")
                 continue;
             item.phoneNumber = phoneNumber;
-            console.log("-1. Name " + name + ", " + item.phoneNumber);
         }
         storage.cordovaContacts.push(item);
       }    
     storage.cordovaIndicator = true;
+    console.log("Cordova: DONE, contact list built");
+    storage.getApplicationData();
 };
 
+// Function for handeling error during loading device contacts 
 function onError(contactError) {
-    alert('onError!');
+    alert('Cordova: Error loading device contacts!');
 };
 
 // Function to transfrom phone number to standartized format
 function transform(phone){
-    console.log("Transforming: " + phone + " " + typeof phone);
+    // console.log("Transforming: " + phone + " " + typeof phone + " " + phone.length );
     if (phone.lenght == 9){
 		alert(phone);
 		return phone;
 	}
-		phone = phone.replace(/-/g, '');
-		phone = phone.replace(/ /g,'');
-	if (phone.charAt(0) === '+')
-	    phone = phone.slice(4, phone.length);
+    if (phone.charAt(0) === '+')
+        phone = phone.slice(4, phone.length);
+    phone = phone.replace(/-/g, '');
+	phone = phone.replace(/ /g,'');
     if (phone.length != 9){
-        console.log("Unknown phone format: " + phone);
+        // console.log("Unknown phone format: " + phone + " " + phone.length);
         return "NaP";
     }
     else
@@ -62,7 +64,7 @@ function transform(phone){
 }
 
 
-function tryFinding(){
+contactManager.getContactList = function(){
     // find all contacts with 'Bob' in any name field
     console.log("Cordova: Searching for contacts");
    navigator.contacts.find(
@@ -72,17 +74,22 @@ function tryFinding(){
 
 };
 
-
+// Method for initializing device on Cordova level
 contactManager.initialize = function(){
-    console.log("CORDOVA STUFF>>>>>>>>>>>>>>");
     this.blockBackButtonFunction();
-    tryFinding();
+    this.getContactList();
 };
 
-// Disabling back button
+// Method foŕ disabling back button
 contactManager.blockBackButtonFunction = function(){
+    
     document.addEventListener("backbutton", onBackKeyDown, false);
-    console.log("Cordova: Blocking back button");
+    function onBackKeyDown(e) {
+    return false;
+    }
+    /*
+    document.addEventListener("backbutton", onBackKeyDown, false);
+    console.log("Cordova: Blocking back button");*/
 };
 
 

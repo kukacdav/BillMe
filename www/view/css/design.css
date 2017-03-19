@@ -31,8 +31,7 @@ ons-list-item{
 .icon {
     color: #2987bb !important;    
 }
-/*
-.page{
-    background-image: url("../icons/arch.jpg") !important;
+
+.accept-button-special {
+    background-color: #2987bb !important;
 }
-*/

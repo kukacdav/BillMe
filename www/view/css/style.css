@@ -60,8 +60,12 @@
 
 .login-icon{
     margin: -1.7% 5%;
-    color: #2987bb;
+    color: white;
 
+}
+
+ons-input .login-input-field{
+    color: white !important;
 }
 
 #register-button {
@@ -80,6 +84,14 @@
 .incorrect-note {
     margin: 0.5em;
     
+}
+
+.page--full_bg__background {
+    background: url('../icons/background.png');
+}
+
+.page-full_bg > .navigation-bar {
+    background-color: transparent; 
 }
 
 /* ----------------- Styles regarding main-page.html -----------------------------*/

@@ -67,15 +67,19 @@ communicationController.createNewUser = function (newContact){
         {
            "fullName": newContact.forename + " " + newContact.surname,
            "bankAccount": newContact.bankAccount,
-           "contact": newContact.contact,
            "username": newContact.username,
-           "password": newContact.password
+           "password": newContact.password,
+           "phoneNumber": newContact.phoneNumber,
+           "pin": newContact.pin,
         },
         success: function(data)
         {
-            
+            console.log("Create new user success");
+            document.querySelector('#main-navigator').resetToPage('login-template');
         },
         error: function(data){
+            console.log("Create new suer failed");
+            unsuccesfullRegistration();
         },
         dataType: "json"
     });
@@ -103,19 +107,26 @@ communicationController.getUserData = function(uid){
 };
 
 //Method for retrieving contactList from server
-communicationController.loadContactList = function(){
+communicationController.loadApplicationData = function(id, contactList){
+    console.log("Loading application data: " + id);
+    alert(JSON.stringify(contactList));
     var deferred = $.Deferred();
     $.ajax(
     {
-        type: "GET",
-        url: deploydEndpoint + '/user?',
+        type: "PUT",
+        url: deploydEndpoint + '/user?id=' + id,
+        data: {
+            "contactList": contactList
+        },
         success: function(data)
         {
-            console.log("3. Succesfully queried contactList.");
+            console.log("3. Succesfully queried App data: ");
+            alert(JSON.stringify(data));
             deferred.resolve(data);
         },
         error: function(data){
-            console.log("User data query failed");
+            console.log("Loading loadApplicationData failed");
+            alert(JSON.stringify(data));
         },
         dataType: "json"
     });

@@ -28,6 +28,7 @@
     <script src="view/script/texts.js"></script>
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" /> </head>
  
+ <!--
  <script>
               document.addEventListener("deviceready", onDeviceReady, false);
                 function onDeviceReady() {
@@ -35,13 +36,13 @@
                 contactManager.initialize();
                 }
                 
-          </script>
+          </script> -->
 <!-- LOGIN PAGE TEMPLATE-->
 
 <body>
     <ons-navigator id="main-navigator" page="login-template"></ons-navigator>
     <ons-template id="login-template">
-        <ons-page id="login-page">
+        <ons-page id="login-page" modifier="full_bg">
         <div class="page">
             <div class="center-block"> <img id="main-logo" src="./view/icons/billMe-transparent.png" alt="Ikona aplikace" /> </div>
             <div id="authentication-block">
@@ -73,19 +74,18 @@
             </ons-toolbar>
         <ons-list>
             <ons-list-header>Osobní údaje</ons-list-header>
-            <ons-list-item><ons-input id="register-username" modifier="underbar" placeholder="Uživatelské jméno" float ></ons-input></ons-list-item>
-            <ons-list-item><ons-input id="register-forename" modifier="underbar" placeholder="Křestní jméno"></ons-input></ons-list-item>
-            <ons-list-item><ons-input id="register-surname" modifier="underbar" placeholder="Příjmení"></ons-input></ons-list-item>
+            <ons-list-item><ons-input id="register-forename" placeholder="Křestní jméno"></ons-input></ons-list-item>
+            <ons-list-item><ons-input id="register-surname" placeholder="Příjmení"></ons-input></ons-list-item>
             <ons-list-header>Kontaktní údaje</ons-list-header>
-            <ons-list-item><ons-input id="register-phone" modifier="underbar" placeholder="Telefonní číslo" float></ons-input></ons-list-item>
-            <ons-list-item><ons-input id="register-email" modifier="underbar" placeholder="Emailové spojení"></ons-input></ons-list-item>
-            <ons-list-item><ons-input id="register-facebook" modifier="underbar" placeholder="Facebook username"></ons-input></ons-list-item>
+            <ons-list-item><ons-input id="register-email" placeholder="Email" float ></ons-input></ons-list-item>
+            <ons-list-item><ons-input id="register-phone" placeholder="Telefonní číslo" float></ons-input></ons-list-item>
             <ons-list-header>Údaje o bankovním účtu</ons-list-header>
-            <ons-list-item><ons-input id="register-prefix" modifier="underbar" placeholder="Předčíslí účtu" float></ons-input></ons-list-item>
-            <ons-list-item><ons-input id="register-account" modifier="underbar" placeholder="Číslo účtu"></ons-input></ons-list-item>
-            <ons-list-item><ons-input id="register-bankCode" modifier="underbar" placeholder="Kód banky"></ons-input></ons-list-item>
-            <ons-list-header>Heslo</ons-list-header>
-            <ons-list-item><ons-input id="register-password" type="password" modifier="underbar" placeholder="Heslo" float></ons-input></ons-list-item>
+            <ons-list-item><ons-input id="register-prefix"  placeholder="Předčíslí účtu" float></ons-input></ons-list-item>
+            <ons-list-item><ons-input id="register-account"  placeholder="Číslo účtu"></ons-input></ons-list-item>
+            <ons-list-item><ons-input id="register-bankCode"  placeholder="Kód banky"></ons-input></ons-list-item>
+            <ons-list-header>Zabezpečení</ons-list-header>
+            <ons-list-item><ons-input id="register-password" type="password" placeholder="Uživatelské heslo" float></ons-input></ons-list-item>
+            <ons-list-item><ons-input id="register-pin" type="password" placeholder="PIN" float></ons-input></ons-list-item>
         </ons-list>
         <ons-button modifier="large--cta" onclick="submitRegistration()">Dokončit registraci</ons-button>
 
@@ -130,15 +130,15 @@
                     <ons-list-header> Rychlé akce </ons-list-header>
                     <ons-row>
                         <ons-col>
-                            <ons-button class="accept-button" id="create-payment-button" modifier="large">
+                            <ons-button class="accept-button-special" id="create-payment-button" modifier="large">
                                 <img alt="Ikona zaplacení" src="view/icons/payment.png"/>
                                 
                                 <p class="button-label"> Zaplatit </p>
                             </ons-button>
                         </ons-col>
                         <ons-col class="left-border">
-                            <ons-button class="accept-button" id="create-request-button" modifier="large">
-                                <img alt="Ikona připomínky" src="view/icons/request.png"/>
+                            <ons-button class="accept-button-special" id="create-request-button" modifier="large">
+                                <img alt="Ikona připomínky" src="view/icons/loan.png"/>
                                 <p class="button-label">Připomenout se</p>
                             </ons-button>
                         </ons-col>
@@ -186,12 +186,16 @@
                     <div class="right" id="phone-number-line"></div>
                 </ons-list-item>
                 <ons-list-item>
-                    <div class="left">Email</div>
-                    <div class="right" id="email-line"></div>
+                    <div class="left">Název účtu</div>
+                    <div class="right" id="account-name-line"></div>
                 </ons-list-item>
                 <ons-list-item modifier="">
-                    <div class="left">Facebook</div>
-                    <div class="right" id="facebook-contact-line"></div>
+                    <div class="left">Číslo účtu</div>
+                    <div class="right" id="account-number-line"></div>
+                </ons-list-item>
+                <ons-list-item modifier="">
+                    <div class="left">Kód banky</div>
+                    <div class="right" id="bank-code-line"></div>
                 </ons-list-item>
             </ons-list>
         </ons-page>

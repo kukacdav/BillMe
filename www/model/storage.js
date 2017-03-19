@@ -1,29 +1,39 @@
 
 
+// Method for initializing storage
 storage.init = function(data){
-    console.log("S0. Initializing storage");
-    //UNCOMMENT FOR STORING DATA
-    //storage.loadStoredData();
+    console.log("Storage: Initializing storage");
+    contactManager.initialize();
     storage.storeSessionData(data);
-    var storageInitialized = $.when(communicationController.getUserData(storage.uid), communicationController.initializeApplicationListeners());
-    var contactListInitialized = $.when(communicationController.loadContactList());
-    storageInitialized.done(function(userData)
+};
+
+//Method for retrieving data from server
+storage.getApplicationData = function(){
+    console.log("Storage: Getting application data");
+    communicationController.initializeApplicationListeners();
+    var storageInitialized = $.when(communicationController.getUserData(storage.uid), communicationController.loadApplicationData(storage.uid, storage.cordovaContacts));
+    //var contactListInitialized = $.when(communicationController.loadContactList());
+    storageInitialized.done(function(userData, contactData)
     {
+        console.log(userData +" AND " + contactData );
         storage.storeUserData(userData);
-        //storage.storeContactList(contactList);
+        console.log(contactData.fullName + contactData.hasOwnProperty('validPhones'));
+        storage.storeContactList(contactData);
+        console.log("Storage: UserData initialized, contact list retrieved");
         navigationController.replacePageWith('main-multi-page-template');
     });
-    contactListInitialized.done(function(contactList)
+/*    contactListInitialized.done(function(contactList)
     {
         storage.storeContactList(contactList);
-        console.log("Contact: Rebuilding contact page");
+        console.log("Storage: Contact list querried");
         pageController.composePhoneContactsPage(document);
     });
-    
+ */     
 };
 
 // Method for storing user data querried from server
 storage.storeUserData = function(data){
+    console.log("Storage: Storing user data " + data.fullName);
     for (var i = 0; i < data.incomingPayments.length; i++) {
         var fullName = this.translateName(data.incomingPayments[i].initiatorDetail.phone, data.incomingPayments[i].initiatorDetail.fullName);
         data.incomingPayments[i].initiatorDetail.fullName = fullName;
@@ -40,48 +50,26 @@ storage.storeUserData = function(data){
         var fullName = this.translateName(data.outgoingRequests[i].initiatorDetail.phone, data.outgoingRequests[i].initiatorDetail.fullName);
         data.outgoingRequests[i].initiatorDetail.fullName = fullName;
     }
+    console.log("Storage: User data stored ");
     storage.userData = data;
 };
 
+
 // Method for storing contact list querried from server
 storage.storeContactList = function(data){
-    console.log("Contacts: Storing contact list");
-    this.compareLocalList(data);
-};
-
-//Method for comparing local list with retieved data - TEMPORARY
-storage.compareLocalList = function(data){
-    console.log("Comparing user data: " + data.length + " x " + storage.cordovaContacts.length);
-    for (var i = 0; i < data.length; i++) {
-        var contact = data[i].contact;
-        for (var z = 0; z < storage.cordovaContacts.length; z++) {
-            var stor = storage.cordovaContacts[z];
-            if (contact.phone === stor.phoneNumber){
-                console.log("Found match: " + stor.phoneNumber);
-                this.createNewContactEntry(storage.cordovaContacts[z], data[i]);
-            }
-            console.log(data[i].contact.phone + " not matching " + storage.cordovaContacts[z].phoneNumber);
-        }
+    console.log("Storage: Storing contact list: ");
+    
+    var array = [];
+    for (var key in data.validPhones) {
+        if (!data.validPhones.hasOwnProperty(key)) continue;
+        var obj = data.validPhones[key];
+        if (obj.phoneNumber === "602877466")
+            console.log(obj.valid);
+        array.push(obj);
     }
-    console.log("Comparasion Done..");
+    storage.cordovaContacts = array;
 };
 
-//Method for assembling contact entry
-storage.createNewContactEntry = function(user, data){
-    console.log("Creating new enrty");
-    user.valid = true;
-    var bankAccount = {};
-    bankAccount.accountPrefix = data.bankAccount.accountPrefix;
-    bankAccount.accountNumber = data.bankAccount.accountNumber;
-    bankAccount.bankCode = data.bankAccount.bankCode;
-    user.bankAccount = bankAccount;
-    var contact = {};
-    contact.email = data.contact.email;
-    contact.facebook = data.contact.facebook;
-    user.contact = contact;
-    user.id = data.id;
-    console.log("User data successfully assembled");  
-};
 
 //Method for storing sessionData gotten when authenticating
 storage.storeSessionData = function(data){

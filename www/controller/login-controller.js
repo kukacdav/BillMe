@@ -27,22 +27,19 @@ register = function(){
 
 submitRegistration = function() {
     var newUser = {};
-    var contact = {};
-    var bankAccount = {};
-    
-    newUser.username = document.querySelector('#register-username').value;
+    var bankAccount = {};    
+    newUser.username = document.querySelector('#register-email').value;
     newUser.forename = document.querySelector('#register-forename').value;
     newUser.surname = document.querySelector('#register-surname').value;
-    contact.phone = document.querySelector('#register-phone').value;
-    contact.email = document.querySelector('#register-email').value;
-    contact.facebook = document.querySelector('#register-facebook').value;
+    newUser.phoneNumber = document.querySelector('#register-phone').value;
     bankAccount.accountPrefix = document.querySelector('#register-prefix').value;
     bankAccount.accountNumber = document.querySelector('#register-account').value;
     bankAccount.bankCode = document.querySelector('#register-bankCode').value;
     bankAccount.accountName = "Můj účet";
     newUser.password = document.querySelector('#register-password').value;
+    newUser.pin = document.querySelector('#register-pin').value;
     
-    if (newUser.username === "" || newUser.forename === "" || newUser.surname === "" || contact.phone === "" || bankAccount.accountNumber === "" || bankAccount.accountName === "" || bankAccount.accountPrefix === "" || bankAccount.bankCode === "" || newUser.password === "")
+    if (newUser.username === "" || newUser.forename === "" || newUser.surname === "" || newUser.phone === "" || bankAccount.accountNumber === "" || bankAccount.accountName === "" || bankAccount.bankCode === "" || newUser.password === "" || newUser.pin==="")
     {
         ons.notification.alert(
         {
@@ -52,10 +49,10 @@ submitRegistration = function() {
          return;
     }  
      else {
-    newUser.contact = contact;
+    newUser.phoneNumber = transform(newUser.phoneNumber);
     newUser.bankAccount = bankAccount;
     communicationController.createNewUser(newUser);
-    document.querySelector('#main-navigator').resetToPage('login-template');
+    
   }
 };
 
@@ -71,4 +68,8 @@ logout = function() {
     });    
 };
 
+unsuccesfullRegistration = function(){
+    document.querySelector('#main-navigator').resetToPage('login-template');
+    document.querySelector('#login-note').innerHTML = "Zadané údaje jsou duplicitní";  
+};
     

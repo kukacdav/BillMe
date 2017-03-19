@@ -24,9 +24,10 @@ pageController.composeMainPage = function (page) {
 //Method for composing page with user detail
 pageController.composeUserDetailPage = function(page) {
     page.querySelector('#username-line').innerHTML = storage.userData.fullName;
-    page.querySelector('#phone-number-line').innerHTML = storage.userData.contact.phone;
-    page.querySelector('#email-line').innerHTML = storage.userData.contact.email;
-    page.querySelector('#facebook-contact-line').innerHTML = storage.userData.contact.facebook;
+    page.querySelector('#phone-number-line').innerHTML = storage.userData.phoneNumber;
+    page.querySelector('#account-name-line').innerHTML = storage.userData.bankAccount.accountName;
+    page.querySelector('#account-number-line').innerHTML = storage.userData.bankAccount.accountPrefix + "-" + storage.userData.bankAccount.accountNumber;
+    page.querySelector('#bank-code-line').innerHTML = storage.userData.bankAccount.bankCode;
 };
 
 //Method for composing content of page More-Options
@@ -95,6 +96,7 @@ pageController.assembleContactList = function(page) {
                 return '';
             }
             if(!item.hasOwnProperty('valid') || item.valid !== true){
+            console.log(item.phoneNumber + " - " + item.valid);
             return page.querySelector('#contact-list-item')
                 .innerHTML.replace('{{name}}', item.name)
                 .replace('{{indicator}}', '')
@@ -102,6 +104,7 @@ pageController.assembleContactList = function(page) {
                 .replace('{{index}}', counter++); 
             }
             else {
+                console.log("PageController: Found valid contact");
                 return page.querySelector('#contact-list-item')
                 .innerHTML
                 .replace('{{name}}', item.name)
@@ -232,26 +235,6 @@ pageController.showRequests = function ()  {
         });
 };
 
-/*
-//Support method for listing incomingReuqests
-pageController.showIncomingRequests = function(dataSource) {
-    if (dataSource.length === 0)
-        return;
-        var counter = -1;
-    document.querySelector('#transaction-list').innerHTML="<ons-list-header>Přijaté připomínky</ons-list-header>";
-    document.querySelector('#transaction-list').innerHTML+=dataSource.map(function(item){
-                 counter++;
-        return "<ons-list-item id='filter-incoming-requests' class='transaction-item-detail'> \
-        <div class='left transaction-party'>" + item.initiatorDetail.fullName + "</div> \
-        <div class='center transaction-amount'>" + item.amount + "</div> \
-        <div class='center transaction-state' style='margin-left: 1em'>" + item.state + "</div> \
-        <div class='right'><ons-icon icon='ion-chevron-right'></ons-icon></div> \
-        <div id='transaction-index' class='hidden'>" + counter + "</div> \
-        </ons-list-item>";
-    }).join('');
-};*/
-
-//WITHOU STATE
 //Support method for listing incomingReuqests
 pageController.showIncomingRequests = function(dataSource) {
     if (dataSource.length === 0)
@@ -269,27 +252,6 @@ pageController.showIncomingRequests = function(dataSource) {
     }).join('');
 };
 
-/*
-//Support method for showing ougoing requests
-pageController.showOutgoingRequests = function(dataSource) {
-    if (dataSource.length === 0)
-        return;
-        var counter = -1;
-    document.querySelector('#transaction-list').innerHTML+="<ons-list-header>Odeslané připomínky</ons-list-header>";
-    document.querySelector('#transaction-list').innerHTML+=dataSource.map(function(item){
-                 counter++;
-        return "<ons-list-item id='filter-outgoing-requests' class='transaction-item-detail'> \
-        <div class='left transaction-party'>" + item.recieverDetail.fullName + "</div> \
-        <div class='center transaction-amount'>" + item.amount + "</div> \
-        <div class='center transaction-state' style='margin-left: 1em'>" + item.state + "</div> \
-        <div class='right'><ons-icon icon='ion-chevron-right'></ons-icon></div> \
-        <div id='transaction-index' class='hidden'>" + counter + "</div> \
-        </ons-list-item>";
-    }).join('');
-};*/
-
-
-//WITHOUT STATE
 //Support method for showing ougoing requests
 pageController.showOutgoingRequests = function(dataSource) {
     if (dataSource.length === 0)
@@ -307,31 +269,6 @@ pageController.showOutgoingRequests = function(dataSource) {
     }).join('');
 };
 
-/*
-// Support method for showing incoming payments
-pageController.showIncomingPayments = function() {
-    var payments = storage.userData.incomingPayments;
-    var counter = -1;
-    systemVariables.filterFlag = "incomingPayments";
-     document.querySelector('#transaction-list').innerHTML=payments.map(function(item){
-         counter++;
-        return "<ons-list-item id='filter-incoming-payments' class='transaction-item-detail'> \
-        <div class='left transaction-party'>" + item.initiatorDetail.fullName + "</div> \
-        <div class='center transaction-amount'>" + item.amount + "</div> \
-        <div class='center transaction-state' style='margin-left: 1em'>" + item.state + "</div> \
-        <div class='right'><ons-icon icon='ion-chevron-right'></ons-icon></div> \
-        <div id='transaction-index' class='hidden'>" + counter + "</div> \
-        </ons-list-item>";
-    }).join('');
-     $(".transaction-item-detail").on("click", function(){
-        id = $(this).attr('id');
-        elementIndex = $(this.querySelector('#transaction-index')).text();
-        storage.showTransactionDetail(id, elementIndex);
-        
-        });
-};*/
-
-// WITHOUT STATE
 // Support method for showing incoming payments
 pageController.showIncomingPayments = function() {
     var payments = storage.userData.incomingPayments;
@@ -354,35 +291,6 @@ pageController.showIncomingPayments = function() {
         });
 };
 
-
-
-/*
-// Support method for showing outgoing payments
-pageController.showOutgoingPayments = function() {
-   systemVariables.filterFlag = "outgoingPayments";
-    var payments = storage.userData.outgoingPayments;
-    var counter = -1;
-    document.querySelector('#transaction-list').innerHTML=payments.map(function(item){
-                 counter++;
-        return "<ons-list-item id='filter-outgoing-payments' class='transaction-item-detail'> \
-        <div class='left transaction-party'>" + item.recieverDetail.fullName + "</div> \
-        <div class='center transaction-amount'>" + item.amount + "</div> \
-        <div class='center transaction-state' style='margin-left: 1em'>" + item.state + "</div> \
-        <div class='right'><ons-icon icon='ion-chevron-right'></ons-icon></div> \
-        <div id='transaction-index' class='hidden'>" + counter + "</div> \
-        </ons-list-item>";
-    }).join('');    
-    $(".transaction-item-detail").on("click", function(){
-        id = $(this).attr('id');
-        elementIndex = $(this.querySelector('#transaction-index')).text();
-        storage.showTransactionDetail(id, elementIndex);
-        
-        });
-    $(".transaction-amount").addClass("red");
-};*/
-
-
-// WTIHOUT STATE
 // Support method for showing outgoing payments
 pageController.showOutgoingPayments = function() {
    systemVariables.filterFlag = "outgoingPayments";
