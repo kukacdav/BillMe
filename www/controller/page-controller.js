@@ -184,7 +184,7 @@ pageController.composeConfirmTransactionPage = function(page) {
     console.log("Name and phone assembled");
     // SHOULD VALIDATE page.querySelector('#recievers-email2').innerHTML = storage.contactList[storage.newTransaction.contactIndex].contact.email;  
     page.querySelector('#transaction-amount').innerHTML = storage.newTransaction.amount+ " Kč";
-    page.querySelector('#submit-button').onclick = function(){ storage.storeNewTransactionMessage(document.querySelector('#message-input').value);};
+    page.querySelector('#submit-button').onclick = function(){ storage.verifyPIN(document.querySelector('#pin-input').value, document.querySelector('#message-input').value);};
 };
 
 //Support method for building compose confirm page - payment

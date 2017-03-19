@@ -35,3 +35,7 @@ ons-list-item{
 .accept-button-special {
     background-color: #2987bb !important;
 }
+
+.text-input--underbar{
+    color: white !important;
+}

@@ -28,15 +28,6 @@
     <script src="view/script/texts.js"></script>
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" /> </head>
  
- <!--
- <script>
-              document.addEventListener("deviceready", onDeviceReady, false);
-                function onDeviceReady() {
-                console.log(navigator.contacts);
-                contactManager.initialize();
-                }
-                
-          </script> -->
 <!-- LOGIN PAGE TEMPLATE-->
 
 <body>
@@ -78,14 +69,14 @@
             <ons-list-item><ons-input id="register-surname" placeholder="Příjmení"></ons-input></ons-list-item>
             <ons-list-header>Kontaktní údaje</ons-list-header>
             <ons-list-item><ons-input id="register-email" placeholder="Email" float ></ons-input></ons-list-item>
-            <ons-list-item><ons-input id="register-phone" placeholder="Telefonní číslo" float></ons-input></ons-list-item>
+            <ons-list-item><ons-input id="register-phone" type="number" placeholder="Telefonní číslo" float></ons-input></ons-list-item>
             <ons-list-header>Údaje o bankovním účtu</ons-list-header>
-            <ons-list-item><ons-input id="register-prefix"  placeholder="Předčíslí účtu" float></ons-input></ons-list-item>
-            <ons-list-item><ons-input id="register-account"  placeholder="Číslo účtu"></ons-input></ons-list-item>
-            <ons-list-item><ons-input id="register-bankCode"  placeholder="Kód banky"></ons-input></ons-list-item>
+            <ons-list-item><ons-input id="register-prefix"  type="number" placeholder="Předčíslí účtu" float></ons-input></ons-list-item>
+            <ons-list-item><ons-input id="register-account" type="number" placeholder="Číslo účtu"></ons-input></ons-list-item>
+            <ons-list-item><ons-input id="register-bankCode" type="number" placeholder="Kód banky"></ons-input></ons-list-item>
             <ons-list-header>Zabezpečení</ons-list-header>
             <ons-list-item><ons-input id="register-password" type="password" placeholder="Uživatelské heslo" float></ons-input></ons-list-item>
-            <ons-list-item><ons-input id="register-pin" type="password" placeholder="PIN" float></ons-input></ons-list-item>
+            <ons-list-item><ons-input id="register-pin" type="password" inputmode="numeric" pattern="[0-9]*" placeholder="PIN" float></ons-input></ons-list-item>
         </ons-list>
         <ons-button modifier="large--cta" onclick="submitRegistration()">Dokončit registraci</ons-button>
 
@@ -175,6 +166,15 @@
     <!--           USER DETAIL PAGE              -->
     <ons-template id="user-detail-page-template">
         <ons-page id="user-detail-page">
+        <ons-toolbar>
+                <div class="center">Profil</div>
+            </ons-toolbar>
+            <ons-row>
+                    <ons-col class="center-block">
+                        <ons-icon  class="icon" icon="ion-person" size="70px"></ons-icon>
+                    </ons-col>
+                </ons-row>
+                
             <ons-list>
                 <ons-list-header>Detail uživatele</ons-list-header>
                 <ons-list-item>

@@ -140,22 +140,6 @@ communicationController.persistTransaction = function (collection) {
     {
         type: "POST",
         url: deploydEndpoint + '/' + collection,
-        /*data:
-        {
-            "initiator": storage.userData.id,
-            "initiatorDetail": {
-                "fullName": storage.userData.fullName,
-                "phone": storage.userData.contact.phoneNumber
-            },
-            "reciever": contraAccount.reciever,
-            "recieverDetail": {
-                "fullName": contraAccount.recieverDetail.fullName,
-                "phone": contraAccount.recieverDetail.phone
-            },
-            "amount": contraAccount.amount,
-            "message": contraAccount.message,
-            "submitDate": Date.now()
-        },*/
         data:
         {
             "initiator": storage.userData.id,
@@ -163,7 +147,7 @@ communicationController.persistTransaction = function (collection) {
                 "fullName": storage.userData.fullName,
                 "phone": storage.userData.phoneNumber
             },
-            "reciever": "d8c5e180d0a2d8e5",
+            "reciever": contraAccount.reciever,
             "recieverDetail": {
                 "fullName": contraAccount.recieverDetail.fullName,
                 "phone": contraAccount.recieverDetail.phone

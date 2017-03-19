@@ -83,6 +83,18 @@ storage.storeSessionData = function(data){
     storage.uid = data.uid;
 };
 
+storage.verifyPIN = function(pin, message){
+    if (pin === this.userData.pin)
+        this.storeNewTransactionMessage(message);
+    else{
+        console.log("inncorrect pin!!!");
+        $('#pin-input').addClass("incorrect-pin");  
+        document.querySelector('#pin-input').value = "";
+    }
+};
+
+
+
 //Method for storing submited message
 storage.storeNewTransactionMessage= function(message){
     if (message == null)

@@ -202,4 +202,9 @@ ons-input .login-input-field{
  border: 1px solid #25a6d9;
 }
 
+.incorrect-pin{
+    border-color: #ec8b72 !important;
+    color: #ec8b72 !important;
+}
+
 
