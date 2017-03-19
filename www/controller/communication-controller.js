@@ -1,13 +1,4 @@
 
-/*
-communicationController.createSocket = function(){
-    console.log("Creating socekt");
-    var socket = io.connect(deploydEndpoint);
-    socket.on('note:aaa', function(data){
-        console.log("---- COLLECTION CHANGE ------" + data);
-    });
-};*/
-
 // Method for establishing socket communication
 communicationController.initializeApplicationListeners = function(){
     console.log("Creating socket listeners");
@@ -57,7 +48,7 @@ communicationController.authenticateUser = function (username, password) {
     });
 };
 
-//Method for creating newUser
+//Method for creating newUser account
 communicationController.createNewUser = function (newContact){
     $.ajax(
     {
@@ -109,7 +100,6 @@ communicationController.getUserData = function(uid){
 //Method for retrieving contactList from server
 communicationController.loadApplicationData = function(id, contactList){
     console.log("Loading application data: " + id);
-    alert(JSON.stringify(contactList));
     var deferred = $.Deferred();
     $.ajax(
     {
@@ -121,7 +111,6 @@ communicationController.loadApplicationData = function(id, contactList){
         success: function(data)
         {
             console.log("3. Succesfully queried App data: ");
-            alert(JSON.stringify(data));
             deferred.resolve(data);
         },
         error: function(data){
@@ -135,27 +124,49 @@ communicationController.loadApplicationData = function(id, contactList){
 
 // Method for submitting new transaction
 communicationController.persistTransaction = function (collection) {
+    console.log("CommunicationController: Persisiting transaction");
+    //alert(JSON.stringify(storage.newTransaction));
     var deferred = $.Deferred();
     var contraAccount = storage.newTransaction;
+    console.log(storage.userData.id);
+    console.log(storage.userData.fullName);
+    console.log(storage.userData.phoneNumber);
+    console.log(contraAccount.reciever);
+    console.log(contraAccount.recieverDetail.fullName);
+    console.log(contraAccount.recieverDetail.phone);
+    console.log(contraAccount.amount);
+    console.log(contraAccount.message);
     $.ajax(
     {
         type: "POST",
         url: deploydEndpoint + '/' + collection,
+        /*data:
+        {
+            "initiator": storage.userData.id,
+            "initiatorDetail": {
+                "fullName": storage.userData.fullName,
+                "phone": storage.userData.contact.phoneNumber
+            },
+            "reciever": contraAccount.reciever,
+            "recieverDetail": {
+                "fullName": contraAccount.recieverDetail.fullName,
+                "phone": contraAccount.recieverDetail.phone
+            },
+            "amount": contraAccount.amount,
+            "message": contraAccount.message,
+            "submitDate": Date.now()
+        },*/
         data:
         {
             "initiator": storage.userData.id,
             "initiatorDetail": {
                 "fullName": storage.userData.fullName,
-                "phone": storage.userData.contact.phone,
-                "email":storage.userData.contact.email,
-                "facebook":storage.userData.contact.facebook
+                "phone": storage.userData.phoneNumber
             },
-            "reciever": contraAccount.reciever,
+            "reciever": "d8c5e180d0a2d8e5",
             "recieverDetail": {
                 "fullName": contraAccount.recieverDetail.fullName,
-                "phone": contraAccount.recieverDetail.phone,
-                "email":contraAccount.recieverDetail.email,
-                "facebook":contraAccount.recieverDetail.facebook
+                "phone": contraAccount.recieverDetail.phone
             },
             "amount": contraAccount.amount,
             "message": contraAccount.message,
@@ -165,6 +176,11 @@ communicationController.persistTransaction = function (collection) {
         {
             console.log("Conttroller: Persisted new transaction");
             deferred.resolve(data);
+        },
+        error: function(data)
+        {
+            console.log("Persisting payment failed");
+            alert(data);
         },
         dataType: "json"
     });

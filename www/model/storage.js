@@ -60,13 +60,19 @@ storage.storeContactList = function(data){
     console.log("Storage: Storing contact list: ");
     
     var array = [];
+    for (var i = 0; i<data.validPhones.length; i++){
+        data.validPhones[i].id = i;
+        array.push(data.validPhones[i]);
+    }
+    //alert("Parsed array" + array);
+    /*
     for (var key in data.validPhones) {
         if (!data.validPhones.hasOwnProperty(key)) continue;
         var obj = data.validPhones[key];
         if (obj.phoneNumber === "602877466")
             console.log(obj.valid);
         array.push(obj);
-    }
+    }*/
     storage.cordovaContacts = array;
 };
 
@@ -88,8 +94,9 @@ storage.storeNewTransactionMessage= function(message){
 };
 
 storage.buildTransactionReciever = function(){
+    console.log("Building transaction reciever");
     console.log(storage.cordovaContacts[storage.newTransaction.contactIndex] );
-    storage.newTransaction.reciever = storage.cordovaContacts[storage.newTransaction.contactIndex].id;
+    storage.newTransaction.reciever = storage.cordovaContacts[storage.newTransaction.contactIndex].reciever;
     storage.newTransaction.recieverDetail.fullName = storage.cordovaContacts[storage.newTransaction.contactIndex].name;
     storage.newTransaction.recieverDetail.phone = storage.cordovaContacts[storage.newTransaction.contactIndex].phoneNumber;
     //storage.newTransaction.recieverDetail.email = storage.contactList[storage.newTransaction.contactIndex].contact.email;
@@ -98,6 +105,7 @@ storage.buildTransactionReciever = function(){
 
 // Method for sending new transaction to backend server
 storage.submitTransaction = function(){
+    console.log("Submitting transaction: " + storage.newTransaction.transactionType);
     var storageInitialized;
     if (storage.newTransaction.transactionType === "payment")
         storageInitialized = $.when(communicationController.persistTransaction("payment"));
