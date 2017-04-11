@@ -1,4 +1,6 @@
-/*------------------------CORDOVA TEST----------------------------------*/
+// Contact Manager
+// This class works with Cordova-contact-plugin. Class handles data retrieval from device as well as their parsing.
+// Created by: David Kukacka
 
 // Functions for getting name of the contact
 function getName(c) {
@@ -46,7 +48,6 @@ function onError(contactError) {
 
 // Function to transfrom phone number to standartized format
 function transform(phone){
-    // console.log("Transforming: " + phone + " " + typeof phone + " " + phone.length );
     if (phone.lenght == 9){
 		alert(phone);
 		return phone;
@@ -56,8 +57,6 @@ function transform(phone){
     phone = phone.replace(/-/g, '');
 	phone = phone.replace(/ /g,'');
     if (phone.length != 9){
-        //alert("Unknown format: " + phone);
-        // console.log("Unknown phone format: " + phone + " " + phone.length);
         return "NaP";
     }
     else
@@ -66,7 +65,6 @@ function transform(phone){
 
 
 contactManager.getContactList = function(){
-    // find all contacts with 'Bob' in any name field
     console.log("Cordova: Searching for contacts");
    navigator.contacts.find(
         [navigator.contacts.fieldType.displayName],

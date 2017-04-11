@@ -1,4 +1,6 @@
-// This is a JavaScript file
+// Page controller
+// This class has responsibility for composing all content of pages
+// Created by: David Kukacka
 
 // Method for composing register outcome page
 pageController.composeRegisterOutcomePage = function(page) {
@@ -200,7 +202,6 @@ pageController.composeConfirmTransactionPage = function(page) {
     page.querySelector('#recievers-name2').innerHTML = storage.cordovaContacts[storage.newTransaction.contactIndex].name;    
     page.querySelector('#recievers-phone2').innerHTML = storage.cordovaContacts[storage.newTransaction.contactIndex].phoneNumber;    
     console.log("Name and phone assembled");
-    // SHOULD VALIDATE page.querySelector('#recievers-email2').innerHTML = storage.contactList[storage.newTransaction.contactIndex].contact.email;  
     page.querySelector('#transaction-amount').innerHTML = storage.newTransaction.amount+ " Kč";
     page.querySelector('#submit-button').onclick = function(){ storage.verifyPIN(document.querySelector('#pin-input').value, document.querySelector('#message-input').value);};
 };

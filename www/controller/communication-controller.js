@@ -1,25 +1,28 @@
+// Communication controller
+// This class handles all comunication between client a server
+// Created by: David Kukacka
 
-// Method for establishing socket communication
+// Method for establishing socket communication. Via socket communication application is notified about new transactions.
 communicationController.initializeApplicationListeners = function(){
     console.log("Creating socket listeners");
     console.log(storage.uid);
     var socket = io.connect(deploydEndpoint);
+    // Listening for new incoming payments
     socket.on('payment:' + storage.uid, function(data){
         console.log("---- COLLECTION CHANGE: New payment ------" );
         console.log(JSON.stringify(data));
-        //storage.userData.incomingPayments.unshift(data);
         storage.newIncomingPayment(data);
     });
+    // Listening for new incoming requests
     socket.on('request:' + storage.uid, function(data){
         console.log("---- COLLECTION CHANGE: incoming request ------" );
         console.log(JSON.stringify(data));
-        //storage.userData.incomingRequests.unshift(data);
         storage.newIncomingRequest(data);
     });
+    // Listening for change of state of outgoing requests
     socket.on('outgoingRequest:' + storage.uid, function(data){
         console.log("---- COLLECTION CHANGE: outgoing request ------" );
         console.log(JSON.stringify(data));
-        //storage.userData.incomingRequests.unshift(data);
         storage.requestStateChanged(data);
     });
 };
@@ -130,17 +133,8 @@ communicationController.loadApplicationData = function(id, contactList){
 // Method for submitting new transaction
 communicationController.persistTransaction = function (collection) {
     console.log("CommunicationController: Persisiting transaction");
-    //alert(JSON.stringify(storage.newTransaction));
     var deferred = $.Deferred();
     var contraAccount = storage.newTransaction;
-    console.log(storage.userData.id);
-    console.log(storage.userData.fullName);
-    console.log(storage.userData.phoneNumber);
-    console.log(contraAccount.reciever);
-    console.log(contraAccount.recieverDetail.fullName);
-    console.log(contraAccount.recieverDetail.phone);
-    console.log(contraAccount.amount);
-    console.log(contraAccount.message);
     $.ajax(
     {
         type: "POST",

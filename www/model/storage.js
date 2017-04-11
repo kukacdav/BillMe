@@ -1,4 +1,7 @@
-
+// Script.js
+// This file contains methods of class Storage, representation of Model. 
+// Methods handles data of application
+// Created by: David Kukacka
 
 // Method for initializing storage
 storage.init = function(data){
@@ -23,13 +26,7 @@ storage.getApplicationData = function(){
         hideModal();
         navigationController.replacePageWith('main-multi-page-template');
     });
-/*    contactListInitialized.done(function(contactList)
-    {
-        storage.storeContactList(contactList);
-        console.log("Storage: Contact list querried");
-        pageController.composePhoneContactsPage(document);
-    });
- */     
+
 };
 
 // Method for storing user data querried from server
@@ -65,15 +62,6 @@ storage.storeContactList = function(data){
         data.validPhones[i].id = i;
         array.push(data.validPhones[i]);
     }
-    //alert("Parsed array" + array);
-    /*
-    for (var key in data.validPhones) {
-        if (!data.validPhones.hasOwnProperty(key)) continue;
-        var obj = data.validPhones[key];
-        if (obj.phoneNumber === "602877466")
-            console.log(obj.valid);
-        array.push(obj);
-    }*/
     storage.cordovaContacts = array;
 };
 
@@ -112,8 +100,6 @@ storage.buildTransactionReciever = function(){
     storage.newTransaction.reciever = storage.cordovaContacts[storage.newTransaction.contactIndex].reciever;
     storage.newTransaction.recieverDetail.fullName = storage.cordovaContacts[storage.newTransaction.contactIndex].name;
     storage.newTransaction.recieverDetail.phone = storage.cordovaContacts[storage.newTransaction.contactIndex].phoneNumber;
-    //storage.newTransaction.recieverDetail.email = storage.contactList[storage.newTransaction.contactIndex].contact.email;
-    //storage.newTransaction.recieverDetail.facebook = storage.contactList[storage.newTransaction.contactIndex].contact.facebook;    
 };
 
 // Method for sending new transaction to backend server
@@ -306,6 +292,7 @@ storage.contains = function(dataSource, data){
   return false;
 };
 
+// MEthod for reloading list of outgoing requests in event of their change
 storage.requestStateChanged = function(data){
     console.log("Reuqest changed, length : " + storage.userData.outgoingRequests.length);
     for (var i=0; i < storage.userData.outgoingRequests.length; i++){
@@ -322,9 +309,7 @@ storage.requestStateChanged = function(data){
 };
 
 
-
-/* NOT REFACTORED*/
-
+// Method for loading data stored in device memory
 storage.loadStoredData = function() {
     storage.incomingRequests = JSON.parse(localStorage.getItem('incomingRequests') || '[]' );  
     storage.outgoingRequests = JSON.parse(localStorage.getItem('outgoingRequests') || '[]' );

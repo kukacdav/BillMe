@@ -1,15 +1,8 @@
-showModal = function() {
-  var modal = document.getElementById('modal');
-  modal.show();
-  
-};
+// Login controller
+// This class has responsibility for all actions regarding Loging-in/out and registrating new user-accounts
+// Created by: David Kukacka
 
-hideModal = function() {
-  var modal = document.getElementById('modal');
-  modal.hide();
-  
-};
-
+// Function handeling Login logic
 login = function() {
   showModal();
   var username = document.querySelector('#login-username').value;
@@ -22,6 +15,7 @@ login = function() {
   communicationController.authenticateUser(username, password);
 };
 
+// Function for displaying warning in case of wrong credentials
 showFailedAuthorizationNote = function() {
     document.querySelector('#login-note').innerHTML = "Špatné Uživatelské jméno nebo Heslo";    
     document.querySelector('#login-username').value = "";
@@ -29,16 +23,19 @@ showFailedAuthorizationNote = function() {
     hideModal();
 };
 
+// Function for warning user, that not all credentials are submitted
 showIncompleteLoggingInfo = function () {
   document.querySelector('#login-note').innerHTML = "Pro přihlášení musíte vyplnit Uživatelské jméno a Heslo";
   hideModal();
 };
 
 
+// Function for registring new user
 register = function(){
     document.querySelector('#main-navigator').pushPage('register-template');
 };
 
+//Function for submitting new registration 
 submitRegistration = function() {
     var newUser = {};
     var bankAccount = {};    
@@ -73,10 +70,12 @@ submitRegistration = function() {
   }
 };
 
+// Function for returning back to login page
 backToLogin = function() {
     navigationController.replacePageWith('login-template');        
 };
 
+// Function for logout of previously logged-in user
 logout = function() {
      var storageInitialized = $.when(communicationController.logoutUser());
     storageInitialized.done(function(userData)
@@ -85,6 +84,7 @@ logout = function() {
     });    
 };
 
+//Function for informing user about falied registration
 unsuccesfullRegistration = function(){
     document.querySelector('#main-navigator').resetToPage('login-template');
     document.querySelector('#login-note').innerHTML = "Zadané údaje jsou duplicitní";  
