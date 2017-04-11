@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta http-equiv="Content-Security-Policy" content="default-src * data:; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
     
-    <script src="http://localhost:2403/socket.io/socket.io.js"></script>
+    <!-- <script src="http://localhost:2403/socket.io/socket.io.js"></script> -->
     <script src="components/loader.js"></script>
     <link rel="stylesheet" href="components/loader.css">
     <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
@@ -31,11 +31,15 @@
 <!-- LOGIN PAGE TEMPLATE-->
 
 <body>
+    <ons-modal id="modal">
+        <ons-icon icon="ion-load-c" spin="true" size="2em"></ons-icon>
+    </ons-modal>
     <ons-navigator id="main-navigator" page="login-template"></ons-navigator>
     <ons-template id="login-template">
         <ons-page id="login-page" modifier="full_bg">
         <div class="page">
             <div class="center-block"> <img id="main-logo" src="./view/icons/billMe-transparent.png" alt="Ikona aplikace" /> </div>
+   
             <div id="authentication-block">
                 <div class="center-block incorrect-note">
                     <p id="login-note" class="red-text"></p>

@@ -1,4 +1,17 @@
+showModal = function() {
+  var modal = document.getElementById('modal');
+  modal.show();
+  
+};
+
+hideModal = function() {
+  var modal = document.getElementById('modal');
+  modal.hide();
+  
+};
+
 login = function() {
+  showModal();
   var username = document.querySelector('#login-username').value;
   var password = document.querySelector('#login-password').value;
   console.log("Username: " + username + ", password: " + password);
@@ -6,23 +19,24 @@ login = function() {
       showIncompleteLoggingInfo();
       return;
   }  
-  communicationController.authenticateUser(username, password);  
+  communicationController.authenticateUser(username, password);
 };
 
 showFailedAuthorizationNote = function() {
     document.querySelector('#login-note').innerHTML = "Špatné Uživatelské jméno nebo Heslo";    
     document.querySelector('#login-username').value = "";
     document.querySelector('#login-password').value = "";
+    hideModal();
 };
 
 showIncompleteLoggingInfo = function () {
-  document.querySelector('#login-note').innerHTML = "Pro přihlášení musíte vyplnit Uživatelské jméno a Heslo";  
+  document.querySelector('#login-note').innerHTML = "Pro přihlášení musíte vyplnit Uživatelské jméno a Heslo";
+  hideModal();
 };
 
 
 register = function(){
     document.querySelector('#main-navigator').pushPage('register-template');
-    
 };
 
 submitRegistration = function() {
@@ -56,7 +70,6 @@ submitRegistration = function() {
     newUser.phoneNumber = transform(newUser.phoneNumber);
     newUser.bankAccount = bankAccount;
     communicationController.createNewUser(newUser);
-    
   }
 };
 

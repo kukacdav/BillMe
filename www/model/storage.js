@@ -20,6 +20,7 @@ storage.getApplicationData = function(){
         console.log(contactData.fullName + contactData.hasOwnProperty('validPhones'));
         storage.storeContactList(contactData);
         console.log("Storage: UserData initialized, contact list retrieved");
+        hideModal();
         navigationController.replacePageWith('main-multi-page-template');
     });
 /*    contactListInitialized.done(function(contactList)
