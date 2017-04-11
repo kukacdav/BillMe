@@ -12,5 +12,15 @@
         "cordova-custom-config@2.0.3",
         "cordova-plugin-camera@2.2.0",
         "cordova-plugin-contacts@2.1.0"
-    ]
+    ],
+    "title-ja": "",
+    "title-en": "BillMe - version 01.01",
+    "description-ja": "",
+    "description-en": "Project exported for purpouses of backing up the codes.\r\nAs of date: 11.04.2017",
+    "category": "User Template",
+    "platform": [
+        "android",
+        "ios"
+    ],
+    "name": "generated-1491912643-5863e088ff2af2b15c612bf7"
 }
