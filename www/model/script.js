@@ -1,5 +1,3 @@
-
-
 var storage = {
     userData: {},
     incomingRequests: [],
@@ -12,7 +10,9 @@ var storage = {
     contactList: [],
     newTransaction: {
         recieverDetail: {}
-    }
+    },
+    cordovaContacts: [
+    ]
 };
 var systemVariables = {
     newTransaction: {}
@@ -21,6 +21,7 @@ var systemVariables = {
 var communicationController = {};
 var navigationController = {};
 var pageController = {};
+var contactManager = {};
 
 window.fn = {};
 fn.Login = function(){

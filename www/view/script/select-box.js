@@ -1,16 +1,20 @@
 // This is a JavaScript file
+var currentFilter = "incomingPayments";
 
 activateOutgoingPayments = function () {
     removeActiveClass();
     $("#outgoing-payments-filter").addClass("select-box-item-active");
+    currentFilter = "outgoingPayments";
     };
 activateIncomingPayments = function () {
     removeActiveClass();
     $("#incoming-payments-filter").addClass("select-box-item-active");
+    currentFilter = "incomingPayments";
     };
 activateUnresolvedTransactions = function () {
     removeActiveClass();
     $("#unresolved-transactions-filter").addClass("select-box-item-active");
+    currentFilter = "unresolvedTransactions";
     };
     
 removeActiveClass = function() {

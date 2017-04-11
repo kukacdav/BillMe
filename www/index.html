@@ -6,16 +6,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta http-equiv="Content-Security-Policy" content="default-src * data:; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+    
+    <script src="http://localhost:2403/socket.io/socket.io.js"></script>
     <script src="components/loader.js"></script>
     <link rel="stylesheet" href="components/loader.css">
     <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
     <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
     <link rel="stylesheet" href="view/css/style.css">
-    <link rel="stylesheet" href="view/css/tabbar.css">
     <link rel="stylesheet" href="view/css/select-box.css">
+    <link rel="stylesheet" href="view/css/design.css">
     <script src="model/script.js"></script>
-        <script src="controller/page-controller.js"></script>
-
+    <script src="model/contact-manager.js"></script>
+    <script src="controller/page-controller.js"></script>
+    <script src="socketio/socket.io.js"></script>
     <script src="controller/navigation-controller.js"></script>
     <script src="controller/communication-controller.js"></script>
     <script src="controller/config.js"></script>
@@ -24,33 +27,38 @@
     <script src="view/script/select-box.js"></script>
     <script src="view/script/texts.js"></script>
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" /> </head>
+ 
 <!-- LOGIN PAGE TEMPLATE-->
 
 <body>
     <ons-navigator id="main-navigator" page="login-template"></ons-navigator>
     <ons-template id="login-template">
-        <ons-page>
-            <div class="center-block"> <img id="main-logo" src="./view/icons/billMe-logo.png" alt="Ikona aplikace" /> </div>
+        <ons-page id="login-page" modifier="full_bg">
+        <div class="page">
+            <div class="center-block"> <img id="main-logo" src="./view/icons/billMe-transparent.png" alt="Ikona aplikace" /> </div>
             <div id="authentication-block">
                 <div class="center-block incorrect-note">
                     <p id="login-note" class="red-text"></p>
                 </div>
                 <ons-row>
-                    <ons-icon class="right-floater login-icon" icon="ion-person" size="20px"></ons-icon>
-                    <ons-input class="login-input-field" id="login-username" modifier="underbar" placeholder="Uživatelské jméno" float></ons-input>
+                    <ons-icon class="right-floater login-icon" icon="ion-person" size="2em" ></ons-icon>
+                    <ons-input class="login-input-field login-text" id="login-username" modifier="underbar" placeholder="Uživatelské jméno" float></ons-input>
                 </ons-row>
                 <ons-row>
-                    <ons-icon class="right-floater login-icon" icon="ion-locked" size="20px"></ons-icon>
-                    <ons-input class="login-input-field" id="login-password" type="password" modifier="underbar" placeholder="Heslo" float></ons-input>
+                    <ons-icon class="right-floater login-icon" icon="ion-locked" size="2em"></ons-icon>
+                    <ons-input class="login-input-field login-text" id="login-password" type="password" modifier="underbar" placeholder="Heslo" float></ons-input>
                 </ons-row>
-                <ons-button modifier="large--cta" onclick="login()" id="login-button">Příhlásit se</ons-button>
-                <ons-button modifier="large--cta" onclick="register()" id="register-button">Registrovat se</ons-button>
+                <ons-button class="accept-button" modifier="large--cta" onclick="login()" id="login-button">Příhlásit se</ons-button>
+                <ons-button class="neutral-button" modifier="large--cta" onclick="register()" id="register-button">Registrovat se</ons-button>
+            </div>
             </div>
         </ons-page>
     </ons-template>
+    
     <ons-template id="register-template">
         <ons-page>
           <ons-toolbar>
+          
           <div class="left">
             <ons-back-button>Zpět</ons-back-button>
         </div>
@@ -58,24 +66,42 @@
             </ons-toolbar>
         <ons-list>
             <ons-list-header>Osobní údaje</ons-list-header>
-            <ons-list-item><ons-input id="register-username" modifier="underbar" placeholder="Uživatelské jméno" float ></ons-input></ons-list-item>
-            <ons-list-item><ons-input id="register-forename" modifier="underbar" placeholder="Křestní jméno"></ons-input></ons-list-item>
-            <ons-list-item><ons-input id="register-surname" modifier="underbar" placeholder="Příjmení"></ons-input></ons-list-item>
+            <ons-list-item><ons-input id="register-forename" placeholder="Křestní jméno"></ons-input></ons-list-item>
+            <ons-list-item><ons-input id="register-surname" placeholder="Příjmení"></ons-input></ons-list-item>
             <ons-list-header>Kontaktní údaje</ons-list-header>
-            <ons-list-item><ons-input id="register-phone" modifier="underbar" placeholder="Telefonní číslo" float></ons-input></ons-list-item>
-            <ons-list-item><ons-input id="register-email" modifier="underbar" placeholder="Emailové spojení"></ons-input></ons-list-item>
-            <ons-list-item><ons-input id="register-facebook" modifier="underbar" placeholder="Facebook username"></ons-input></ons-list-item>
+            <ons-list-item><ons-input id="register-email" placeholder="Email" float ></ons-input></ons-list-item>
+            <ons-list-item><ons-input id="register-phone" type="tel" placeholder="Telefonní číslo" float></ons-input></ons-list-item>
             <ons-list-header>Údaje o bankovním účtu</ons-list-header>
-            <ons-list-item><ons-input id="register-prefix" modifier="underbar" placeholder="Předčíslí účtu" float></ons-input></ons-list-item>
-            <ons-list-item><ons-input id="register-account" modifier="underbar" placeholder="Číslo účtu"></ons-input></ons-list-item>
-            <ons-list-item><ons-input id="register-bankCode" modifier="underbar" placeholder="Kód banky"></ons-input></ons-list-item>
-            <ons-list-header>Heslo</ons-list-header>
-            <ons-list-item><ons-input id="register-password" type="password" modifier="underbar" placeholder="Heslo" float></ons-input></ons-list-item>
+            <ons-list-item><ons-input id="register-prefix"  inputmode="numeric" pattern="[0-9]*" placeholder="Předčíslí účtu" float></ons-input></ons-list-item>
+            <ons-list-item><ons-input id="register-account" inputmode="numeric" pattern="[0-9]*" placeholder="Číslo účtu"></ons-input></ons-list-item>
+            <ons-list-item><ons-input id="register-bankCode" inputmode="numeric" pattern="[0-9]*" placeholder="Kód banky"></ons-input></ons-list-item>
+            <ons-list-header>Zabezpečení</ons-list-header>
+            <ons-list-item><ons-input id="register-password" type="password" placeholder="Uživatelské heslo" float></ons-input></ons-list-item>
+            <ons-list-item><ons-input id="register-pin" type="password" inputmode="numeric" pattern="[0-9]*" placeholder="PIN" float></ons-input></ons-list-item>
         </ons-list>
         <ons-button modifier="large--cta" onclick="submitRegistration()">Dokončit registraci</ons-button>
 
         </ons-page>
     </ons-template>
+    
+    <!--  REGISTER OUTCOME PAGE -->
+    
+    <ons-template id="register-outcome-template">
+        <ons-page id="register-outcome-page">
+          <ons-toolbar>
+                <div class="center" id="register-outcome-header"> </div>
+            </ons-toolbar>
+        <div class="formatting-block">
+        <div id="register-outcome-image" class="center-block">
+            
+        </div>
+        <p id="register-outcome-text"></p>
+        </div>
+        <ons-button modifier="large--cta" onclick="backToLogin()">Zpět na přihlašovací stránku</ons-button>
+        </ons-page>
+    </ons-template>
+    
+    <!--  TABBAR PAGE -->
     <ons-template id="main-multi-page-template">
         <ons-page id="main-multi-page">
             <ons-tabbar id="tabbar">
@@ -115,14 +141,15 @@
                     <ons-list-header> Rychlé akce </ons-list-header>
                     <ons-row>
                         <ons-col>
-                            <ons-button id="create-payment-button" modifier="large">
-                                <ons-icon icon="ion-arrow-up-c" size="50px" fixed-width="true"></ons-icon>
+                            <ons-button class="accept-button-special" id="create-payment-button" modifier="large">
+                                <img alt="Ikona zaplacení" src="view/icons/payment.png"/>
+                                
                                 <p class="button-label"> Zaplatit </p>
                             </ons-button>
                         </ons-col>
                         <ons-col class="left-border">
-                            <ons-button id="create-request-button" modifier="large">
-                                <ons-icon icon="ion-arrow-down-c" size="50px" fixed-width="true"></ons-icon>
+                            <ons-button class="accept-button-special" id="create-request-button" modifier="large">
+                                <img alt="Ikona připomínky" src="view/icons/loan.png"/>
                                 <p class="button-label">Připomenout se</p>
                             </ons-button>
                         </ons-col>
@@ -130,13 +157,13 @@
                     <ons-list-header>Přehled toků</ons-list-header>
                     <ons-row class="select-box">
                         <ons-col>
-                            <ons-button class="select-box-item-active select-box-left" id="incoming-payments-filter" data-filter="incoming" modifier="large">Přijaté</ons-button>
+                            <ons-button class="select-box-item-active select-box-left " id="incoming-payments-filter" data-filter="incoming" modifier="large">Přijaté</ons-button>
                         </ons-col>
                         <ons-col>
-                            <ons-button class="select-box-item select-box-center" id="outgoing-payments-filter" data-filter="outgoing" modifier="large">Odeslané</ons-button>
+                            <ons-button class="select-box-item select-box-center " id="outgoing-payments-filter" data-filter="outgoing" modifier="large">Odeslané</ons-button>
                         </ons-col>
                         <ons-col>
-                            <ons-button class="select-box-item select-box-right" id="unresolved-transactions-filter" data-filter="filter" modifier="large">Nevyřízené</ons-button>
+                            <ons-button class="select-box-item select-box-right " id="unresolved-transactions-filter" data-filter="filter" modifier="large">Nevyřízené</ons-button>
                         </ons-col>
                     </ons-row>
                 </ons-list>
@@ -159,6 +186,15 @@
     <!--           USER DETAIL PAGE              -->
     <ons-template id="user-detail-page-template">
         <ons-page id="user-detail-page">
+        <ons-toolbar>
+                <div class="center">Profil</div>
+            </ons-toolbar>
+            <ons-row>
+                    <ons-col class="center-block">
+                        <ons-icon  class="icon" icon="ion-person" size="70px"></ons-icon>
+                    </ons-col>
+                </ons-row>
+                
             <ons-list>
                 <ons-list-header>Detail uživatele</ons-list-header>
                 <ons-list-item>
@@ -170,12 +206,16 @@
                     <div class="right" id="phone-number-line"></div>
                 </ons-list-item>
                 <ons-list-item>
-                    <div class="left">Email</div>
-                    <div class="right" id="email-line"></div>
+                    <div class="left">Název účtu</div>
+                    <div class="right" id="account-name-line"></div>
                 </ons-list-item>
                 <ons-list-item modifier="">
-                    <div class="left">Facebook</div>
-                    <div class="right" id="facebook-contact-line"></div>
+                    <div class="left">Číslo účtu</div>
+                    <div class="right" id="account-number-line"></div>
+                </ons-list-item>
+                <ons-list-item modifier="">
+                    <div class="left">Kód banky</div>
+                    <div class="right" id="bank-code-line"></div>
                 </ons-list-item>
             </ons-list>
         </ons-page>
@@ -189,16 +229,7 @@
                 <div class="center">Kontakty</div>
             </ons-toolbar>
             <ons-list id="contact-list"></ons-list>
-            <script id="contact-list-item" type="text/template">
-                <ons-list-item class="contact-list-detail">
-                    <div class="left contact-name">{{name}}</div>
-                    <div class="center contact-phone">{{phoneNumber}}</div>
-                    <div class="right">
-                        <ons-icon icon="ion-chevron-right"></ons-icon>
-                    </div>
-                    <div class="hidden contact-index">{{index}}</div>
-                </ons-list-item>
-            </script>
+            
             <ons-row class="contact-toolbar">
                 <ons-col class="center-block">
                     <ons-icon icon="ion-search" size="40px"></ons-icon>
@@ -213,6 +244,17 @@
                     <p class="contact-button-label">Nastavit oblíbené</p>
                 </ons-col>
             </ons-row>
+            <script id="contact-list-item" type="text/template">
+                <ons-list-item class="contact-list-detail">
+                    <div class="left contact-name">{{name}}</div>
+                    
+                    <div class="center contact-phone">{{phoneNumber}}</div>
+                    <div class="right">
+                        {{indicator}}
+                    </div>
+                    <div class="hidden contact-index">{{index}}</div>
+                </ons-list-item>
+            </script>
         </ons-page>
     </ons-template>
     
@@ -223,7 +265,7 @@
                 <div class="center">Pozvat kamaráda</div>
             </ons-toolbar>
             <div class="invite-friend-block">
-                <ons-icon size="70px" icon="ion-person-add"></ons-icon>
+                <ons-icon  class="icon" size="70px" icon="ion-person-add"></ons-icon>
                 <h1 class="invite-friend-header">
             Pozvi kamaráda k používání Bill Me
         </h1>
@@ -231,11 +273,11 @@
             </div>
             <ons-row>
                 <ons-col class="center-block">
-                    <ons-icon size="50px" icon="ion-social-facebook"></ons-icon>
+                    <ons-icon  class="icon" size="50px" icon="ion-social-facebook"></ons-icon>
                     <p> Sdílej pozvánku </p>
                 </ons-col>
                 <ons-col class="center-block">
-                    <ons-icon size="50px" icon="ion-person-stalker"></ons-icon>
+                    <ons-icon  class="icon" size="50px" icon="ion-person-stalker"></ons-icon>
                     <p> Vyber kontakt </p>
                 </ons-col>
             </ons-row>
@@ -253,7 +295,7 @@
                         <p class="header-name" id="recievers-name3"></p>
                     </ons-col>
                     <ons-col class="center-block">
-                        <ons-icon icon="ion-person" size="70px"></ons-icon>
+                        <ons-icon  class="icon" icon="ion-person" size="70px"></ons-icon>
                     </ons-col>
                     <ons-col class="center-block upper-margin">
                         <p class="contact-detail" id="recievers-phone3"></p>

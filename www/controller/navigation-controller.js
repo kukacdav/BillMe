@@ -38,6 +38,10 @@ document.addEventListener('init', function(event)
         pageController.composeTransactionDetailPage();
     else if (page.id === 'reuqest-detail-page')
         pageController.composeRequestDetailPage();
+    else if (page.id === 'register-outcome-page')
+        pageController.composeRegisterOutcomePage(page);
+    //else if (page.id=== 'login-page')
+    //    navigationController.runTest();
 });
 
 navigationController.switchPage = function(target) {
@@ -59,4 +63,9 @@ moreOptionsSwitchPage= function(target) {
 setToMainPage = function() {
     document.querySelector('#main-navigator').pushPage('view/html/main-page.html');
     composeMainPage();
-}
+};
+
+
+
+
+

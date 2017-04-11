@@ -6,28 +6,24 @@
         </div>
         <div class="center">Detail transakce</div>
     </ons-toolbar>
-    <ons-row>
     
-        <ons-col class="center-block upper-margin">
-            <p  id="recievers-name"></p>
-        </ons-col>
+    <ons-row>
         <ons-col class="center-block">
-            <ons-icon  icon="ion-person" size="70px"></ons-icon>
+            <ons-icon  icon="ion-person" size="70px" class="icon"></ons-icon>
         </ons-col>
-        <ons-col class="center-block upper-margin">
-            <p class="contact-detail" id="recievers-phone"></p>
-            <p class="contact-detail" id="recievers-email"></p>
-        </ons-col>
+        
     </ons-row>
+    <ons-row>
+    <ons-col class="transaction-detail-text" class="right">
+            <div id="transaction-date"></div>
+    </ons-col>
+    </ons-row>
+    <p class="red-text incorrect-note center-text" id="insufficientBalanceNote"></p>
     <ons-list>
         <ons-list-header>Detail transakce</ons-list-header>
         <ons-list-item>
             <div class="left">Jméno</div>
             <div class="right" id="transaction-party"></div>
-        </ons-list-item>
-        <ons-list-item>
-            <div class="left">Datum</div>
-            <div class="right" id="transaction-date"></div>
         </ons-list-item>
         <ons-list-item>
             <div class="left">Částka</div>
@@ -37,14 +33,18 @@
             <div class="left">Zpráva</div>
             <div class="right" id="transaction-message"></div>
         </ons-list-item>
-        <ons-list-item>
-            <div class="left">Stav transakce</div>
-            <div class="right" id="transaction-state"></div>
-        </ons-list-item>
+        
         <ons-list-item id="response-message-field">
             <ons-icon icon="ion-email" size="30px" ></ons-icon>
             <div class="right">
                 <ons-input class="message-input-field" id="response-message-input" float></ons-input>        
+            </div>
+        </ons-list-item>
+        <ons-list-header id="request-pin-header">Potvrzení platby</ons-list-header>
+        <ons-list-item id="request-pin-body">
+        <ons-icon icon="ion-locked" size="30px" ></ons-icon>
+            <div class="right">
+                <ons-input class="message-input-field" id="pin-input" type="password" inputmode="numeric" pattern="[0-9]*" placeholder="Zadejte PIN" float></ons-input>
             </div>
         </ons-list-item>
     </ons-list>

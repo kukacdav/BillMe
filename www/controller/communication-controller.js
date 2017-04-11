@@ -1,4 +1,28 @@
 
+// Method for establishing socket communication
+communicationController.initializeApplicationListeners = function(){
+    console.log("Creating socket listeners");
+    console.log(storage.uid);
+    var socket = io.connect(deploydEndpoint);
+    socket.on('payment:' + storage.uid, function(data){
+        console.log("---- COLLECTION CHANGE: New payment ------" );
+        console.log(JSON.stringify(data));
+        //storage.userData.incomingPayments.unshift(data);
+        storage.newIncomingPayment(data);
+    });
+    socket.on('request:' + storage.uid, function(data){
+        console.log("---- COLLECTION CHANGE: incoming request ------" );
+        console.log(JSON.stringify(data));
+        //storage.userData.incomingRequests.unshift(data);
+        storage.newIncomingRequest(data);
+    });
+    socket.on('outgoingRequest:' + storage.uid, function(data){
+        console.log("---- COLLECTION CHANGE: outgoing request ------" );
+        console.log(JSON.stringify(data));
+        //storage.userData.incomingRequests.unshift(data);
+        storage.requestStateChanged(data);
+    });
+};
 
 // Method for authenticating user against server side
 communicationController.authenticateUser = function (username, password) {
@@ -24,7 +48,7 @@ communicationController.authenticateUser = function (username, password) {
     });
 };
 
-//Method for creating newUser
+//Method for creating newUser account
 communicationController.createNewUser = function (newContact){
     $.ajax(
     {
@@ -34,15 +58,24 @@ communicationController.createNewUser = function (newContact){
         {
            "fullName": newContact.forename + " " + newContact.surname,
            "bankAccount": newContact.bankAccount,
-           "contact": newContact.contact,
            "username": newContact.username,
-           "password": newContact.password
+           "password": newContact.password,
+           "phoneNumber": newContact.phoneNumber,
+           "pin": newContact.pin,
         },
         success: function(data)
         {
-            
+            console.log("Create new user success");
+            storage.registrationOutcome = "success";
+            document.querySelector('#main-navigator').resetToPage('register-outcome-template');            
+            //document.querySelector('#main-navigator').resetToPage('login-template');
         },
         error: function(data){
+            console.log("Create new suer failed");
+            storage.registrationOutcome = "error";
+            alert(JSON.stringify(data));
+            document.querySelector('#main-navigator').resetToPage('register-outcome-template');            
+            //unsuccesfullRegistration();
         },
         dataType: "json"
     });
@@ -70,19 +103,24 @@ communicationController.getUserData = function(uid){
 };
 
 //Method for retrieving contactList from server
-communicationController.loadContactList = function(){
+communicationController.loadApplicationData = function(id, contactList){
+    console.log("Loading application data: " + id);
     var deferred = $.Deferred();
     $.ajax(
     {
-        type: "GET",
-        url: deploydEndpoint + '/user?{"$fields":{"bankAccount.accountBalance": 0, "bankAccount.accountName": 0}}',
+        type: "PUT",
+        url: deploydEndpoint + '/user?id=' + id,
+        data: {
+            "contactList": contactList
+        },
         success: function(data)
         {
-            console.log("3. Succesfully queried contactList.");
+            console.log("3. Succesfully queried App data: ");
             deferred.resolve(data);
         },
         error: function(data){
-            console.log("User data query failed");
+            console.log("Loading loadApplicationData failed");
+            alert(JSON.stringify(data));
         },
         dataType: "json"
     });
@@ -91,8 +129,18 @@ communicationController.loadContactList = function(){
 
 // Method for submitting new transaction
 communicationController.persistTransaction = function (collection) {
+    console.log("CommunicationController: Persisiting transaction");
+    //alert(JSON.stringify(storage.newTransaction));
     var deferred = $.Deferred();
     var contraAccount = storage.newTransaction;
+    console.log(storage.userData.id);
+    console.log(storage.userData.fullName);
+    console.log(storage.userData.phoneNumber);
+    console.log(contraAccount.reciever);
+    console.log(contraAccount.recieverDetail.fullName);
+    console.log(contraAccount.recieverDetail.phone);
+    console.log(contraAccount.amount);
+    console.log(contraAccount.message);
     $.ajax(
     {
         type: "POST",
@@ -102,16 +150,12 @@ communicationController.persistTransaction = function (collection) {
             "initiator": storage.userData.id,
             "initiatorDetail": {
                 "fullName": storage.userData.fullName,
-                "phone": storage.userData.contact.phone,
-                "email":storage.userData.contact.email,
-                "facebook":storage.userData.contact.facebook
+                "phone": storage.userData.phoneNumber
             },
             "reciever": contraAccount.reciever,
             "recieverDetail": {
                 "fullName": contraAccount.recieverDetail.fullName,
-                "phone": contraAccount.recieverDetail.phone,
-                "email":contraAccount.recieverDetail.email,
-                "facebook":contraAccount.recieverDetail.facebook
+                "phone": contraAccount.recieverDetail.phone
             },
             "amount": contraAccount.amount,
             "message": contraAccount.message,
@@ -121,6 +165,11 @@ communicationController.persistTransaction = function (collection) {
         {
             console.log("Conttroller: Persisted new transaction");
             deferred.resolve(data);
+        },
+        error: function(data)
+        {
+            console.log("Persisting payment failed");
+            alert(data);
         },
         dataType: "json"
     });

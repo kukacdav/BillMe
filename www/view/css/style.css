@@ -29,40 +29,52 @@
     font-size: 0.8em
 }
 
+.center-text{
+    text-align: center;
+}
 /* ----------------- Styles regarding authentication-page.html -----------------------------*/
+
 
 #login-template{
     width: 1px;
-    
 }
 
 #authentication-block{
-    margin-top: 20%;
+    margin-top: 15%;
 }
 
 #main-logo{
-    margin-top: 10%
-    
+    margin-top: 5%;
+    margin-left: 55%;
 }
 
 .login-input-field {
-    border: 1px solid grey;
-    width: 88%;
+    width: 70%;
     padding-left: 2%;
     margin-bottom: 5%
 }
 
+.login-text{
+    color: white !important;
+}
+
 .login-icon{
-    margin: 1% 2%
+    margin: -1.7% 5%;
+    color: white;
+
+}
+
+ons-input .login-input-field{
+    color: white !important;
 }
 
 #register-button {
-    margin-top: 30%;
+    margin-top: 20%;
     background-color: grey;
 }
 
 .red-text {
-    color: red;
+    color: #ec8b72;
     font-family: Helvetica;
     font-size: 0.8em;
     margin: 0 0,5em;
@@ -74,10 +86,30 @@
     
 }
 
+.page--full_bg__background {
+    background: url('../icons/background.png');
+}
+
+.page-full_bg > .navigation-bar {
+    background-color: transparent; 
+}
+
+.green-icon{
+    color: green;
+}
+
+.red-icon{
+    color: red;
+}
+
+.formatting-block{
+    margin: 30% 3% 0 3%;
+}
+
 /* ----------------- Styles regarding main-page.html -----------------------------*/
 
 .red {
-    color: red;
+    color: #ec8b72;
 }
 .button-label{
     margin: 0;
@@ -89,8 +121,9 @@
 }
 
 .transaction-amount{
-    text-align: center;
     padding-left: 15px
+    text-align: right;
+    width:20%;
 }
 
 .transaction-party{
@@ -120,9 +153,19 @@
 
 .contact-toolbar {
     margin-top: 10%
-    
 }
 
+.contact-name {
+    width: 60%;
+}
+
+.contact-number {
+    width: 30%
+}
+
+.valid-icon {
+    color: #92CD00;
+}
 /* ----------------- Styles regarding set-amount-page.html --------------------*/
 .contact-detail{
     font-size: 10px;
@@ -139,7 +182,7 @@
 
 .incorrect-input-field{
     height: 10%;
-    border: 1px solid red;
+    border: 1px solid #ec8b72;
     padding: 10px;
     margin-bottom: 10px
     
@@ -171,4 +214,17 @@
  border: 1px solid #25a6d9;
 }
 
+.incorrect-pin{
+    border-color: #ec8b72 !important;
+    color: #ec8b72 !important;
+}
 
+/* ----------------- Styles regarding transaction-detail-page.html --------------------*/
+
+.transaction-detail-text{
+    margin-top: -10px;
+    margin-right: 5px;
+    font-size: 0.8em;
+    width: 20%;
+    text-align: right
+}

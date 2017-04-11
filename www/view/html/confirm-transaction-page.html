@@ -18,8 +18,7 @@
             <ons-icon  icon="ion-person" size="70px"></ons-icon>
         </ons-col>
         <ons-col class="center-block upper-margin">
-            <p class="contact-detail" id="recievers-phone2"></p>
-            <p class="contact-detail" id="recievers-email2"></p>
+            <p class="header-name" id="recievers-phone2"></p>
         </ons-col>
     </ons-row>
     
@@ -38,11 +37,11 @@
             </div>
             
         </ons-list-item>
-        <ons-list-header>Údaje o účtu pro zaslání peněz</ons-list-header>
+        <ons-list-header>Potvrzení platby</ons-list-header>
         <ons-list-item>
-            <ons-icon icon="ion-card" size="30px" ></ons-icon>
+        <ons-icon icon="ion-locked" size="30px" ></ons-icon>
             <div class="right">
-                <p>0000-181652381/0100</p>
+                <ons-input class="message-input-field" id="pin-input" type="password" inputmode="numeric" pattern="[0-9]*" placeholder="Zadejte PIN" float></ons-input>
             </div>
         </ons-list-item>
     </ons-list>

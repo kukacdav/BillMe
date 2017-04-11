@@ -1,0 +1,41 @@
+/* This is a CSS file */
+
+
+ons-page{
+    background-color: #f1f1f1 !important;
+}
+
+.accept-button {
+    background-color: #2987bb !important;
+}
+    
+.neutral-button {
+    background-color: #ec8b72 !important;
+}
+
+
+.select-box{
+    padding: 3px 1px 3px 1px;
+    background-color: #2987bb;
+    }
+    
+.select-box-item {
+    background-color: #2987bb;    
+}
+
+
+ons-list-item{
+    background-color: #f1f1f1;
+}
+
+.icon {
+    color: #2987bb !important;    
+}
+
+.accept-button-special {
+    background-color: #2987bb !important;
+}
+
+.text-input--underbar{
+    color: white !important;
+}
