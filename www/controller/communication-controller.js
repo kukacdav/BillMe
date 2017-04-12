@@ -71,7 +71,6 @@ communicationController.createNewUser = function (newContact){
             console.log("Create new user success");
             storage.registrationOutcome = "success";
             document.querySelector('#main-navigator').resetToPage('register-outcome-template');            
-            //document.querySelector('#main-navigator').resetToPage('login-template');
         },
         error: function(data){
             console.log("Create new suer failed");
@@ -103,6 +102,29 @@ communicationController.getUserData = function(uid){
         dataType: "json"
     });
     return deferred.promise();
+};
+
+// Changing userData on server
+    communicationController.changeUserDetail = function(newName, newAccountName){
+    console.log("Communication controller: CHanging user data" + id);
+    //alert(newName);
+     $.ajax(
+    {
+        type: "PUT",
+        url: deploydEndpoint + '/user?id=' + id,
+        data: {
+            "fullName": "newName2"
+        },
+        success: function(data)
+        {
+            console.log("3. Succesfully queried App data: ");
+            storage.updateUserDetail(newName, "Ucet");
+        },
+        error: function(data){
+            console.log("Loading loadApplicationData failed");
+        },
+        dataType: "json"
+    });
 };
 
 //Method for retrieving contactList from server

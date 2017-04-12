@@ -43,11 +43,39 @@ pageController.composeMainPage = function (page) {
 
 //Method for composing page with user detail
 pageController.composeUserDetailPage = function(page) {
+    console.log("pageComposer - composingUserDetailPage");
+    $("#alter-user-action-buttons").hide();
+    $("#change-user-data").empty().append("Upravit");
     page.querySelector('#username-line').innerHTML = storage.userData.fullName;
     page.querySelector('#phone-number-line').innerHTML = storage.userData.phoneNumber;
     page.querySelector('#account-name-line').innerHTML = storage.userData.bankAccount.accountName;
     page.querySelector('#account-number-line').innerHTML = storage.userData.bankAccount.accountPrefix + "-" + storage.userData.bankAccount.accountNumber;
     page.querySelector('#bank-code-line').innerHTML = storage.userData.bankAccount.bankCode;
+    page.querySelector('#change-user-data').onclick = function(){pageController.allowUserDataChange();};
+    
+};
+
+// Mthod for changing user-detail-page to editable mode
+pageController.allowUserDataChange = function(){
+    $("#alter-user-action-buttons").show();
+    $("#change-user-data").empty().append("Uložit");
+    console.log("user data change mode");
+    document.querySelector('#username-line').innerHTML = "";
+    document.querySelector('#account-name-line').innerHTML = "";
+    $('<ons-input id="new-username" class="right" float></ons-input><ons-icon  class="icon" icon="ion-edit" size="20px"></ons-icon>').appendTo("div#username-line");
+    $("#new-username").attr('placeholder', storage.userData.fullName);
+    $('<ons-input id="new-accountName" class="right"  float></ons-input><ons-icon  class="icon" icon="ion-edit" size="20px"></ons-icon>').appendTo("div#account-name-line");
+    $("#new-accountName").attr('placeholder', storage.userData.bankAccount.accountName);
+    page.querySelector('#change-user-data').onclick = function(){pageController.changeUserData();};
+};
+
+// Method for changing user data
+pageController.changeUserData = function() {
+    var newName = document.querySelector('#new-username').value;
+    var newAccountName = document.querySelector('#new-accountName').value;
+    console.log(newName);
+    console.log(newAccountName);
+    storage.changeUserData(newName, newAccountName);
 };
 
 //Method for composing content of page More-Options

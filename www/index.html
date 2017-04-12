@@ -196,8 +196,9 @@
         <ons-page id="user-detail-page">
         <ons-toolbar>
                 <div class="center">Profil</div>
+                <!-- Change user data - in progress <div class="right" ><ons-button id="change-user-data" modifier="quiet"></ons-button></div> -->
             </ons-toolbar>
-            <ons-row>
+                <ons-row>
                     <ons-col class="center-block">
                         <ons-icon  class="icon" icon="ion-person" size="70px"></ons-icon>
                     </ons-col>
@@ -210,12 +211,12 @@
                     <div class="right" id="username-line"></div>
                 </ons-list-item>
                 <ons-list-item>
-                    <div class="left">Telefon</div>
-                    <div class="right" id="phone-number-line"></div>
-                </ons-list-item>
-                <ons-list-item>
                     <div class="left">Název účtu</div>
                     <div class="right" id="account-name-line"></div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="left">Telefon</div>
+                    <div class="right" id="phone-number-line"></div>
                 </ons-list-item>
                 <ons-list-item modifier="">
                     <div class="left">Číslo účtu</div>
@@ -226,6 +227,18 @@
                     <div class="right" id="bank-code-line"></div>
                 </ons-list-item>
             </ons-list>
+            <ons-row id="alter-user-action-buttons">
+                <ons-col >
+                <ons-button modifier="large" onclick="pageController.composeUserDetailPage()">
+                Zrušit
+            </ons-button>
+        </ons-col>
+        <ons-col >
+            <ons-button modifier="large" onclick="pageController.changeUserData()">
+                Uložit
+            </ons-button>
+        </ons-col>
+    </ons-row>
         </ons-page>
     </ons-template>
     

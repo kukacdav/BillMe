@@ -76,7 +76,7 @@ storage.verifyPIN = function(pin, message){
     if (pin === this.userData.pin)
         this.storeNewTransactionMessage(message);
     else{
-        console.log("inncorrect pin!!!");
+        console.log("inncorrect pin!!!, expected:" + this.userData.pin );
         $('#pin-input').addClass("incorrect-pin");  
         document.querySelector('#pin-input').value = "";
     }
@@ -126,6 +126,22 @@ storage.updateUserData = function(callback){
         storage.storeUserData(userData);
         callback();
     });
+};
+
+// Method for updating user data on server
+storage.changeUserData = function(newName, newAccountName){
+    console.log("Storage: Changing user data");
+    alert(newName);
+    alert(newAccountName);
+    communicationController.changeUserDetail(newName, newAccountName);
+};
+
+// Method for user data update
+storage.updateUserDetail = function(newName, newAccountName){
+    console.log("Updating user detail");
+    this.userData.fullName = newName;
+    this.bankAccount.accountName = newAccountName;
+    pageController.composeUserDetailPage(document);
 };
 
 //Method for wipping out data about previous request
