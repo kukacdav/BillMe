@@ -93,9 +93,25 @@ pageController.composeInviteFriendPage = function (page) {
     // Static page, nothing to compose for now
 };
 
+// Method for composing new-contact-page
+pageController.composeNewContactPage = function(page){   
+    page.querySelector('#create-new-contact-button').onclick = function(){
+        var name = document.querySelector('#new-contact-name').value;
+        var phone = document.querySelector('#new-contact-number').value;
+        contactManager.submitNewContact(name, phone);
+        document.getElementById('tabbar').setTabbarVisibility(true);
+        navigationController.popPage('newContactNavigator');
+    };
+};
+
 //Method for composing Phone-contacts-page
 pageController.composePhoneContactsPage = function(page) {
    pageController.assembleContactList(page);
+   page.querySelector('#create-contact').onclick = function(){
+        document.getElementById('tabbar').setTabbarVisibility(false);
+        navigationController.addPage('newContactNavigator', 'new-contact-page-template');
+    };
+   
 };
 
 //Method for composing ContactListPage
@@ -426,6 +442,5 @@ pageController.hideIncomingRequestFields = function() {
 pageController.hideOutgoingRequestFields = function() {
     $('#outgoing-requests-action-buttons').hide();
 };
-
 
 

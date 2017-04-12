@@ -29,6 +29,7 @@ storage.getApplicationData = function(){
 
 };
 
+
 // Method for storing user data querried from server
 storage.storeUserData = function(data){
     console.log("Storage: Storing user data " + data.fullName);

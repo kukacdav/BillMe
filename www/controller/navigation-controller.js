@@ -40,6 +40,8 @@ document.addEventListener('init', function(event)
         pageController.composeRequestDetailPage();
     else if (page.id === 'register-outcome-page')
         pageController.composeRegisterOutcomePage(page);
+     else if (page.id === 'new-contact-page')
+        pageController.composeNewContactPage(page);
 
 });
 
@@ -62,7 +64,15 @@ setToMainPage = function() {
     composeMainPage();
 };
 
+navigationController.addPage = function(navigator, target){
+    var selectedNavigator = document.getElementById(navigator); 
+    selectedNavigator.pushPage(target);
+};
 
+navigationController.popPage = function(navigator){
+    var selectedNavigator = document.getElementById(navigator); 
+    selectedNavigator.popPage();
+};
 
 
 

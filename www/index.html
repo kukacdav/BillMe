@@ -245,26 +245,18 @@
     
     <!-- PHONE CONTACTS PAGE TEMPLATE -->
     <ons-template id="phone-contacts-page-template">
-        <ons-page id="phone-contacts-page">
+        <ons-navigator id="newContactNavigator">
+            <ons-page id="phone-contacts-page">
             <ons-toolbar>
                 <div class="center">Kontakty</div>
             </ons-toolbar>
-            <ons-list id="contact-list"></ons-list>
-            
-            <ons-row class="contact-toolbar">
+            <ons-row class="contact-toolbar" id="create-contact">
                 <ons-col class="center-block">
-                    <ons-icon icon="ion-search" size="40px"></ons-icon>
-                    <p class="contact-button-label">Vyhledat kontakt</p>
-                </ons-col>
-                <ons-col class="center-block">
-                    <ons-icon icon="ion-person-add" size="40px"></ons-icon>
+                    <ons-icon class="icon" icon="ion-person-add" size="40px"></ons-icon>
                     <p class="contact-button-label">Vytvořit kontakt</p>
                 </ons-col>
-                <ons-col class="center-block">
-                    <ons-icon icon="ion-star" size="40px"></ons-icon>
-                    <p class="contact-button-label">Nastavit oblíbené</p>
-                </ons-col>
             </ons-row>
+            <ons-list id="contact-list"></ons-list>
             <script id="contact-list-item" type="text/template">
                 <ons-list-item class="contact-list-detail">
                     <div class="left contact-name">{{name}}</div>
@@ -276,6 +268,27 @@
                     <div class="hidden contact-index">{{index}}</div>
                 </ons-list-item>
             </script>
+        </ons-page>
+        </ons-navigator>
+    </ons-template>
+    
+    <!-- NEW CONTACT PAGE TEMPLATE -->
+    
+    <ons-template id="new-contact-page-template">
+            <ons-page id="new-contact-page">
+            <ons-toolbar>
+            
+            <div class="left">
+                <ons-back-button>Zpět</ons-back-button>
+            </div>
+                <div class="center">Nový kontakt</div>
+            </ons-toolbar>
+            <ons-list>
+                <ons-list-header>Detail nového kontaktu</ons-list-header>
+                 <ons-list-item><ons-input id="new-contact-name" placeholder="Jméno"></ons-input></ons-list-item>
+                <ons-list-item><ons-input id="new-contact-number" inputmode="numeric" pattern="[0-9]*" placeholder="Telefonní číslo"></ons-input></ons-list-item>
+            </ons-list>
+            <ons-button id="create-new-contact-button" modifier="large--cta">Uložit kontakt</ons-button>
         </ons-page>
     </ons-template>
     
