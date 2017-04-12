@@ -99,7 +99,7 @@ pageController.composeNewContactPage = function(page){
         var name = document.querySelector('#new-contact-name').value;
         var phone = document.querySelector('#new-contact-number').value;
         contactManager.submitNewContact(name, phone);
-        document.getElementById('tabbar').setTabbarVisibility(true);
+     //   document.getElementById('tabbar').setTabbarVisibility(true);
         navigationController.popPage('newContactNavigator');
     };
 };
@@ -111,6 +111,9 @@ pageController.composePhoneContactsPage = function(page) {
         document.getElementById('tabbar').setTabbarVisibility(false);
         navigationController.addPage('newContactNavigator', 'new-contact-page-template');
     };
+    document.querySelector('#newContactNavigator').addEventListener('prepop', function(event) {
+        document.getElementById('tabbar').setTabbarVisibility(true);
+    }); 
    
 };
 
