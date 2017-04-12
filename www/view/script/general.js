@@ -104,4 +104,3 @@ function buildUnsuccesfullRegistrationOutcomePage(page)
     page.querySelector('#register-outcome-image').innerHTML = '<ons-icon icon="ion-close-circled" size="90px" class="center-block red-icon"></ons-icon>';
     page.querySelector('#register-outcome-text').innerHTML = "Registrace proběhla neúspěšně. Vámi zadané údaje nejsou v aplikaci jedinečné.";
 };
-

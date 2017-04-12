@@ -102,10 +102,11 @@ pageController.composeNewContactPage = function(page){
 pageController.composePhoneContactsPage = function(page) {
    pageController.assembleContactList(page);
    page.querySelector('#create-contact').onclick = function(){
+       
         document.getElementById('tabbar').setTabbarVisibility(false);
-        navigationController.addPage('newContactNavigator', 'new-contact-page-template');
+        navigationController.pushPage('new-contact-navigator', 'new-contact-page-template');
     };
-    document.querySelector('#newContactNavigator').addEventListener('prepop', function(event) {
+    document.querySelector('#new-contact-navigator').addEventListener('prepop', function(event) {
         document.getElementById('tabbar').setTabbarVisibility(true);
     }); 
    
@@ -439,5 +440,3 @@ pageController.hideIncomingRequestFields = function() {
 pageController.hideOutgoingRequestFields = function() {
     $('#outgoing-requests-action-buttons').hide();
 };
-
-
