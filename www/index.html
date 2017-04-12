@@ -33,8 +33,9 @@
 
 <body>
     <ons-modal id="modal">
-        <ons-icon icon="ion-load-c" spin="true" size="2em"></ons-icon>
+        <ons-icon icon="ion-load-c" spin="true" size="2.5em"></ons-icon>
     </ons-modal>
+    
     <ons-navigator id="main-navigator" page="login-template"></ons-navigator>
     <ons-template id="login-template">
         <ons-page id="login-page" modifier="full_bg">
@@ -53,8 +54,8 @@
                     <ons-icon class="right-floater login-icon" icon="ion-locked" size="2em"></ons-icon>
                     <ons-input class="login-input-field login-text" id="login-password" type="password" modifier="underbar" placeholder="Heslo" float></ons-input>
                 </ons-row>
-                <ons-button class="accept-button" modifier="large--cta" onclick="login()" id="login-button">Příhlásit se</ons-button>
-                <ons-button class="neutral-button" modifier="large--cta" onclick="register()" id="register-button">Registrovat se</ons-button>
+                <ons-button class="accept-button" modifier="large--cta" onclick="loginUser()" id="login-button">Příhlásit se</ons-button>
+                <ons-button class="neutral-button" modifier="large--cta" onclick="loginController.register()" id="register-button">Registrovat se</ons-button>
             </div>
             </div>
         </ons-page>
@@ -102,7 +103,7 @@
         </div>
         <p id="register-outcome-text"></p>
         </div>
-        <ons-button modifier="large--cta" onclick="backToLogin()">Zpět na přihlašovací stránku</ons-button>
+        <ons-button modifier="large--cta" onclick="loginController.backToLogin()">Zpět na přihlašovací stránku</ons-button>
         </ons-page>
     </ons-template>
     
@@ -128,7 +129,7 @@
           
                 <div class="center">Můj přehled</div>
                 <div class="right">
-            <ons-button class="smaller-text" modifier="quiet" onclick="logout()">Odhlásit se</ons-button>
+            <ons-button class="smaller-text" modifier="quiet" onclick="loginController.logout()">Odhlásit se</ons-button>
         </div>
             </ons-toolbar>
                 <ons-list>

@@ -50,6 +50,8 @@ navigationController.switchPage = function(target) {
         document.querySelector('#pageNavigator').pushPage(target);
 };
 
+
+
 navigationController.resetToMainPage = function(){
     document.querySelector('#pageNavigator').resetToPage('main-page-template'); 
 };
@@ -64,7 +66,10 @@ setToMainPage = function() {
     composeMainPage();
 };
 
-navigationController.addPage = function(navigator, target){
+// General navigator methods
+
+navigationController.pushPage = function(navigator, target){
+    //console.log("Navigator controller: " + navigator + " pushing " + target );
     var selectedNavigator = document.getElementById(navigator); 
     selectedNavigator.pushPage(target);
 };
@@ -74,5 +79,13 @@ navigationController.popPage = function(navigator){
     selectedNavigator.popPage();
 };
 
+navigationController.resetToPage = function(navigator, target){
+    //console.log("Navigator controller: " + navigator + " reseting to " + target );
+    var selectedNavigator = document.getElementById(navigator); 
+    selectedNavigator.resetToPage(target, {animation: "slide"});
+};
 
-
+navigationController.replacePage = function(navigator, target){
+    var selectedNavigator = document.getElementById(navigator); 
+    selectedNavigator.replacePage(target);
+};

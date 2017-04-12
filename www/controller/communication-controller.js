@@ -29,6 +29,7 @@ communicationController.initializeApplicationListeners = function(){
 
 // Method for authenticating user against server side
 communicationController.authenticateUser = function (username, password) {
+    var deferred = $.Deferred();
     $.ajax(
     {
         type: "POST",
@@ -41,18 +42,21 @@ communicationController.authenticateUser = function (username, password) {
         success: function(data)
         {
             console.log ("1. Successfull authentication");
-            storage.init(data);
+            deferred.resolve(data);
         },
         error: function(data){
             console.log("Authentication failed");
-            showFailedAuthorizationNote();
+            deferred.reject(data);
         },
         dataType: "json"
     });
+    return deferred.promise();
+
 };
 
 //Method for creating newUser account
 communicationController.createNewUser = function (newContact){
+    var deferred = $.Deferred();
     $.ajax(
     {
         type: "POST",
@@ -68,20 +72,17 @@ communicationController.createNewUser = function (newContact){
         },
         success: function(data)
         {
-            console.log("Create new user success");
-            storage.registrationOutcome = "success";
-            document.querySelector('#main-navigator').resetToPage('register-outcome-template');            
+            console.log("CommunicationController: Create new user success");
+            deferred.resolve(data);
         },
         error: function(data){
-            console.log("Create new suer failed");
-            storage.registrationOutcome = "error";
-            alert(JSON.stringify(data));
-            document.querySelector('#main-navigator').resetToPage('register-outcome-template');            
-            //unsuccesfullRegistration();
+            console.log("CommunicationController: Create new user failed");
+            deferred.reject(data);
+            
         },
         dataType: "json"
     });
-    
+    return deferred.promise();
 };
 
 // Querring userData from server
@@ -249,7 +250,7 @@ communicationController.logoutUser = function(){
         },
         error: function(data){
             console.log("ERROR when logging out");
-            deferred.resolve(data);
+            deferred.reject(data);
         },
         dataType: "json"
     });
