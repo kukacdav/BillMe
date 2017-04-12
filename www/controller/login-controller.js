@@ -18,11 +18,30 @@ loginController.login = function(username, password) {
   var authentizationPerformed = $.when(communicationController.authenticateUser(username, password));
   authentizationPerformed.done(function(data) {
       storage.init(data);
+      contactManager.initialize();
   });
   authentizationPerformed.fail(function(data) {
       hideModal();
       showFailedAuthorizationNote();
   });
+};
+
+// Method handeling initialization of application
+// - attach socket.io listeners to events
+// - get user data
+// - get contact list from server
+loginController.initializeApplication = function(){
+    communicationController.initializeApplicationListeners();
+    var appInitialized = $.when(communicationController.getUserData(storage.uid), communicationController.loadApplicationData(storage.uid, storage.cordovaContacts));
+    appInitialized.done(function(userData, contactData)
+    {
+        storage.storeUserData(userData);
+        storage.storeContactList(contactData);
+        hideModal();
+        navigationController.resetToPage('main-navigator', 'main-multi-page-template');
+        //navigationController.replacePageWith('main-multi-page-template');
+    });
+
 };
 
 // Method for registring new user

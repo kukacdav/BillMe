@@ -2,7 +2,45 @@
 // This class works with Cordova-contact-plugin. Class handles data retrieval from device as well as their parsing.
 // Created by: David Kukacka
 // Functions for getting name of the contact
-function getName(c)
+var contactManager = {};
+
+// Method for initializing application in regards of Cordova
+// - method blocks back button function
+// - method retrievs contact list
+contactManager.initialize = function()
+{
+    this.blockBackButtonFunction();
+    this.getContactList();
+};
+
+// Method foŕ disabling back button
+contactManager.blockBackButtonFunction = function()
+{
+    document.addEventListener("backbutton", onBackKeyDown, false);
+
+    function onBackKeyDown(e)
+    {
+        return false;
+    }
+};
+
+function onBackKeyDown()
+{
+    // Do nothing - backbutton is therefore disabled
+};
+
+// Method for retrieving contact-list of device
+// - when contact list is succesfully gotten, method calls this.onSuccess
+// - when contact list is not succesfully gotten, method calls this.onError
+contactManager.getContactList = function()
+{
+    console.log("Cordova: Searching for contacts");
+    navigator.contacts.find(
+        [navigator.contacts.fieldType.displayName], contactManager.onSuccess, contactManager.onError);
+};
+
+// Method for getting name of contact - due to platform differences
+contactManager.getName = function(c)
 {
     var name = c.displayName;
     if (!name || name === "")
@@ -14,16 +52,17 @@ function getName(c)
         return "Nameless";
     }
     return name;
-}
-// Function for handeling success during loading device contacts
-function onSuccess(contacts)
+};
+
+// Method for handeling success during loading device contacts
+contactManager.onSuccess = function (contacts)
 {
     console.log("Cordova: Phone contacts loaded successfully");
     storage.cordovaContacts = [];
     for (var i = 0; i < contacts.length; i++)
     {
         var item = {};
-        var name = getName(contacts[i]);
+        var name = contactManager.getName(contacts[i]);
         item.name = name;
         item.valid = false;
         var contact = contacts[i];
@@ -33,7 +72,7 @@ function onSuccess(contacts)
         }
         else
         {
-            var phoneNumber = transform(contact.phoneNumbers[0].value);
+            var phoneNumber = contactManager.transform(contact.phoneNumbers[0].value);
             if (phoneNumber == "NaP") continue;
             item.phoneNumber = phoneNumber;
         }
@@ -41,15 +80,18 @@ function onSuccess(contacts)
     }
     storage.cordovaIndicator = true;
     console.log("Cordova: DONE, contact list built");
-    storage.getApplicationData();
+    loginController.initializeApplication();
+    //storage.getApplicationData();
 };
-// Function for handeling error during loading device contacts 
-function onError(contactError)
+
+// Method for handeling error during loading device contacts 
+contactManager.onError = function(contactError)
 {
     alert('Cordova: Error loading device contacts!');
 };
+
 // Function to transfrom phone number to standartized format
-function transform(phone)
+contactManager.transform = function(phone)
 {
     if (phone.lenght == 9)
     {
@@ -64,37 +106,10 @@ function transform(phone)
         return "NaP";
     }
     else return phone;
-}
-contactManager.getContactList = function()
-{
-    console.log("Cordova: Searching for contacts");
-    navigator.contacts.find(
-        [navigator.contacts.fieldType.displayName], onSuccess, onError);
-};
-// Method for initializing device on Cordova level
-contactManager.initialize = function()
-{
-    this.blockBackButtonFunction();
-    this.getContactList();
-};
-// Method foŕ disabling back button
-contactManager.blockBackButtonFunction = function()
-{
-    document.addEventListener("backbutton", onBackKeyDown, false);
-
-    function onBackKeyDown(e)
-    {
-        return false;
-    }
-    /*
-    document.addEventListener("backbutton", onBackKeyDown, false);
-    console.log("Cordova: Blocking back button");*/
 };
 
-function onBackKeyDown()
-{
-    // Do nothing - backbutton is therefore disabled
-};
+
+
 // Function for creating new contact in device memory
 contactManager.submitNewContact = function(name, phone)
 {

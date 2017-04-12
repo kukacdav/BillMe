@@ -6,29 +6,8 @@
 // Method for initializing storage
 storage.init = function(data){
     console.log("Storage: Initializing storage");
-    contactManager.initialize();
     storage.storeSessionData(data);
 };
-
-//Method for retrieving data from server
-storage.getApplicationData = function(){
-    console.log("Storage: Getting application data");
-    communicationController.initializeApplicationListeners();
-    var storageInitialized = $.when(communicationController.getUserData(storage.uid), communicationController.loadApplicationData(storage.uid, storage.cordovaContacts));
-    //var contactListInitialized = $.when(communicationController.loadContactList());
-    storageInitialized.done(function(userData, contactData)
-    {
-        console.log(userData +" AND " + contactData );
-        storage.storeUserData(userData);
-        console.log(contactData.fullName + contactData.hasOwnProperty('validPhones'));
-        storage.storeContactList(contactData);
-        console.log("Storage: UserData initialized, contact list retrieved");
-        hideModal();
-        navigationController.replacePageWith('main-multi-page-template');
-    });
-
-};
-
 
 // Method for storing user data querried from server
 storage.storeUserData = function(data){
@@ -57,7 +36,6 @@ storage.storeUserData = function(data){
 // Method for storing contact list querried from server
 storage.storeContactList = function(data){
     console.log("Storage: Storing contact list: ");
-    
     var array = [];
     for (var i = 0; i<data.validPhones.length; i++){
         data.validPhones[i].id = i;
