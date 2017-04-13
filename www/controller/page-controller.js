@@ -195,16 +195,11 @@ pageController.submitNewTransaction = function(pin, message) {
 
 // Method for composing success submit page
 pageController.composeSuccessSubmitPage = function(page) {
-    if (storage.newTransaction.transactionType === "payment") {
-        page.querySelector('#success-submit-header').innerHTML = successSubmitHeaderPayment;
-        page.querySelector('#success-submit-message').innerHTML = successSubmitMessagePayment;        
-    }
-    else {
-        page.querySelector('#success-submit-header').innerHTML = successSubmitHeaderRequest;
-        page.querySelector('#success-submit-message').innerHTML = successSubmitMessageRequest;
-    }
-    page.querySelector('#transaction-success-image').innerHTML = '<ons-icon icon="ion-checkmark-circled" size="90px" class="center-block green-icon"></ons-icon>';
-    document.getElementById('tabbar').setTabbarVisibility(false);
+    if (storage.newTransaction.transactionType === "payment")
+        buildSuccessSubmitPage(page, "Úspešná platba", "Platba byla úspěšně provedena");
+    
+    else
+        buildSuccessSubmitPage(page, "Úspešná připomínka", "Úspěšná připomínka");
     document.querySelector('#transaction-success-button').onclick = function() {
         storage.clearOutSystemVariables();
         navigationController.resetToMainPage();

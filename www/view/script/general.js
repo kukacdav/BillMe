@@ -196,3 +196,12 @@ function incorrectPIN(){
     $('#pin-input').addClass("incorrect-pin");  
     document.querySelector('#pin-input').value = "";
 };
+
+/*-------- BUILD SUCCESS SUBMIT PAGE TEMPLATE VIEW ACTIONS ----------*/
+// function for building success-submit-page
+function buildSuccessSubmitPage(page, title, message){
+    page.querySelector('#success-submit-header').innerHTML = title;
+    page.querySelector('#success-submit-message').innerHTML = message;       
+    page.querySelector('#transaction-success-image').innerHTML = '<ons-icon icon="ion-checkmark-circled" size="90px" class="center-block green-icon"></ons-icon>';
+
+}
