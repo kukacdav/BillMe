@@ -209,7 +209,6 @@ pageController.composeSuccessSubmitPage = function(page) {
 
 //Support method for showing reuqests
 pageController.showRequests = function ()  {
-    console.log("Page controller: Showing requests");
     document.querySelector('#transaction-list').innerHTML="";
     systemVariables.filterFlag = "requests";
     this.showIncomingRequests(storage.userData.incomingRequests);
