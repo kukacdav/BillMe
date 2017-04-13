@@ -28,8 +28,6 @@ document.addEventListener('init', function(event)
         pageController.composeContactListPage(page);
     else if (page.id === 'set-amount-page')
         pageController.composeSetAmountPage(page);
-    else if (page.id === 'define-transaction-page')
-        pageController.composeDefineTransactionPage(page);
     else if (page.id === 'confirm-transaction-page')
         pageController.composeConfirmTransactionPage(page);
     else if (page.id === 'success-submit-page')

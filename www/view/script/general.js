@@ -172,3 +172,27 @@ function showInsufficientBalanceNote (){
     document.querySelector('#insufficientBalanceNote').innerHTML = "Nemáte na účtě dostatečný zůstatek.";
 };
 
+/*-------- CONFIRM TRANSACTION PAGE TEMPLATE VIEW ACTIONS ----------*/
+
+// function for building up confirm transaction page
+function buildConfirmTransactionPage (page, title, amountHeader, action, name, phoneNumber, amount){
+    page.querySelector('#page-header').innerHTML = title;
+    page.querySelector('#transaction-amount-header').innerHTML = amountHeader;    
+    page.querySelector('#submit-button').innerHTML = action;
+    page.querySelector('#recievers-name2').innerHTML = name;    
+    page.querySelector('#recievers-phone2').innerHTML = phoneNumber;
+    page.querySelector('#transaction-amount').innerHTML = amount + " Kč";
+};
+
+//Function invoked by pressing submit button, handles view logic of invokation
+function submitNewTransaction() {
+    var pin = document.querySelector('#pin-input').value;
+    var message = document.querySelector('#message-input').value;
+    pageController.submitNewTransaction(pin, message);
+};
+
+// Function for displaying, that set pin is not valid
+function incorrectPIN(){
+    $('#pin-input').addClass("incorrect-pin");  
+    document.querySelector('#pin-input').value = "";
+};

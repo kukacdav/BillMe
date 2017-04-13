@@ -171,46 +171,27 @@ pageController.controlAmountInput = function(amount) {
     amountSetIncorrectly();
 };
 
-//Method for building page for defining transactionDetail
-pageController.composeDefineTransactionPage = function(page) {
-    if (storage.newTransaction.transactionType === "payment")
-        page.querySelector('#page-header').innerHTML = "New payment";
-    else if (storage.newTransaction.transactionType === "request")
-        page.querySelector('#page-header').innerHTML = "New request";
-};
-
 // Method for building transactionConfirmPage
 pageController.composeConfirmTransactionPage = function(page) {
-    console.log("Composing confirm transaction page") ;
-    console.log("Reciever: " + storage.cordovaContacts[storage.newTransaction.contactIndex].name) ;
-    console.log("Phone: " + storage.cordovaContacts[storage.newTransaction.contactIndex].phoneNumber) ;
-    console.log("Amount: " + storage.newTransaction.amount);
-    console.log("Type: " + storage.newTransaction.transactionType);
     if (storage.newTransaction.transactionType === "payment")
-        pageController.composeConfirmTransactionPaymentPage(page);
-    else 
-        pageController.composeConfirmTransactionRequestPage(page);
-    page.querySelector('#recievers-name2').innerHTML = storage.cordovaContacts[storage.newTransaction.contactIndex].name;    
-    page.querySelector('#recievers-phone2').innerHTML = storage.cordovaContacts[storage.newTransaction.contactIndex].phoneNumber;    
-    console.log("Name and phone assembled");
-    page.querySelector('#transaction-amount').innerHTML = storage.newTransaction.amount+ " Kč";
-    page.querySelector('#submit-button').onclick = function(){ storage.verifyPIN(document.querySelector('#pin-input').value, document.querySelector('#message-input').value);};
+        buildConfirmTransactionPage(page, "Detail platby", "Odesílaná částka", "Zaplatit", storage.cordovaContacts[storage.newTransaction.contactIndex].name, storage.cordovaContacts[storage.newTransaction.contactIndex].phoneNumber, storage.newTransaction.amount);
+    else
+        buildConfirmTransactionPage(page, "Detail připomínky", "Žádaná částka", "Požádat", storage.cordovaContacts[storage.newTransaction.contactIndex].name, storage.cordovaContacts[storage.newTransaction.contactIndex].phoneNumber, storage.newTransaction.amount);
+    page.querySelector('#submit-button').onclick = function(){ submitNewTransaction();};
 };
 
-//Support method for building compose confirm page - payment
-pageController.composeConfirmTransactionPaymentPage = function(page){
-    page.querySelector('#page-header').innerHTML = "Detail platby";
-    page.querySelector('#transaction-amount-header').innerHTML = "Odesílaná částka";    
-    page.querySelector('#submit-button').innerHTML = "Zaplatit";
-    console.log("Payment page titles builded");
+
+// Method invoked by view, handles message and pin validation
+pageController.submitNewTransaction = function(pin, message) {
+    if (pin === storage.userData.pin)
+        storage.storeNewTransactionMessage(message);
+    else{
+        console.log("inncorrect pin!!!, expected:" + storage.userData.pin );
+        incorrectPIN();
+    }
 };
 
-//Support method for building compose confirm page - transaction
-pageController.composeConfirmTransactionRequestPage = function(page){
-    page.querySelector('#page-header').innerHTML = "Detail připomínky";
-    page.querySelector('#transaction-amount-header').innerHTML = "Žádaná částka";    
-    page.querySelector('#submit-button').innerHTML = "Požádat";
-};
+// CHECKPOINT
 
 // Method for composing success submit page
 pageController.composeSuccessSubmitPage = function(page) {
