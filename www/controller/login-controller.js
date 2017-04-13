@@ -55,6 +55,7 @@ loginController.register = function(){
 // - Method recieves validated object and using communication-controller submits new user  
 
 loginController.submitRegistration = function(newUser) {
+    console.log("LoginController: Submitting registration");
     var registrationSubmitted = $.when(communicationController.createNewUser(newUser));
     registrationSubmitted.done(function(data)
     {

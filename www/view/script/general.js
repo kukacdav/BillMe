@@ -77,7 +77,7 @@ submitRegistration = function()
         registrationIncomplete();
          return;
     }
-    newUser.phoneNumber = transform(newUser.phoneNumber);
+    newUser.phoneNumber = contactManager.transform(newUser.phoneNumber);
     newUser.bankAccount = bankAccount;
     loginController.submitRegistration(newUser);
 };
@@ -104,3 +104,12 @@ function buildUnsuccesfullRegistrationOutcomePage(page)
     page.querySelector('#register-outcome-image').innerHTML = '<ons-icon icon="ion-close-circled" size="90px" class="center-block red-icon"></ons-icon>';
     page.querySelector('#register-outcome-text').innerHTML = "Registrace proběhla neúspěšně. Vámi zadané údaje nejsou v aplikaci jedinečné.";
 };
+
+/*-------- MAIN PAGE TEMPLATE VIEW ACTIONS ----------*/
+
+function buildMainPage(page, accountName, accountNumber, balance){
+    console.log("Building main page");
+    page.querySelector('#account-name').innerHTML = accountName;
+    page.querySelector('#account-number').innerHTML = accountNumber; 
+    page.querySelector('#account-balance').innerHTML = balance + " Kč";
+}

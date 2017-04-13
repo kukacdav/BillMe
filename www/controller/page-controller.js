@@ -17,10 +17,9 @@ pageController.composeRegisterOutcomePage = function(page) {
 //Method for composing main page
 pageController.composeMainPage = function (page) {
         document.getElementById('tabbar').setTabbarVisibility(true);
-        console.log("Composing main page");
-        page.querySelector('#account-name').innerHTML = storage.userData.bankAccount.accountName;
-        page.querySelector('#account-number').innerHTML = storage.userData.bankAccount.accountPrefix + "-" + storage.userData.bankAccount.accountNumber + "/" + storage.userData.bankAccount.bankCode;
-        page.querySelector('#account-balance').innerHTML = storage.userData.accountBalance + " Kč";
+        var accountNumber = storage.userData.bankAccount.accountPrefix + "-" + storage.userData.bankAccount.accountNumber + "/" + storage.userData.bankAccount.bankCode;
+        var balance = storage.userData.accountBalance;
+        buildMainPage(page, storage.userData.bankAccount.accountName, accountNumber, balance );        
         page.querySelector('#create-payment-button').onclick = function(){storage.createNewTransaction("payment");};
         page.querySelector('#create-request-button').onclick = function(){storage.createNewTransaction("request");};
         page.querySelector('#incoming-payments-filter').onclick = function(){activateIncomingPayments();pageController.showIncomingPayments();};
@@ -31,9 +30,9 @@ pageController.composeMainPage = function (page) {
         if(event.currentPage.id === "contact-list-page" || event.currentPage.id === 'transaction-detail-page' ) {
             document.getElementById('tabbar').setTabbarVisibility(true);
         }
-        contactManager.runTest();    
     });  
 };
+
 
 //Method for composing page with user detail
 pageController.composeUserDetailPage = function(page) {
