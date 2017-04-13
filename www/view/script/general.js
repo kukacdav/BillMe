@@ -107,9 +107,28 @@ function buildUnsuccesfullRegistrationOutcomePage(page)
 
 /*-------- MAIN PAGE TEMPLATE VIEW ACTIONS ----------*/
 
+// Function for building main-page view
 function buildMainPage(page, accountName, accountNumber, balance){
     console.log("Building main page");
     page.querySelector('#account-name').innerHTML = accountName;
     page.querySelector('#account-number').innerHTML = accountNumber; 
     page.querySelector('#account-balance').innerHTML = balance + " Kč";
+};
+
+/*-------- USER DETAIL PAGE TEMPLATE VIEW ACTIONS ----------*/
+// Function for building user-detail view
+function buildUserDeatilPage(page, userName, phoneNumber, accountName, accountNumber, bankCode, userData){
+    page.querySelector('#username-line').innerHTML = userName;
+    page.querySelector('#phone-number-line').innerHTML = phoneNumber;
+    page.querySelector('#account-name-line').innerHTML = accountName;
+    page.querySelector('#account-number-line').innerHTML = accountNumber;
+    page.querySelector('#bank-code-line').innerHTML = bankCode;
 }
+
+/*-------- MORE OPTIONS PAGE TEMPLATE VIEW ACTIONS ----------*/
+// Function for building user-detail view
+    function buildMoreOptionsPage(fullName, phone, email){
+    page.querySelector('#recievers-name3').innerHTML = fullName;  
+    page.querySelector('#recievers-phone3').innerHTML = phone;  
+    page.querySelector('#recievers-email3').innerHTML = email;  
+};

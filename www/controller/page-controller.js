@@ -36,18 +36,15 @@ pageController.composeMainPage = function (page) {
 
 //Method for composing page with user detail
 pageController.composeUserDetailPage = function(page) {
-    console.log("pageComposer - composingUserDetailPage");
     $("#alter-user-action-buttons").hide();
-    $("#change-user-data").empty().append("Upravit");
-    page.querySelector('#username-line').innerHTML = storage.userData.fullName;
-    page.querySelector('#phone-number-line').innerHTML = storage.userData.phoneNumber;
-    page.querySelector('#account-name-line').innerHTML = storage.userData.bankAccount.accountName;
-    page.querySelector('#account-number-line').innerHTML = storage.userData.bankAccount.accountPrefix + "-" + storage.userData.bankAccount.accountNumber;
-    page.querySelector('#bank-code-line').innerHTML = storage.userData.bankAccount.bankCode;
-    page.querySelector('#change-user-data').onclick = function(){pageController.allowUserDataChange();};
+    // For user data change: $("#change-user-data").empty().append("Upravit");
+    var accountNumber = storage.userData.bankAccount.accountPrefix + "-" + storage.userData.bankAccount.accountNumber;
+    buildUserDeatilPage(page, storage.userData.fullName, storage.userData.phoneNumber, storage.userData.bankAccount.accountName, accountNumber, storage.userData.bankAccount.bankCode);
+    // For user data change page.querySelector('#change-user-data').onclick = function(){pageController.allowUserDataChange();};
     
 };
 
+/* FOR CHANGE of user data
 // Mthod for changing user-detail-page to editable mode
 pageController.allowUserDataChange = function(){
     $("#alter-user-action-buttons").show();
@@ -69,13 +66,11 @@ pageController.changeUserData = function() {
     console.log(newName);
     console.log(newAccountName);
     storage.changeUserData(newName, newAccountName);
-};
+};*/
 
 //Method for composing content of page More-Options
 pageController.composeMoreOptionsPage = function (page) {
-    page.querySelector('#recievers-name3').innerHTML = storage.userData.fullName;  
-    page.querySelector('#recievers-phone3').innerHTML = storage.userData.contact.phone;  
-    page.querySelector('#recievers-email3').innerHTML = storage.userData.contact.email;  
+    buildMoreOptionsPage(storage.userData.fullName, storage.userData.contact.phone, storage.userData.contact.email);
     page.querySelector('#howto-page-link').onclick = function(){moreOptionsSwitchPage('view/html/more-options-subpages/howto-page.html')};
     page.querySelector('#financial-overview-link').onclick = function(){moreOptionsSwitchPage('view/html/more-options-subpages/financial-overview-page.html')};
     page.querySelector('#legal-scope-link').onclick = function(){moreOptionsSwitchPage('view/html/more-options-subpages/legal-scope-page.html')};
