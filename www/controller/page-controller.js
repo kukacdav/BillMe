@@ -199,10 +199,10 @@ pageController.composeSuccessSubmitPage = function(page) {
         buildSuccessSubmitPage(page, "Úspešná platba", "Platba byla úspěšně provedena");
     
     else
-        buildSuccessSubmitPage(page, "Úspešná připomínka", "Úspěšná připomínka");
+        buildSuccessSubmitPage(page, "Úspešná připomínka", "Připomínka byla úspěšně provedena");
     document.querySelector('#transaction-success-button').onclick = function() {
         storage.clearOutSystemVariables();
-        navigationController.resetToMainPage();
+        navigationController.resetToPage('pageNavigator', 'main-page-template');
     };
 };
 
