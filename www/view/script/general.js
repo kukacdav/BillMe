@@ -132,3 +132,9 @@ function buildUserDeatilPage(page, userName, phoneNumber, accountName, accountNu
     page.querySelector('#recievers-phone3').innerHTML = phone;  
     page.querySelector('#recievers-email3').innerHTML = email;  
 };
+
+/*-------- CONTACT LIST PAGE TEMPLATE VIEW ACTIONS ----------*/
+function buildContactListPage(page, title){
+    page.querySelector('#page-title').innerHTML = title;
+}
+

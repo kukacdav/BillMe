@@ -87,7 +87,6 @@ pageController.composeNewContactPage = function(page){
         var name = document.querySelector('#new-contact-name').value;
         var phone = document.querySelector('#new-contact-number').value;
         contactManager.submitNewContact(name, phone);
-     //   document.getElementById('tabbar').setTabbarVisibility(true);
         navigationController.popPage('newContactNavigator');
     };
 };
@@ -96,30 +95,25 @@ pageController.composeNewContactPage = function(page){
 pageController.composePhoneContactsPage = function(page) {
    pageController.assembleContactList(page);
    page.querySelector('#create-contact').onclick = function(){
-       
         document.getElementById('tabbar').setTabbarVisibility(false);
         navigationController.pushPage('new-contact-navigator', 'new-contact-page-template');
     };
     document.querySelector('#new-contact-navigator').addEventListener('prepop', function(event) {
         document.getElementById('tabbar').setTabbarVisibility(true);
     }); 
-   
 };
 
 //Method for composing ContactListPage
 pageController.composeContactListPage = function(page){
     document.getElementById('tabbar').setTabbarVisibility(false);
     pageController.assembleContactList(page);
-    console.log("Composing contact list page");
     $(".contact-list-detail").on("click", function(){storage.transactionContactSelected($(this.querySelector('.contact-index')).text());});
     if (storage.newTransaction.transactionType === "payment"){
-        page.querySelector('#page-title').innerHTML = "Přímá platba";
+        buildContactListPage(page, "Přímá platba");
     }
     else if (storage.newTransaction.transactionType === "request"){
-        page.querySelector('#page-title').innerHTML = "Připomínka";
+        buildContactListPage(page, "Připomínka");
     }
-    else
-        console.log("Something went wrong");
 };
 
 //Method shared by phoneContactPage and contactListPage for assembling contactList
