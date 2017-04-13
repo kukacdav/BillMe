@@ -134,7 +134,41 @@ function buildUserDeatilPage(page, userName, phoneNumber, accountName, accountNu
 };
 
 /*-------- CONTACT LIST PAGE TEMPLATE VIEW ACTIONS ----------*/
+// Function for building header of contact-list-page
 function buildContactListPage(page, title){
     page.querySelector('#page-title').innerHTML = title;
 }
+
+/*-------- SET AMOUNT PAGE TEMPLATE VIEW ACTIONS ----------*/
+// Function for building content of set-amount-page
+function buildSetAmountPage(page, name, phoneNumber){
+    page.querySelector('#recievers-name').innerHTML = name;  
+    page.querySelector('#recievers-phone').innerHTML = phoneNumber;  
+};
+
+// Function for controlling, whether user set valid transaction amount 
+function controlAmountInput (){
+  var amount = document.querySelector('#input-amount').value;
+  pageController.controlAmountInput(amount);
+};
+
+// Function for altering view, when user entered valid amount
+function amountSetCorrectly(){
+   document.querySelector('#submit-transaction-button').disabled=false;
+   $('#input-amount').removeClass("incorrect-input-field");
+   $('#input-amount').addClass("correct-input-field");
+   document.querySelector('#insufficientBalanceNote').innerHTML = "";
+};
+
+// Function for altering view, when user entered invalid amount
+function amountSetIncorrectly(){
+    document.querySelector('#submit-transaction-button').disabled=true;
+    $('#input-amount').removeClass("correct-input-field");
+    $('#input-amount').addClass("incorrect-input-field");
+};
+
+// Function for alterign view, when user set higher amount then his accountBalance
+function showInsufficientBalanceNote (){
+    document.querySelector('#insufficientBalanceNote').innerHTML = "Nemáte na účtě dostatečný zůstatek.";
+};
 

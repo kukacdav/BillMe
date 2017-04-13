@@ -118,21 +118,6 @@ pageController.composeContactListPage = function(page){
 
 //Method shared by phoneContactPage and contactListPage for assembling contactList
 pageController.assembleContactList = function(page) {
-    if (storage.cordovaIndicator != true){
-        console.log("Loading BE contact list: " + storage.cordovaIndicator);
-    var contacts = storage.contactList;
-    var counter = 0;
-    page.querySelector('#contact-list')
-        .innerHTML = contacts.map(function(item)
-        {
-            return page.querySelector('#contact-list-item')
-                .innerHTML.replace('{{name}}', item.name)
-                .replace('{{phoneNumber}}', item.contact.phone)
-                .replace('{{index}}', counter++);        
-        })
-        .join('');
-    }
-    else {
         console.log("Loading phone contact list: " + storage.cordovaIndicator);
         var contacts = storage.cordovaContacts;
         console.log("Showing cordova contacts!");
@@ -164,51 +149,27 @@ pageController.assembleContactList = function(page) {
             }
         })
         .join('');
-    }
 };
 
 //Method for building page for setting transaction amount
 pageController.composeSetAmountPage = function(page){
-    /* BEFORE - CONTACTS FROM BACKEND
-    page.querySelector('#recievers-name').innerHTML = storage.contactList[storage.newTransaction.contactIndex].fullName;  
-    page.querySelector('#recievers-phone').innerHTML = storage.contactList[storage.newTransaction.contactIndex].contact.phone;  
-    page.querySelector('#recievers-email').innerHTML = storage.contactList[storage.newTransaction.contactIndex].contact.email;  
-    page.querySelector('#input-amount').onchange = function(){pageController.controlAmountInput()}; //ADD BALANCE CHECK
-    page.querySelector('#submit-transaction-button').onclick = function(){pageController.controlAmountInput();};
-    */
-    page.querySelector('#recievers-name').innerHTML = storage.cordovaContacts[storage.newTransaction.contactIndex].name;  
-    page.querySelector('#recievers-phone').innerHTML = storage.cordovaContacts[storage.newTransaction.contactIndex].phoneNumber;  
-    // Following should be controlled, whether exists or not display at all
-    //page.querySelector('#recievers-email').innerHTML = storage.contactList[storage.newTransaction.contactIndex].contact.email;  
-    page.querySelector('#input-amount').onchange = function(){pageController.controlAmountInput()}; //ADD BALANCE CHECK
-    page.querySelector('#submit-transaction-button').onclick = function(){pageController.controlAmountInput();};
+    buildSetAmountPage(page, storage.cordovaContacts[storage.newTransaction.contactIndex].name, storage.cordovaContacts[storage.newTransaction.contactIndex].phoneNumber);
+    page.querySelector('#input-amount').onchange = function(){controlAmountInput()};
+    page.querySelector('#submit-transaction-button').onclick = function(){controlAmountInput();};
 };
 
 //Support method for veryfing, whether set balance is OK
-pageController.controlAmountInput = function() {
-  var amount = document.querySelector('#input-amount').value;
+pageController.controlAmountInput = function(amount) {
   if ( $.isNumeric(amount) && amount <= storage.userData.accountBalance && amount > 0 ){
-    document.querySelector('#submit-transaction-button').disabled=false;
-        $('#input-amount').removeClass("incorrect-input-field");
-        $('#input-amount').addClass("correct-input-field");
-        document.querySelector('#insufficientBalanceNote').innerHTML = "";
-        storage.newTransaction.amount = amount;  // SHOULD HANDLE MODEL    
+        amountSetCorrectly();
+        storage.newTransaction.amount = amount; 
         navigationController.switchPage('view/html/confirm-transaction-page.html');
         return;
     }
-    else if (amount > storage.userData.accountBalance)
-        pageController.showInsufficientBalanceNote();
-    document.querySelector('#submit-transaction-button').disabled=true;
-    $('#input-amount').removeClass("correct-input-field");
-    $('#input-amount').addClass("incorrect-input-field");
+    else if (amount > storage.userData.accountBalance) 
+        showInsufficientBalanceNote();
+    amountSetIncorrectly();
 };
-
-pageController.showInsufficientBalanceNote = function(){
-    console.log("Showing insufficient balance note");
-    document.querySelector('#insufficientBalanceNote').innerHTML = "Nemáte na účtě dostatečný zůstatek.";
-};
-
-
 
 //Method for building page for defining transactionDetail
 pageController.composeDefineTransactionPage = function(page) {
