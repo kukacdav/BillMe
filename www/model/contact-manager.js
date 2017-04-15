@@ -123,4 +123,30 @@ contactManager.submitNewContact = function(name, phone)
         } ],
     });
      myContact.save();
+     console.log("Cordova: contact saved");
+     contactManager.updateContactList(name, phone);
+};
+
+//Function for updating contact list of device
+contactManager.updateContactList = function(name, phone){    
+        var item = {};
+        item.name = name;
+        item.valid = false;
+        var contact = phone;
+        if (contact == null)
+        {
+            pageController.showSuccessActionPage();
+        }
+        else
+        {
+            var phoneNumber = contactManager.transform(phone);
+            if (phoneNumber == "NaP") {
+                pageController.showSuccessActionPage();
+                return;
+            }
+            item.phoneNumber = phoneNumber;
+        }
+        storage.cordovaContacts.push(item);
+        pageController.updateContactList();
+    console.log("Cordova: DONE, contact list updated");  
 };

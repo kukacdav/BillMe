@@ -84,23 +84,59 @@ pageController.composeInviteFriendPage = function (page) {
 // Method for composing new-contact-page
 pageController.composeNewContactPage = function(page){   
     page.querySelector('#create-new-contact-button').onclick = function(){
-        var name = document.querySelector('#new-contact-name').value;
-        var phone = document.querySelector('#new-contact-number').value;
-        contactManager.submitNewContact(name, phone);
-        navigationController.popPage('newContactNavigator');
+        submitNewContact();
     };
 };
 
+//MEthod for handeling newly created contact
+pageController.submitNewContact = function (name, phone){
+    console.log("PageController: Submitting new contact");
+    showModal();
+    contactManager.submitNewContact(name, phone);            
+};
+
+pageController.updateContactList = function(){
+    console.log("pageController: Getting updated contactList");
+    var contactListUpdated = $.when(communicationController.loadApplicationData(storage.uid, storage.cordovaContacts));    
+    contactListUpdated.done(function(contactData)
+    {
+        console.log("PageController: contact list returned");
+        storage.storeContactList(contactData);
+        pageController.showSuccessActionPage();
+    });
+};
+
+pageController.showSuccessActionPage = function(){
+    console.log("Showing success page");
+    storage.successAction = "newContact";
+    hideModal();
+    navigationController.pushPage('newContactNavigator', 'success-action-template');
+};
+
+
+// Method for composing success-action-page
+pageController.composeSuccessActionPage = function(page){
+    if (storage.successAction === "newContact"){
+        var callback = function(){
+            navigationController.resetToPage('newContactNavigator', 'phone-contacts-page-template');            
+        };
+        buildSuccessActionPage(page, "Úspěšně vytvořený kontakt", "Nový kontakt byl úspěšně uložen do paměti zařízení.", "Hotovo", callback);
+    } 
+};
+
+
+
 //Method for composing Phone-contacts-page
 pageController.composePhoneContactsPage = function(page) {
+   document.getElementById('tabbar').setTabbarVisibility(true);
    pageController.assembleContactList(page);
    page.querySelector('#create-contact').onclick = function(){
         document.getElementById('tabbar').setTabbarVisibility(false);
-        navigationController.pushPage('new-contact-navigator', 'new-contact-page-template');
+        navigationController.pushPage('newContactNavigator', 'new-contact-page-template');
     };
-    document.querySelector('#new-contact-navigator').addEventListener('prepop', function(event) {
+    document.querySelector('#newContactNavigator').addEventListener('prepop', function(event) {
         document.getElementById('tabbar').setTabbarVisibility(true);
-    }); 
+    });
 };
 
 //Method for composing ContactListPage
@@ -195,17 +231,18 @@ pageController.submitNewTransaction = function(pin, message) {
 
 // Method for composing success submit page
 pageController.composeSuccessSubmitPage = function(page) {
+    var callback = function(){ pageController.transactionCompleted() };
     if (storage.newTransaction.transactionType === "payment")
-        buildSuccessSubmitPage(page, "Úspešná platba", "Platba byla úspěšně provedena");
-    
+        buildSuccessSubmitPage(page, "Úspešná platba", "Platba byla úspěšně provedena", callback);
     else
-        buildSuccessSubmitPage(page, "Úspešná připomínka", "Připomínka byla úspěšně provedena");
-    document.querySelector('#transaction-success-button').onclick = function() {
-        storage.clearOutSystemVariables();
-        navigationController.resetToPage('pageNavigator', 'main-page-template');
-    };
+        buildSuccessSubmitPage(page, "Úspešná připomínka", "Připomínka byla úspěšně provedena", callback);
 };
 
+// Function for returning back to home page, after succesfull transaction
+pageController.transactionCompleted = function(){
+    storage.clearOutSystemVariables(); 
+    navigationController.resetToPage('pageNavigator', 'main-page-template');
+}
 
 //Support method for showing reuqests
 pageController.showRequests = function ()  {

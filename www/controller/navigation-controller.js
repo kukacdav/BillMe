@@ -38,8 +38,11 @@ document.addEventListener('init', function(event)
         pageController.composeRequestDetailPage();
     else if (page.id === 'register-outcome-page')
         pageController.composeRegisterOutcomePage(page);
-     else if (page.id === 'new-contact-page')
+    else if (page.id === 'new-contact-page')
         pageController.composeNewContactPage(page);
+    else if (page.id === 'success-action-page')
+        pageController.composeSuccessActionPage(page);
+
 
 });
 

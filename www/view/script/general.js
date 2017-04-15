@@ -199,9 +199,26 @@ function incorrectPIN(){
 
 /*-------- BUILD SUCCESS SUBMIT PAGE TEMPLATE VIEW ACTIONS ----------*/
 // function for building success-submit-page
-function buildSuccessSubmitPage(page, title, message){
+function buildSuccessSubmitPage(page, title, message, callback){
     page.querySelector('#success-submit-header').innerHTML = title;
     page.querySelector('#success-submit-message').innerHTML = message;       
     page.querySelector('#transaction-success-image').innerHTML = '<ons-icon icon="ion-checkmark-circled" size="90px" class="center-block green-icon"></ons-icon>';
-
+    document.querySelector('#transaction-success-button').onclick = function(){callback();};
 }
+
+/*-------- CREATE NEW CONTACT PAGE TEMPLATE VIEW ACTIONS ----------*/
+function submitNewContact() {
+    console.log("View: Submitting new contact");
+    var name = document.querySelector('#new-contact-name').value;
+    var phone = document.querySelector('#new-contact-number').value;  
+    pageController.submitNewContact(name, phone);
+};
+
+/*-------- SUCCESS ACTION PAGE TEMPLATE VIEW ACTIONS ----------*/
+function buildSuccessActionPage (page, title, message, action, callback){
+    page.querySelector('#success-action-title').innerHTML = title;
+    page.querySelector('#success-action-message').innerHTML = message;
+    page.querySelector('#success-action-image').innerHTML = '<ons-icon icon="ion-checkmark-circled" size="90px" class="center-block green-icon"></ons-icon>';
+    page.querySelector('#success-action-button').innerHTML = action;
+    page.querySelector('#success-action-button').onclick = function(){callback();}; 
+};

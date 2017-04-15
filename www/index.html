@@ -246,7 +246,7 @@
     
     <!-- PHONE CONTACTS PAGE TEMPLATE -->
     <ons-template id="phone-contacts-page-template">
-        <ons-navigator id="new-contact-navigator">
+        <ons-navigator id="newContactNavigator">
             <ons-page id="phone-contacts-page">
             <ons-toolbar>
                 <div class="center">Kontakty</div>
@@ -290,6 +290,21 @@
                 <ons-list-item><ons-input id="new-contact-number" inputmode="numeric" pattern="[0-9]*" placeholder="Telefonní číslo"></ons-input></ons-list-item>
             </ons-list>
             <ons-button id="create-new-contact-button" modifier="large--cta">Uložit kontakt</ons-button>
+        </ons-page>
+    </ons-template>
+    
+      <!-- SUCCESS ACTION PAGE TEMPLATE -->
+    
+    <ons-template id="success-action-template">
+        <ons-page id="success-action-page">
+            <ons-toolbar>
+                <div class="center" id="success-action-title"></div>
+            </ons-toolbar>
+            <div class="formatting-block">
+                <div id="success-action-image" class="center-block"> </div>
+                <p id="success-action-message"></p>
+            </div>
+            <ons-button id="success-action-button" modifier="large"></ons-button>
         </ons-page>
     </ons-template>
     
