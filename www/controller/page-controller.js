@@ -70,34 +70,13 @@ pageController.changeUserData = function (newName, newAccountName){
     });  
 };
 
-/* FOR CHANGE of user data
-// Mthod for changing user-detail-page to editable mode
-pageController.allowUserDataChange = function(){
-    $("#alter-user-action-buttons").show();
-    $("#change-user-data").empty().append("Uložit");
-    console.log("user data change mode");
-    document.querySelector('#username-line').innerHTML = "";
-    document.querySelector('#account-name-line').innerHTML = "";
-    $('<ons-input id="new-username" class="right" float></ons-input><ons-icon  class="icon" icon="ion-edit" size="20px"></ons-icon>').appendTo("div#username-line");
-    $("#new-username").attr('placeholder', storage.userData.fullName);
-    $('<ons-input id="new-accountName" class="right"  float></ons-input><ons-icon  class="icon" icon="ion-edit" size="20px"></ons-icon>').appendTo("div#account-name-line");
-    $("#new-accountName").attr('placeholder', storage.userData.bankAccount.accountName);
-    page.querySelector('#change-user-data').onclick = function(){pageController.changeUserData();};
-};
-
-// Method for changing user data
-pageController.changeUserData = function() {
-    var newName = document.querySelector('#new-username').value;
-    var newAccountName = document.querySelector('#new-accountName').value;
-    console.log(newName);
-    console.log(newAccountName);
-    storage.changeUserData(newName, newAccountName);
-};*/
-
 //Method for composing content of page More-Options
 pageController.composeMoreOptionsPage = function (page) {
-    buildMoreOptionsPage(storage.userData.fullName, storage.userData.contact.phone, storage.userData.contact.email);
-    page.querySelector('#howto-page-link').onclick = function(){moreOptionsSwitchPage('view/html/more-options-subpages/howto-page.html')};
+    document.querySelector('#main-navigator').addEventListener('prepop', function(event) {
+        document.getElementById('tabbar').setTabbarVisibility(true);
+    });  
+    //buildMoreOptionsPage(storage.userData.fullName, storage.userData.contact.phone, storage.userData.contact.email);
+    $('#howto-page-link').on("click", function(){document.getElementById('tabbar').setTabbarVisibility(false);navigationController.pushPage('moreOptionsNavigator', 'view/html/more-options-subpages/howto-page.html');});
     page.querySelector('#financial-overview-link').onclick = function(){moreOptionsSwitchPage('view/html/more-options-subpages/financial-overview-page.html')};
     page.querySelector('#legal-scope-link').onclick = function(){moreOptionsSwitchPage('view/html/more-options-subpages/legal-scope-page.html')};
 };
@@ -234,7 +213,7 @@ pageController.controlAmountInput = function(amount) {
   if ( $.isNumeric(amount) && amount <= storage.userData.accountBalance && amount > 0 ){
         amountSetCorrectly();
         storage.newTransaction.amount = amount; 
-        navigationController.switchPage('view/html/confirm-transaction-page.html');
+        navigationController.pushPage('pageNavigator','view/html/confirm-transaction-page.html');
         return;
     }
     else if (amount > storage.userData.accountBalance) 

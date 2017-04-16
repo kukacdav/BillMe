@@ -123,14 +123,15 @@ storage.clearOutSystemVariables = function () {
 
 // Method when creating new transaction
 storage.createNewTransaction = function(type) {
+    console.log("Storage: Create new transaction");
     storage.newTransaction.transactionType = type;
-    navigationController.switchPage('view/html/contact-list-page.html');
+    navigationController.pushPage('pageNavigator','view/html/contact-list-page.html');
 };
 
 //Method for storing index of seleceted contact 
 storage.transactionContactSelected = function(index) {
     storage.newTransaction.contactIndex = index;
-    navigationController.switchPage('view/html/set-amount-page.html');  
+    navigationController.pushPage('pageNavigator', 'view/html/set-amount-page.html');
 };
   
 //Method for showing detail of transaction
@@ -138,7 +139,7 @@ storage.showTransactionDetail = function(id, elementIndex) {
         systemVariables.transactionType = id;
         systemVariables.elementIndex = elementIndex;
         document.getElementById('tabbar').setTabbarVisibility(false);
-        navigationController.switchPage('view/html/transaction-detail-page.html');
+        navigationController.pushPage('pageNavigator', 'view/html/transaction-detail-page.html');
 };
 
 // Method for rejecting incoming request
@@ -147,7 +148,7 @@ storage.rejectSelectedRequest = function() {
     newState = "rejected";
     var storageInitialized = $.when(communicationController.changeRequestState(dataSource, newState));
     storageInitialized.done(function(data) {
-        callback = function(){navigationController.resetToMainPage();};
+        callback = function(){navigationController.resetToPage('pageNavigator', 'main-page-template');};
         storage.updateUserData(callback);
     });
 };
@@ -160,7 +161,7 @@ storage.cancelSelectedRequest = function() {
     dataSource = storage.userData.outgoingRequests[systemVariables.elementIndex];
     var storageInitialized = $.when(communicationController.changeRequestState(dataSource, newState));
     storageInitialized.done(function(data) {
-        callback = function(){navigationController.resetToMainPage();};
+        callback = function(){navigationController.resetToPage('pageNavigator', 'main-page-template');};
         storage.updateUserData(callback);
     });
 };

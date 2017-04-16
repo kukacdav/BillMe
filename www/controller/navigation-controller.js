@@ -3,11 +3,12 @@
 // Navigation controller handles all logic asocieted with navigation through multiple pages. 
 // Navigation controller listens for page initalization and calls pageController to handle content loading
 
+/*
 navigationController.replacePageWith = function(target) {
     console.log("Switching to main page");
     document.querySelector('#main-navigator').replacePage(target);
 };
-
+*/
 
 document.addEventListener('init', function(event)
 {
@@ -47,6 +48,7 @@ document.addEventListener('init', function(event)
 
 });
 
+
 navigationController.switchPage = function(target) {
         console.log("pushing page: " + target);
         document.querySelector('#pageNavigator').pushPage(target);
@@ -57,7 +59,7 @@ navigationController.switchPage = function(target) {
 navigationController.resetToMainPage = function(){
     document.querySelector('#pageNavigator').resetToPage('main-page-template'); 
 };
-
+/*
 moreOptionsSwitchPage= function(target) {
         console.log("More options navigator, pushing page: " + target);
         document.querySelector('#moreOptionsNavigator').pushPage(target);
@@ -67,11 +69,12 @@ setToMainPage = function() {
     document.querySelector('#main-navigator').pushPage('view/html/main-page.html');
     composeMainPage();
 };
-
+*/
 // General navigator methods
 
 navigationController.pushPage = function(navigator, target){
-    //console.log("Navigator controller: " + navigator + " pushing " + target );
+    console.log("Navigator controller: " + navigator);
+    console.log("pushing: " + target );
     var selectedNavigator = document.getElementById(navigator); 
     selectedNavigator.pushPage(target);
 };

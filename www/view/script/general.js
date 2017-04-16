@@ -141,9 +141,9 @@ function changeUserData(){
 /*-------- MORE OPTIONS PAGE TEMPLATE VIEW ACTIONS ----------*/
 // Function for building user-detail view
     function buildMoreOptionsPage(fullName, phone, email){
-    page.querySelector('#recievers-name3').innerHTML = fullName;  
-    page.querySelector('#recievers-phone3').innerHTML = phone;  
-    page.querySelector('#recievers-email3').innerHTML = email;  
+    //page.querySelector('#recievers-name3').innerHTML = fullName;  
+    //page.querySelector('#recievers-phone3').innerHTML = phone;  
+    //page.querySelector('#recievers-email3').innerHTML = email;  
 };
 
 /*-------- CONTACT LIST PAGE TEMPLATE VIEW ACTIONS ----------*/
