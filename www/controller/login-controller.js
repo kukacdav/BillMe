@@ -35,6 +35,7 @@ loginController.initializeApplication = function(){
     var appInitialized = $.when(communicationController.getUserData(storage.uid), communicationController.loadApplicationData(storage.uid, storage.cordovaContacts));
     appInitialized.done(function(userData, contactData)
     {
+        console.log("LoginController: Userdata, contactList gotten.");
         storage.storeUserData(userData);
         storage.storeContactList(contactData);
         hideModal();

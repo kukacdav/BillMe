@@ -79,7 +79,7 @@ contactManager.onSuccess = function (contacts)
         storage.cordovaContacts.push(item);
     }
     storage.cordovaIndicator = true;
-    console.log("Cordova: DONE, contact list built");
+    console.log("Cordova: DONE, contact list built: " + storage.cordovaContacts.length);
     loginController.initializeApplication();
     //storage.getApplicationData();
 };

@@ -109,7 +109,6 @@ function buildUnsuccesfullRegistrationOutcomePage(page)
 
 // Function for building main-page view
 function buildMainPage(page, accountName, accountNumber, balance){
-    console.log("Building main page");
     page.querySelector('#account-name').innerHTML = accountName;
     page.querySelector('#account-number').innerHTML = accountNumber; 
     page.querySelector('#account-balance').innerHTML = balance + " Kč";
@@ -124,6 +123,20 @@ function buildUserDeatilPage(page, userName, phoneNumber, accountName, accountNu
     page.querySelector('#account-number-line').innerHTML = accountNumber;
     page.querySelector('#bank-code-line').innerHTML = bankCode;
 }
+
+/*-------- CHANGE USER DATA PAGE TEMPLATE VIEW ACTIONS ----------*/
+
+function buildChangeUserDataPage(userName, accountName){
+    console.log("View: change user: " + userName + ", " + accountName);
+    $("#change-user-name").attr("placeholder", userName);
+    $("#change-account-name").attr('placeholder', accountName);
+}
+
+function changeUserData(){
+    var newName = document.querySelector('#change-user-name').value;
+    var newAccountName = document.querySelector('#change-account-name').value;
+    pageController.changeUserData(newName, newAccountName);
+};
 
 /*-------- MORE OPTIONS PAGE TEMPLATE VIEW ACTIONS ----------*/
 // Function for building user-detail view

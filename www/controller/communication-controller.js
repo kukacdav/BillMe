@@ -99,14 +99,16 @@ communicationController.getUserData = function(uid){
         },
         error: function(data){
             console.log("User data query failed");
+            deferred.reject(data);
         },
         dataType: "json"
     });
     return deferred.promise();
 };
 
-// Changing userData on server
-    communicationController.changeUserDetail = function(newName, newAccountName){
+// Method used for changing of user detail
+    communicationController.changeUserDetail = function(id, newName, newAccountName){
+    var deferred = $.Deferred();
     console.log("Communication controller: CHanging user data" + id);
     //alert(newName);
      $.ajax(
@@ -114,18 +116,26 @@ communicationController.getUserData = function(uid){
         type: "PUT",
         url: deploydEndpoint + '/user?id=' + id,
         data: {
-            "fullName": "newName2"
+            "fullName": newName,
+            "bankAccount": {
+                "accountPrefix": storage.userData.bankAccount.accountPrefix,
+                "accountNumber": storage.userData.bankAccount.accountNumber,
+                "bankCode": storage.userData.bankAccount.bankCode,
+                "accountName": newAccountName
+            }
         },
         success: function(data)
         {
-            console.log("3. Succesfully queried App data: ");
-            storage.updateUserDetail(newName, "Ucet");
+            console.log("Communicationcontroller: user detail changed");
+            deferred.resolve(data);            
         },
         error: function(data){
-            console.log("Loading loadApplicationData failed");
+            console.log("Communicationcontroller: ERROR when user detail changed");
+            deferred.reject(data);
         },
         dataType: "json"
     });
+    return deferred.promise();
 };
 
 //Method for retrieving contactList from server

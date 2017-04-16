@@ -42,7 +42,8 @@ document.addEventListener('init', function(event)
         pageController.composeNewContactPage(page);
     else if (page.id === 'success-action-page')
         pageController.composeSuccessActionPage(page);
-
+    else if (page.id === 'change-userdata-page')
+        pageController.composeChangeUserDataPage(page);
 
 });
 

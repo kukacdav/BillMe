@@ -192,54 +192,67 @@
             </ons-page>
         </ons-navigator>
     </ons-template>
+    
     <!--           USER DETAIL PAGE              -->
+    
     <ons-template id="user-detail-page-template">
-        <ons-page id="user-detail-page">
-        <ons-toolbar>
-                <div class="center">Profil</div>
-                <!-- Change user data - in progress <div class="right" ><ons-button id="change-user-data" modifier="quiet"></ons-button></div> -->
-            </ons-toolbar>
+        <ons-navigator id="userDetailNavigator">
+            <ons-page id="user-detail-page">
+                <ons-toolbar>
+                    <div class="center">Profil</div>
+                    <div class="right">
+                        <ons-button id="change-user-data" modifier="quiet">Upravit</ons-button>
+                    </div>
+                </ons-toolbar>
                 <ons-row>
                     <ons-col class="center-block">
-                        <ons-icon  class="icon" icon="ion-person" size="70px"></ons-icon>
+                        <ons-icon class="icon" icon="ion-person" size="70px"></ons-icon>
                     </ons-col>
                 </ons-row>
-                
+                <ons-list>
+                    <ons-list-header>Detail uživatele</ons-list-header>
+                    <ons-list-item>
+                        <div class="left">Jméno</div>
+                        <div class="right" id="username-line"></div>
+                    </ons-list-item>
+                    <ons-list-item>
+                        <div class="left">Název účtu</div>
+                        <div class="right" id="account-name-line"></div>
+                    </ons-list-item>
+                    <ons-list-item>
+                        <div class="left">Telefon</div>
+                        <div class="right" id="phone-number-line"></div>
+                    </ons-list-item>
+                    <ons-list-item modifier="">
+                        <div class="left">Číslo účtu</div>
+                        <div class="right" id="account-number-line"></div>
+                    </ons-list-item>
+                    <ons-list-item modifier="">
+                        <div class="left">Kód banky</div>
+                        <div class="right" id="bank-code-line"></div>
+                    </ons-list-item>
+                </ons-list>
+            </ons-page>
+        </ons-navigator>
+    </ons-template>
+    
+    
+    <ons-template id="change-userdata-template">
+            <ons-page id="change-userdata-page">
+            <ons-toolbar>
+            
+            <div class="left">
+                <ons-back-button>Zpět</ons-back-button>
+            </div>
+                <div class="center">Úprava osobních údajů</div>
+            </ons-toolbar>
+            <p id="change-user-data-error"></p>
             <ons-list>
-                <ons-list-header>Detail uživatele</ons-list-header>
-                <ons-list-item>
-                    <div class="left">Jméno</div>
-                    <div class="right" id="username-line"></div>
-                </ons-list-item>
-                <ons-list-item>
-                    <div class="left">Název účtu</div>
-                    <div class="right" id="account-name-line"></div>
-                </ons-list-item>
-                <ons-list-item>
-                    <div class="left">Telefon</div>
-                    <div class="right" id="phone-number-line"></div>
-                </ons-list-item>
-                <ons-list-item modifier="">
-                    <div class="left">Číslo účtu</div>
-                    <div class="right" id="account-number-line"></div>
-                </ons-list-item>
-                <ons-list-item modifier="">
-                    <div class="left">Kód banky</div>
-                    <div class="right" id="bank-code-line"></div>
-                </ons-list-item>
+                <ons-list-header>Nastavitelné položky</ons-list-header>
+                 <ons-list-item><ons-input id="change-user-name" placeholder="Jméno uživatele"></ons-input></ons-list-item>
+                <ons-list-item><ons-input id="change-account-name" placeholder="Název účtu"></ons-input></ons-list-item>
             </ons-list>
-            <ons-row id="alter-user-action-buttons">
-                <ons-col >
-                <ons-button modifier="large" onclick="pageController.composeUserDetailPage()">
-                Zrušit
-            </ons-button>
-        </ons-col>
-        <ons-col >
-            <ons-button modifier="large" onclick="pageController.changeUserData()">
-                Uložit
-            </ons-button>
-        </ons-col>
-    </ons-row>
+            <ons-button id="update-user-data-button" modifier="large--cta">Uložit změny</ons-button>
         </ons-page>
     </ons-template>
     

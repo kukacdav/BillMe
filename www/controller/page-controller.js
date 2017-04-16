@@ -36,12 +36,38 @@ pageController.composeMainPage = function (page) {
 
 //Method for composing page with user detail
 pageController.composeUserDetailPage = function(page) {
-    $("#alter-user-action-buttons").hide();
-    // For user data change: $("#change-user-data").empty().append("Upravit");
+    console.log("PageController: Composing user detail page");
+   document.getElementById('tabbar').setTabbarVisibility(true);
     var accountNumber = storage.userData.bankAccount.accountPrefix + "-" + storage.userData.bankAccount.accountNumber;
     buildUserDeatilPage(page, storage.userData.fullName, storage.userData.phoneNumber, storage.userData.bankAccount.accountName, accountNumber, storage.userData.bankAccount.bankCode);
-    // For user data change page.querySelector('#change-user-data').onclick = function(){pageController.allowUserDataChange();};
-    
+    page.querySelector('#change-user-data').onclick = function(){
+        document.getElementById('tabbar').setTabbarVisibility(false);
+        navigationController.pushPage('userDetailNavigator', 'change-userdata-template');
+    };
+};
+
+pageController.composeChangeUserDataPage = function(page){
+    buildChangeUserDataPage(storage.userData.fullName, storage.userData.bankAccount.accountName);
+    page.querySelector('#update-user-data-button').onclick = function(){changeUserData();};
+};
+
+pageController.changeUserData = function (newName, newAccountName){
+    console.log("PageController: change user data.");
+    showModal();
+    if (!newName){
+        console.log("PageController: newName=null");
+        newName = storage.userData.fullName;
+    }
+    if (!newAccountName)
+        newAccountName = storage.userData.bankAccount.accountName;
+    var userDataUpdated = $.when(communicationController.changeUserDetail(storage.uid, newName, newAccountName));    
+    userDataUpdated.done(function(userData)
+    {
+        console.log("PageController: userData updated");
+        console.log(userData.fullName);
+        storage.updateData(userData);
+        pageController.showSuccessActionPage('userDetailNavigator', "changedData");
+    });  
 };
 
 /* FOR CHANGE of user data
@@ -102,26 +128,35 @@ pageController.updateContactList = function(){
     {
         console.log("PageController: contact list returned");
         storage.storeContactList(contactData);
-        pageController.showSuccessActionPage();
+        pageController.showSuccessActionPage('newContactNavigator',"newContact");
     });
 };
 
-pageController.showSuccessActionPage = function(){
+pageController.showSuccessActionPage = function(navigator, action){
     console.log("Showing success page");
-    storage.successAction = "newContact";
+    storage.successAction = action;
     hideModal();
-    navigationController.pushPage('newContactNavigator', 'success-action-template');
+    navigationController.pushPage(navigator, 'success-action-template');
 };
 
 
 // Method for composing success-action-page
 pageController.composeSuccessActionPage = function(page){
+    console.log("PageController: compose success action page");
     if (storage.successAction === "newContact"){
         var callback = function(){
             navigationController.resetToPage('newContactNavigator', 'phone-contacts-page-template');            
         };
         buildSuccessActionPage(page, "Úspěšně vytvořený kontakt", "Nový kontakt byl úspěšně uložen do paměti zařízení.", "Hotovo", callback);
-    } 
+    }
+    else if (storage.successAction === "changedData"){
+        console.log("PageController: changeUserData");
+        var callback = function(){
+            pageController.composeMainPage(document);
+            navigationController.resetToPage('userDetailNavigator', 'user-detail-page-template');
+        };
+        buildSuccessActionPage(page, "Úspěšně uložená data", "Změněné uživatelské informace byly úspěšně uloženy.", "Hotovo", callback);
+    }
 };
 
 

@@ -301,3 +301,8 @@ storage.loadStoredData = function() {
     storage.account = JSON.parse(localStorage.getItem('account') || '{}' );
     storage.account = JSON.parse(localStorage.getItem('userContact') || '{}' );  
 };
+
+storage.updateData = function (userData){
+    storage.userData.fullName = userData.fullName;
+    storage.userData.bankAccount.accountName = userData.bankAccount.accountName;
+};
