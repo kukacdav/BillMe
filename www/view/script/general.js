@@ -235,3 +235,22 @@ function buildSuccessActionPage (page, title, message, action, callback){
     page.querySelector('#success-action-button').innerHTML = action;
     page.querySelector('#success-action-button').onclick = function(){callback();}; 
 };
+
+/*-------- FINANTIAL OVERVIEW PAGE TEMPLATE VIEW ACTIONS ----------*/
+
+function buildFinancialOverviewPage(page, incomingPayments, outgoingPayments, incomingRequests, outgoingRequests){
+    console.log("Building finantial overview page");
+    page.querySelector('#sumOfIncomeResult').innerHTML = incomingPayments; 
+    page.querySelector('#sumOfOutcomeResult').innerHTML = "-" + outgoingPayments;
+    if (incomingRequests > 0)
+        page.querySelector('#incomingRequestsResult').innerHTML = "-" + incomingRequests;
+    else
+        page.querySelector('#incomingRequestsResult').innerHTML = incomingRequests;
+    page.querySelector('#outgoingRequestsResult').innerHTML = outgoingRequests;
+};
+
+/*-------- SECURITY CROSSROAD PAGE TEMPLATE VIEW ACTIONS ----------*/
+
+function validateChangedUserPassword(){
+    
+};

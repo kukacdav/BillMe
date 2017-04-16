@@ -45,7 +45,14 @@ document.addEventListener('init', function(event)
         pageController.composeSuccessActionPage(page);
     else if (page.id === 'change-userdata-page')
         pageController.composeChangeUserDataPage(page);
-
+    else if (page.id === 'financial-overview-page')
+        pageController.composeFinancialOverviewPage(page);
+    else if (page.id === 'security-crossroad-page')
+        pageController.composeSecurityCrossroadPage(page);
+    else if (page.id === 'change-password-page')
+        pageController.composeChangePasswordPage(page);
+        
+    
 });
 
 

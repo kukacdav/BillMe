@@ -10,9 +10,23 @@
             
         </div>
     </ons-toolbar>
-    
-    
-    <p>Toto je stránka, která bude obsahovat finanční přehled.</p>
-    
+    <ons-list>
+        <ons-list-header>Suma příjmů za poslední měsíc</ons-list-header>
+        <ons-list-item modifier="nodivider">
+            <div id="sumOfIncomeResult" class="positiveTransactions right-block right"></div>
+        </ons-list-item>
+        <ons-list-header>Suma výdajů za poslední měsíc</ons-list-header>
+        <ons-list-item modifier="nodivider">
+            <div id="sumOfOutcomeResult" class="negativeTransactions right-block right"></div>
+        </ons-list-item>
+        <ons-list-header>Přijaté nevyřízené připomínky</ons-list-header>
+        <ons-list-item modifier="nodivider">
+            <div id="incomingRequestsResult" class="negativeTransactions right-block right"></div>
+        </ons-list-item>
+        <ons-list-header>Odeslané nevyřízené Připomínky</ons-list-header>
+        <ons-list-item modifier="nodivider">
+            <div id="outgoingRequestsResult" class="positiveTransactions right-block right"></div>
+        </ons-list-item>
+    </ons-list>    
 </ons-list>
 </ons-page>

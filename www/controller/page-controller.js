@@ -77,8 +77,11 @@ pageController.composeMoreOptionsPage = function (page) {
     });  
     //buildMoreOptionsPage(storage.userData.fullName, storage.userData.contact.phone, storage.userData.contact.email);
     $('#howto-page-link').on("click", function(){document.getElementById('tabbar').setTabbarVisibility(false);navigationController.pushPage('moreOptionsNavigator', 'view/html/more-options-subpages/howto-page.html');});
-    page.querySelector('#financial-overview-link').onclick = function(){moreOptionsSwitchPage('view/html/more-options-subpages/financial-overview-page.html')};
-    page.querySelector('#legal-scope-link').onclick = function(){moreOptionsSwitchPage('view/html/more-options-subpages/legal-scope-page.html')};
+    page.querySelector('#financial-overview-link').onclick = function(){document.getElementById('tabbar').setTabbarVisibility(false);navigationController.pushPage('moreOptionsNavigator', 'view/html/more-options-subpages/financial-overview-page.html');};
+    page.querySelector('#legal-scope-link').onclick = function(){document.getElementById('tabbar').setTabbarVisibility(false);navigationController.pushPage('moreOptionsNavigator', 'view/html/more-options-subpages/legal-scope-page.html');};
+    page.querySelector('#profile-link').onclick = function(){document.getElementById('tabbar').setActiveTab(1);};
+    page.querySelector('#share-with-friends-link').onclick = function(){document.getElementById('tabbar').setActiveTab(3);};
+    page.querySelector('#security-link').onclick = function(){document.getElementById('tabbar').setTabbarVisibility(false);navigationController.pushPage('moreOptionsNavigator', 'security-crossroad-page-template');};
 };
 
 //Method for composing content of page Invite-Friends
@@ -414,4 +417,29 @@ pageController.hideIncomingRequestFields = function() {
 // Support method for hidding outgoing requests
 pageController.hideOutgoingRequestFields = function() {
     $('#outgoing-requests-action-buttons').hide();
+};
+
+pageController.composeFinancialOverviewPage = function(page){
+    console.log("PageController: Composing Financial overviewPage");
+    var incomingPayments = transactionController.countSumOfIncomingPayments();
+    var outgoingPayments = transactionController.countSumOfOutgoingPayments();
+    var incomingRequests = transactionController.countIncomingRequest();
+    var outgoingRequests = transactionController.countOutgoingRequests();
+    buildFinancialOverviewPage(page, incomingPayments, outgoingPayments, incomingRequests, outgoingRequests);
+};
+
+// Method for composing security crossroad page
+pageController.composeSecurityCrossroadPage = function(page){
+    page.querySelector('#user-password-change-link').onclick = function(){
+        navigationController.pushPage('moreOptionsNavigator', 'change-password-page-template');
+    };
+    page.querySelector('#pin-change-link').onclick = function(){
+        navigationController.pushPage('moreOptionsNavigator', 'change-pin-page-template');
+    };
+};
+
+// Method for composing change password page
+pageController.composeChangePasswordPage = function(page){
+    
+    
 };

@@ -21,6 +21,7 @@
     <script src="socketio/socket.io.js"></script>
     <script src="controller/navigation-controller.js"></script>
     <script src="controller/communication-controller.js"></script>
+    <script src="controller/transaction-controller.js"></script>
     <script src="controller/config.js"></script>
     <script src="controller/login-controller.js"></script>
     <script src="model/storage.js"></script>
@@ -258,6 +259,7 @@
     
     
     <!-- PHONE CONTACTS PAGE TEMPLATE -->
+    
     <ons-template id="phone-contacts-page-template">
         <ons-navigator id="newContactNavigator">
             <ons-page id="phone-contacts-page">
@@ -367,7 +369,7 @@
                 </ons-row>
                 <ons-list>
                     <ons-list-header>Moje nastavení</ons-list-header>
-                    <ons-list-item>
+                    <ons-list-item modifier="tappable" id="profile-link">
                         <ons-row>
                             <ons-col><ons-icon class="icon" size="25px" icon="ion-ios-paper-outline"></ons-icon></ons-col>
                             <ons-col width="70%"> Nastavení profilu </ons-col>
@@ -376,7 +378,7 @@
                             </ons-col>
                         </ons-row>
                     </ons-list-item>
-                    <ons-list-item>
+                    <ons-list-item modifier="tappable" id="security-link">
                         <ons-row>
                             <ons-col> <ons-icon class="icon" icon="ion-locked" size="25px"></ons-icon> </ons-col>
                             <ons-col width="70%"> Nastavení zabezpečení </ons-col>
@@ -386,7 +388,7 @@
                         </ons-row>
                     </ons-list-item>
                     <ons-list-header>Ostatní</ons-list-header>
-                    <ons-list-item>
+                    <ons-list-item modifier="tappable">
                         <ons-row id="financial-overview-link">
                             <ons-col><ons-icon class="icon" size="25px" icon="ion-arrow-graph-up-right"></ons-icon></ons-col>
                             <ons-col width="70%"> Finanční přehled </ons-col>
@@ -395,7 +397,7 @@
                             </ons-col>
                         </ons-row>
                     </ons-list-item>
-                    <ons-list-item>
+                    <ons-list-item id="share-with-friends-link" modifier="tappable" >
                         <ons-row>
                             <ons-col> <ons-icon class="icon" size="25px" icon="ion-android-share-alt"></ons-icon></ons-col>
                             <ons-col width="70%"> Pozvi kámoše </ons-col>
@@ -404,7 +406,7 @@
                             </ons-col>
                         </ons-row>
                     </ons-list-item>
-                    <ons-list-item id="howto-page-link">
+                    <ons-list-item id="howto-page-link" modifier="tappable" >
                         <ons-row>
                             <ons-col> <ons-icon icon="ion-lightbulb" size="25px" class="icon"></ons-icon></ons-col>
                             <ons-col width="70%"> Pomocné návody </ons-col>
@@ -413,7 +415,7 @@
                             </ons-col>
                         </ons-row>
                     </ons-list-item>
-                    <ons-list-item>
+                    <ons-list-item modifier="tappable" >
                         <ons-row id="legal-scope-link">
                             <ons-col><ons-icon class="icon" icon="ion-pin" size="25px"></ons-icon> </ons-col>
                             <ons-col width="70%"> Právní rámec </ons-col>
@@ -426,6 +428,93 @@
             </ons-page>
         </ons-navigator>
     </ons-template>
+    
+    
+    <!-- SECURITY CROSSROAD PAGE TEMPLATE -->
+    
+    <ons-template id="security-crossroad-page-template">
+            <ons-page id="security-crossroad-page">
+            <ons-toolbar>
+            <div class="left">
+                <ons-back-button>Zpět</ons-back-button>
+            </div>
+                <div class="center">Nastavení zabezpečení</div>
+            </ons-toolbar>
+            <ons-list>
+                <ons-list-header>Doména zabezpečení</ons-list-header>
+                 <ons-list-item modifier="tappable" id="user-password-change-link">
+                    <ons-row>
+                        <ons-col width="70%">Změna uživatelského hesla</ons-col>
+                        <ons-col>
+                                <ons-icon class="icon right-floater" icon="ion-chevron-right" size="20px"></ons-icon>
+                            </ons-col>
+                    </ons-row>
+                 </ons-list-item>
+                 <ons-list-item modifier="tappable" id="pin-change-link">
+                    <ons-row>
+                        <ons-col width="70%">Změna PINU</ons-col>
+                        <ons-col>
+                                <ons-icon class="icon right-floater" icon="ion-chevron-right" size="20px"></ons-icon>
+                            </ons-col>
+                    </ons-row>
+                 </ons-list-item>
+            </ons-list>
+        </ons-page>
+    </ons-template>
+    
+    <!-- CHANGE PASSWORD PAGE TEMPLATE -->
+    
+    <ons-template id="change-password-page-template">
+            <ons-page id="change-password-page">
+            <ons-toolbar>
+            <div class="left">
+                <ons-back-button>Zpět</ons-back-button>
+            </div>
+                <div class="center">Změna uživatelského heslo</div>
+            </ons-toolbar>
+            <ons-list>
+                <ons-list-header>Nastavení nového hesla</ons-list-header>
+                 <ons-list-item>
+                   <ons-input id="oldPassword" type="password" placeholder="Původní heslo"></ons-input>
+                 </ons-list-item>
+                 <ons-list-item>
+                   <ons-input id="newPassword" type="password" placeholder="Nové heslo"></ons-input>
+                 </ons-list-item>
+                 <ons-list-item >
+                   <ons-input id="newPasswordRepeated" type="password" placeholder="Zopakované nové heslo"></ons-input>
+                 </ons-list-item>
+            </ons-list>
+            <ons-button class="accept-button" modifier="large--cta" onclick="validateChangedUserPassword()" id="change-user-password-button">Potvrdit nové heslo</ons-button>
+        </ons-page>
+    </ons-template>
+    
+    
+    <!-- CHANGE PIN PAGE TEMPLATE -->
+    
+    <ons-template id="change-pin-page-template">
+            <ons-page id="change-pin-page">
+            <ons-toolbar>
+            <div class="left">
+                <ons-back-button>Zpět</ons-back-button>
+            </div>
+                <div class="center">Změna PINu</div>
+            </ons-toolbar>
+            <ons-list>
+                <ons-list-header>Nastavení PINu</ons-list-header>
+                 <ons-list-item>
+                   <ons-input type="password" placeholder="Původní PIN"></ons-input>
+                 </ons-list-item>
+                 <ons-list-item>
+                   <ons-input type="password" placeholder="Nový PIN"></ons-input>
+                 </ons-list-item>
+                 <ons-list-item >
+                   <ons-input type="password" placeholder="Zopakovaný nový PIN"></ons-input>
+                 </ons-list-item>
+            </ons-list>
+            <ons-button class="accept-button" modifier="large--cta" onclick="validateChangedPIN()" id="change-pin-button">Potvrdit nový PIN</ons-button>
+        </ons-page>
+    </ons-template>
+    
 
 </body>
 </html>
