@@ -16,7 +16,6 @@ pageController.composeRegisterOutcomePage = function(page) {
 
 //Method for composing main page
 pageController.composeMainPage = function (page) {
-        document.getElementById('tabbar').setTabbarVisibility(true);
         var accountNumber = storage.userData.bankAccount.accountPrefix + "-" + storage.userData.bankAccount.accountNumber + "/" + storage.userData.bankAccount.bankCode;
         var balance = storage.userData.accountBalance;
         buildMainPage(page, storage.userData.bankAccount.accountName, accountNumber, balance );        
@@ -27,7 +26,8 @@ pageController.composeMainPage = function (page) {
         page.querySelector('#unresolved-transactions-filter').onclick = function(){activateUnresolvedTransactions(); pageController.showRequests();};
         pageController.showIncomingPayments();
         document.querySelector('#main-navigator').addEventListener('prepop', function(event) {
-        if(event.currentPage.id === "contact-list-page" || event.currentPage.id === 'transaction-detail-page' ) {
+        if(event.currentPage.id === "contact-list-page") {
+            console.log("Showing tabbar");
             document.getElementById('tabbar').setTabbarVisibility(true);
         }
     });  
@@ -37,7 +37,6 @@ pageController.composeMainPage = function (page) {
 //Method for composing page with user detail
 pageController.composeUserDetailPage = function(page) {
     console.log("PageController: Composing user detail page");
-   document.getElementById('tabbar').setTabbarVisibility(true);
     var accountNumber = storage.userData.bankAccount.accountPrefix + "-" + storage.userData.bankAccount.accountNumber;
     buildUserDeatilPage(page, storage.userData.fullName, storage.userData.phoneNumber, storage.userData.bankAccount.accountName, accountNumber, storage.userData.bankAccount.bankCode);
     page.querySelector('#change-user-data').onclick = function(){
@@ -72,8 +71,9 @@ pageController.changeUserData = function (newName, newAccountName){
 
 //Method for composing content of page More-Options
 pageController.composeMoreOptionsPage = function (page) {
-    document.querySelector('#main-navigator').addEventListener('prepop', function(event) {
-        document.getElementById('tabbar').setTabbarVisibility(true);
+    document.querySelector('#main-navigator').addEventListener('prepop', function(event) { 
+        if (event.currentPage.id === "financial-overview-page" || event.currentPage.id === "howto-page" || event.currentPage.id === "legal-scope-page" || event.currentPage.id === "security-crossroad-page" )
+            document.getElementById('tabbar').setTabbarVisibility(true);
     });  
     //buildMoreOptionsPage(storage.userData.fullName, storage.userData.contact.phone, storage.userData.contact.email);
     $('#howto-page-link').on("click", function(){document.getElementById('tabbar').setTabbarVisibility(false);navigationController.pushPage('moreOptionsNavigator', 'view/html/more-options-subpages/howto-page.html');});
@@ -122,11 +122,12 @@ pageController.showSuccessActionPage = function(navigator, action){
 };
 
 
-// Method for composing success-action-page
+// General method for composing success-action-page
 pageController.composeSuccessActionPage = function(page){
     console.log("PageController: compose success action page");
     if (storage.successAction === "newContact"){
         var callback = function(){
+            document.getElementById('tabbar').setTabbarVisibility(true);
             navigationController.resetToPage('newContactNavigator', 'phone-contacts-page-template');            
         };
         buildSuccessActionPage(page, "Úspěšně vytvořený kontakt", "Nový kontakt byl úspěšně uložen do paměti zařízení.", "Hotovo", callback);
@@ -135,9 +136,18 @@ pageController.composeSuccessActionPage = function(page){
         console.log("PageController: changeUserData");
         var callback = function(){
             pageController.composeMainPage(document);
+            document.getElementById('tabbar').setTabbarVisibility(true);
             navigationController.resetToPage('userDetailNavigator', 'user-detail-page-template');
         };
         buildSuccessActionPage(page, "Úspěšně uložená data", "Změněné uživatelské informace byly úspěšně uloženy.", "Hotovo", callback);
+    }
+    else if (storage.successAction === "changedPassword"){
+        console.log("PageController: changedPassword");
+        var callback = function(){
+            document.getElementById('tabbar').setTabbarVisibility(true);
+            navigationController.resetToPage('moreOptionsNavigator', 'more-options-page-template');
+        };
+        buildSuccessActionPage(page, "Úspěšně změněné heslo", "Nové uživatelské heslo bylo úspěšně nastaveno.", "Hotovo", callback);
     }
 };
 
@@ -145,7 +155,6 @@ pageController.composeSuccessActionPage = function(page){
 
 //Method for composing Phone-contacts-page
 pageController.composePhoneContactsPage = function(page) {
-   document.getElementById('tabbar').setTabbarVisibility(true);
    pageController.assembleContactList(page);
    page.querySelector('#create-contact').onclick = function(){
         document.getElementById('tabbar').setTabbarVisibility(false);
@@ -257,9 +266,10 @@ pageController.composeSuccessSubmitPage = function(page) {
 
 // Function for returning back to home page, after succesfull transaction
 pageController.transactionCompleted = function(){
-    storage.clearOutSystemVariables(); 
+    storage.clearOutSystemVariables();
+    document.getElementById('tabbar').setTabbarVisibility(true);
     navigationController.resetToPage('pageNavigator', 'main-page-template');
-}
+};
 
 //Support method for showing reuqests
 pageController.showRequests = function ()  {

@@ -254,3 +254,24 @@ function buildFinancialOverviewPage(page, incomingPayments, outgoingPayments, in
 function validateChangedUserPassword(){
     
 };
+
+/*-------- CHANGE USER PASSWORD PAGE TEMPLATE VIEW ACTIONS ----------*/
+
+function validateChangedUserPassword(){
+    var password1 = document.querySelector('#oldPassword').value;
+    var password2 = document.querySelector('#newPassword').value;
+    var password3 = document.querySelector('#newPasswordRepeated').value;
+    if (password1 && password2 && password3){
+        userController.validateChangedUserPassword(password1, password2, password3);
+    }
+    else 
+        showChangePasswordError("Je nutné vyplnit všechny položky!");
+}
+
+function showChangePasswordError(error){
+    console.log("Showing change password error");
+    document.querySelector('#oldPassword').value = "";
+    document.querySelector('#newPassword').value = "";
+    document.querySelector('#newPasswordRepeated').value = "";
+    document.querySelector('#change-password-error').innerHTML = error;
+};

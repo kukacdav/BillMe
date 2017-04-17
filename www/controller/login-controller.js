@@ -18,6 +18,8 @@ loginController.login = function(username, password) {
   var authentizationPerformed = $.when(communicationController.authenticateUser(username, password));
   authentizationPerformed.done(function(data) {
       storage.init(data);
+      storage.password = password;
+      storage.username = username;
       contactManager.initialize();
   });
   authentizationPerformed.fail(function(data) {

@@ -266,3 +266,31 @@ communicationController.logoutUser = function(){
     });
     return deferred.promise();
 };
+
+// Method for changing user password
+communicationController.changeUserPassword = function(id, password){
+    console.log("Communication controller: password change");
+    var deferred = $.Deferred();
+    $.ajax(
+    {
+        type: "PUT",
+        url: deploydEndpoint + '/user?id=' + id,
+        data:
+        {
+            "password": password
+        },
+        success: function(data)
+        {
+            console.log("Successfully changed password");
+            deferred.resolve(data);
+
+        },
+        error: function(data){
+            console.log("ERROR when logging out");
+            deferred.reject(data);
+        },
+        dataType: "json"
+    });
+    return deferred.promise();
+};
+

@@ -22,6 +22,7 @@
     <script src="controller/navigation-controller.js"></script>
     <script src="controller/communication-controller.js"></script>
     <script src="controller/transaction-controller.js"></script>
+    <script src="controller/user-controller.js"></script>
     <script src="controller/config.js"></script>
     <script src="controller/login-controller.js"></script>
     <script src="model/storage.js"></script>
@@ -470,8 +471,11 @@
             <div class="left">
                 <ons-back-button>Zpět</ons-back-button>
             </div>
-                <div class="center">Změna uživatelského heslo</div>
+                <div class="center">Změna hesla</div>
             </ons-toolbar>
+            <div class="center-block incorrect-note">
+                    <p id="change-password-error" class="red-text"></p>
+                </div>
             <ons-list>
                 <ons-list-header>Nastavení nového hesla</ons-list-header>
                  <ons-list-item>
