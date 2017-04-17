@@ -76,12 +76,13 @@ pageController.composeMoreOptionsPage = function (page) {
             document.getElementById('tabbar').setTabbarVisibility(true);
     });  
     //buildMoreOptionsPage(storage.userData.fullName, storage.userData.contact.phone, storage.userData.contact.email);
-    $('#howto-page-link').on("click", function(){document.getElementById('tabbar').setTabbarVisibility(false);navigationController.pushPage('moreOptionsNavigator', 'view/html/more-options-subpages/howto-page.html');});
     page.querySelector('#financial-overview-link').onclick = function(){document.getElementById('tabbar').setTabbarVisibility(false);navigationController.pushPage('moreOptionsNavigator', 'view/html/more-options-subpages/financial-overview-page.html');};
     page.querySelector('#legal-scope-link').onclick = function(){document.getElementById('tabbar').setTabbarVisibility(false);navigationController.pushPage('moreOptionsNavigator', 'view/html/more-options-subpages/legal-scope-page.html');};
     page.querySelector('#profile-link').onclick = function(){document.getElementById('tabbar').setActiveTab(1);};
     page.querySelector('#share-with-friends-link').onclick = function(){document.getElementById('tabbar').setActiveTab(3);};
     page.querySelector('#security-link').onclick = function(){document.getElementById('tabbar').setTabbarVisibility(false);navigationController.pushPage('moreOptionsNavigator', 'security-crossroad-page-template');};
+    page.querySelector('#howto-page-link').onclick = function(){document.getElementById('tabbar').setTabbarVisibility(false);navigationController.pushPage('moreOptionsNavigator', 'view/html/more-options-subpages/howto-page.html');};
+
 };
 
 //Method for composing content of page Invite-Friends
@@ -123,6 +124,7 @@ pageController.showSuccessActionPage = function(navigator, action){
 
 
 // General method for composing success-action-page
+// Since template is general, its logic is driven by indicator storage.successAction. This attribute indicate which logic should template have.
 pageController.composeSuccessActionPage = function(page){
     console.log("PageController: compose success action page");
     if (storage.successAction === "newContact"){
@@ -149,9 +151,15 @@ pageController.composeSuccessActionPage = function(page){
         };
         buildSuccessActionPage(page, "Úspěšně změněné heslo", "Nové uživatelské heslo bylo úspěšně nastaveno.", "Hotovo", callback);
     }
+    else if (storage.successAction === "changedPIN"){
+        console.log("PageController: changedPIN");
+        var callback = function(){
+            document.getElementById('tabbar').setTabbarVisibility(true);
+            navigationController.resetToPage('moreOptionsNavigator', 'more-options-page-template');
+        };
+        buildSuccessActionPage(page, "Úspěšně změněný PIN", "Nový PIN byl uložen v paměti aplikace.", "Hotovo", callback);
+    }
 };
-
-
 
 //Method for composing Phone-contacts-page
 pageController.composePhoneContactsPage = function(page) {
@@ -450,6 +458,10 @@ pageController.composeSecurityCrossroadPage = function(page){
 
 // Method for composing change password page
 pageController.composeChangePasswordPage = function(page){
-    
-    
 };
+
+// Method for composing change password page
+pageController.composeChangePINPage = function(page){
+};
+
+validateChangedPIN()

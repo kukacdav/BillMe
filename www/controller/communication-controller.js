@@ -286,7 +286,34 @@ communicationController.changeUserPassword = function(id, password){
 
         },
         error: function(data){
-            console.log("ERROR when logging out");
+            console.log("ERROR when changing password");
+            deferred.reject(data);
+        },
+        dataType: "json"
+    });
+    return deferred.promise();
+};
+
+// Method for changing user PIN
+communicationController.changeUserPIN = function(id, pin){
+    console.log("Communication controller: pin change");
+    var deferred = $.Deferred();
+    $.ajax(
+    {
+        type: "PUT",
+        url: deploydEndpoint + '/user?id=' + id,
+        data:
+        {
+            "pin": pin
+        },
+        success: function(data)
+        {
+            console.log("Successfully changed pin");
+            deferred.resolve(data);
+
+        },
+        error: function(data){
+            console.log("ERROR when changing PIN");
             deferred.reject(data);
         },
         dataType: "json"

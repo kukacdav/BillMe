@@ -503,16 +503,19 @@
             </div>
                 <div class="center">Změna PINu</div>
             </ons-toolbar>
+            <div class="center-block incorrect-note">
+                    <p id="change-pin-error" class="red-text"></p>
+                </div>
             <ons-list>
                 <ons-list-header>Nastavení PINu</ons-list-header>
                  <ons-list-item>
-                   <ons-input type="password" placeholder="Původní PIN"></ons-input>
+                   <ons-input id="oldPIN" type="password" inputmode="numeric" pattern="[0-9]*" placeholder="Původní PIN"></ons-input>
                  </ons-list-item>
                  <ons-list-item>
-                   <ons-input type="password" placeholder="Nový PIN"></ons-input>
+                   <ons-input id="newPIN" type="password" placeholder="Nový PIN" inputmode="numeric" pattern="[0-9]*"></ons-input>
                  </ons-list-item>
                  <ons-list-item >
-                   <ons-input type="password" placeholder="Zopakovaný nový PIN"></ons-input>
+                   <ons-input id="newPINRepeated" type="password" placeholder="Zopakovaný nový PIN" inputmode="numeric" pattern="[0-9]*"></ons-input>
                  </ons-list-item>
             </ons-list>
             <ons-button class="accept-button" modifier="large--cta" onclick="validateChangedPIN()" id="change-pin-button">Potvrdit nový PIN</ons-button>

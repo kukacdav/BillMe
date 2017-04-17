@@ -16,12 +16,9 @@ contactManager.initialize = function()
 // Method foŕ disabling back button
 contactManager.blockBackButtonFunction = function()
 {
-    document.addEventListener("backbutton", onBackKeyDown, false);
-
-    function onBackKeyDown(e)
-    {
-        return false;
-    }
+    document.addEventListener("backbutton", function (e) {
+        e.preventDefault();
+    }, false );
 };
 
 function onBackKeyDown()

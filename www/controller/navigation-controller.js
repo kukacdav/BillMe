@@ -51,6 +51,8 @@ document.addEventListener('init', function(event)
         pageController.composeSecurityCrossroadPage(page);
     else if (page.id === 'change-password-page')
         pageController.composeChangePasswordPage(page);
+    else if (page.id === 'change-pin-page')
+        pageController.composeChangePINPage(page);
         
     
 });

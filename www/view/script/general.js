@@ -275,3 +275,23 @@ function showChangePasswordError(error){
     document.querySelector('#newPasswordRepeated').value = "";
     document.querySelector('#change-password-error').innerHTML = error;
 };
+
+/*-------- CHANGE PIN PAGE TEMPLATE VIEW ACTIONS ----------*/
+function validateChangedPIN(){
+    var pin1 = document.querySelector('#oldPIN').value;
+    var pin2 = document.querySelector('#newPIN').value;
+    var pin3 = document.querySelector('#newPINRepeated').value;
+    if (pin1 && pin2 && pin3){
+        userController.validateChangedPIN(pin1, pin2, pin3);
+    }
+    else
+        showChangePINError("Je nutné vyplnit všechny položky!");
+};
+
+function showChangePINError(error){
+    console.log("Showing change PIN error");
+    document.querySelector('#oldPIN').value = "";
+    document.querySelector('#newPIN').value = "";
+    document.querySelector('#newPINRepeated').value = "";
+    document.querySelector('#change-pin-error').innerHTML = error;
+};
