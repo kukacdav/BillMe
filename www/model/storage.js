@@ -145,11 +145,12 @@ storage.showTransactionDetail = function(id, elementIndex) {
 
 // Method for rejecting incoming request
 storage.rejectSelectedRequest = function() {
+    showModal();
     dataSource = storage.userData.incomingRequests[systemVariables.elementIndex];
     newState = "rejected";
     var storageInitialized = $.when(communicationController.changeRequestState(dataSource, newState));
     storageInitialized.done(function(data) {
-        callback = function(){navigationController.resetToPage('pageNavigator', 'main-page-template');};
+        callback = function(){hideModal();document.getElementById('tabbar').setTabbarVisibility(true);navigationController.resetToPage('pageNavigator', 'main-page-template');};
         storage.updateUserData(callback);
     });
 };
@@ -158,17 +159,19 @@ storage.rejectSelectedRequest = function() {
 
 // Method for canceling outgoing request
 storage.cancelSelectedRequest = function() {
+    showModal();
     newState = "canceled";
     dataSource = storage.userData.outgoingRequests[systemVariables.elementIndex];
     var storageInitialized = $.when(communicationController.changeRequestState(dataSource, newState));
     storageInitialized.done(function(data) {
-        callback = function(){navigationController.resetToPage('pageNavigator', 'main-page-template');};
+        callback = function(){hideModal(); document.getElementById('tabbar').setTabbarVisibility(true);navigationController.resetToPage('pageNavigator', 'main-page-template');};
         storage.updateUserData(callback);
     });
 };
 
 //Method for accepting request
 storage.acceptSelectedRequest = function() {
+    
     var pin = document.querySelector('#pin-input').value;
     if (pin !== this.userData.pin){
         console.log("inncorrect pin!!!");
@@ -179,13 +182,14 @@ storage.acceptSelectedRequest = function() {
     else{
     
     if (this.controlInputAmount(storage.userData.incomingRequests[systemVariables.elementIndex].amount)){
+        showModal();
     dataSource = storage.userData.incomingRequests[systemVariables.elementIndex];
     this.buildRespondPayment(dataSource);
     var storageInitialized = $.when(communicationController.persistTransaction("payment"));
     storageInitialized.done(function(data) {
         var requestUpdated = $.when(communicationController.completeRequest(storage.userData.incomingRequests[systemVariables.elementIndex].id, data.id));
         requestUpdated.done(function(data) {
-        callback = function(){navigationController.resetToMainPage();};
+        callback = function(){hideModal(); document.getElementById('tabbar').setTabbarVisibility(true);navigationController.resetToPage('pageNavigator', 'main-page-template'); };
         storage.updateUserData(callback);
         });
     });}
