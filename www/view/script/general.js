@@ -242,10 +242,7 @@ function buildFinancialOverviewPage(page, incomingPayments, outgoingPayments, in
     console.log("Building finantial overview page");
     page.querySelector('#sumOfIncomeResult').innerHTML = incomingPayments; 
     page.querySelector('#sumOfOutcomeResult').innerHTML = "-" + outgoingPayments;
-    if (incomingRequests > 0)
-        page.querySelector('#incomingRequestsResult').innerHTML = "-" + incomingRequests;
-    else
-        page.querySelector('#incomingRequestsResult').innerHTML = incomingRequests;
+    page.querySelector('#incomingRequestsResult').innerHTML = incomingRequests;
     page.querySelector('#outgoingRequestsResult').innerHTML = outgoingRequests;
 };
 

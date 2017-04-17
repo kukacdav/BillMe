@@ -91,6 +91,7 @@ storage.updateUserData = function(callback){
     storageInitialized.done(function(userData)
     {
         storage.storeUserData(userData);
+        hideModal();
         callback();
     });
 };

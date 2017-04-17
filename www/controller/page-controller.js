@@ -26,7 +26,7 @@ pageController.composeMainPage = function (page) {
         page.querySelector('#unresolved-transactions-filter').onclick = function(){activateUnresolvedTransactions(); pageController.showRequests();};
         pageController.showIncomingPayments();
         document.querySelector('#main-navigator').addEventListener('prepop', function(event) {
-        if(event.currentPage.id === "contact-list-page") {
+        if(event.currentPage.id === "contact-list-page" || event.currentPage.id === "transaction-detail-page") {
             console.log("Showing tabbar");
             document.getElementById('tabbar').setTabbarVisibility(true);
         }
@@ -253,10 +253,11 @@ pageController.composeConfirmTransactionPage = function(page) {
 
 // Method invoked by view, handles message and pin validation
 pageController.submitNewTransaction = function(pin, message) {
-    if (pin === storage.userData.pin)
+    if (pin === storage.userData.pin){
+        showModal();
         storage.storeNewTransactionMessage(message);
+    }
     else{
-        console.log("inncorrect pin!!!, expected:" + storage.userData.pin );
         incorrectPIN();
     }
 };
