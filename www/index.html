@@ -30,7 +30,8 @@
     <script src="view/script/general.js"></script>
     <script src="view/script/texts.js"></script>
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" /> </head>
- 
+    <meta name = "format-detection" content = "telephone=no">
+
 <!-- LOGIN PAGE TEMPLATE-->
 
 <body>
@@ -274,17 +275,7 @@
                 </ons-col>
             </ons-row>
             <ons-list id="contact-list"></ons-list>
-            <script id="contact-list-item" type="text/template">
-                <ons-list-item class="contact-list-detail">
-                    <div class="left contact-name">{{name}}</div>
-                    
-                    <div class="center contact-phone">{{phoneNumber}}</div>
-                    <div class="right">
-                        {{indicator}}
-                    </div>
-                    <div class="hidden contact-index">{{index}}</div>
-                </ons-list-item>
-            </script>
+            
         </ons-page>
         </ons-navigator>
     </ons-template>

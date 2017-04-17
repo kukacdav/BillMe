@@ -43,6 +43,13 @@ pageController.composeUserDetailPage = function(page) {
         document.getElementById('tabbar').setTabbarVisibility(false);
         navigationController.pushPage('userDetailNavigator', 'change-userdata-template');
     };
+    
+    document.querySelector('#userDetailNavigator').addEventListener('prepop', function(event) {
+        if(event.currentPage.id === "change-userdata-page") {
+            console.log("Showing tabbar");
+            document.getElementById('tabbar').setTabbarVisibility(true);
+        }
+    });  
 };
 
 pageController.composeChangeUserDataPage = function(page){
@@ -163,7 +170,7 @@ pageController.composeSuccessActionPage = function(page){
 
 //Method for composing Phone-contacts-page
 pageController.composePhoneContactsPage = function(page) {
-   pageController.assembleContactList(page);
+   pageController.assemblePhoneContactList(page);
    page.querySelector('#create-contact').onclick = function(){
         document.getElementById('tabbar').setTabbarVisibility(false);
         navigationController.pushPage('newContactNavigator', 'new-contact-page-template');
@@ -186,7 +193,7 @@ pageController.composeContactListPage = function(page){
     }
 };
 
-//Method shared by phoneContactPage and contactListPage for assembling contactList
+//Method for composing contactListPage - dynamic list as a part of new transaction process
 pageController.assembleContactList = function(page) {
         console.log("Loading phone contact list: " + storage.cordovaIndicator);
         var contacts = storage.cordovaContacts;
@@ -200,22 +207,42 @@ pageController.assembleContactList = function(page) {
                 counter++;
                 return '';
             }
+            return "<ons-list-item modifier='tappable' class='contact-list-detail' > \
+                    <div class='left contact-name'>" + item.name +" <div class='left'></div></div> \
+                    <div class='center contact-phone'>" + item.phoneNumber +"</div> \
+                    <div class='right'> <ons-icon class='icon' icon='ion-chevron-right'></ons-icon></div> \
+                    <div class='hidden contact-index'>" + (counter++) + "</div> \
+                    </ons-list-item>";
+        })
+        .join('');
+};
+
+//Method for composing PhoneContactList - static list accessible from main page via tabbar
+pageController.assemblePhoneContactList = function(page) {
+        var contacts = storage.cordovaContacts;
+        var counter = 0;
+        page.querySelector('#contact-list')
+        .innerHTML = contacts.map(function(item)
+        {
+            //  Contact is not user of the application, no checkmark for you, troglodyte
             if(!item.hasOwnProperty('valid') || item.valid !== true){
             console.log(item.phoneNumber + " - " + item.valid);
-            return page.querySelector('#contact-list-item')
-                .innerHTML.replace('{{name}}', item.name)
-                .replace('{{indicator}}', '')
-                .replace('{{phoneNumber}}', item.phoneNumber)
-                .replace('{{index}}', counter++); 
+            return "<ons-list-item class='contact-list-detail'> \
+                    <div class='left contact-name'>" + item.name +"</div> \
+                    <div class='center contact-phone'>" + item.phoneNumber +"</div> \
+                    <div class='right'></div> \
+                    <div class='hidden contact-index'>" + (counter++) + "</div> \
+                </ons-list-item>";
             }
+            // Contact is user of the application, well done, give him checkmark
             else {
                 console.log("PageController: Found valid contact");
-                return page.querySelector('#contact-list-item')
-                .innerHTML
-                .replace('{{name}}', item.name)
-                .replace('{{indicator}}', '<ons-icon class="valid-icon" icon="ion-checkmark" size="20px"></ons-icon>')
-                .replace('{{phoneNumber}}', item.phoneNumber)
-                .replace('{{index}}', counter++);
+                 return "<ons-list-item class='contact-list-detail'> \
+                    <div class='left contact-name'>" + item.name +"</div> \
+                    <div class='center contact-phone'>" + item.phoneNumber +"</div> \
+                    <div class='right'><ons-icon class='valid-icon'  icon='ion-checkmark' size='20px'></ons-icon></div> \
+                    <div class='hidden contact-index'>" + (counter++) + "</div> \
+                </ons-list-item>";
             }
         })
         .join('');
@@ -301,7 +328,7 @@ pageController.showIncomingRequests = function(dataSource) {
     document.querySelector('#transaction-list').innerHTML="<ons-list-header>Přijaté připomínky</ons-list-header>";
     document.querySelector('#transaction-list').innerHTML+=dataSource.map(function(item){
                  counter++;
-        return "<ons-list-item id='filter-incoming-requests' class='transaction-item-detail'> \
+        return "<ons-list-item modifier='tappable' id='filter-incoming-requests' class='transaction-item-detail'> \
         <div class='left transaction-party'>" + item.initiatorDetail.fullName + "</div> \
         <div class='center transaction-amount'>" + item.amount + " Kč</div> \
         <div class='right'><ons-icon class='icon' icon='ion-chevron-right'></ons-icon></div> \
@@ -318,7 +345,7 @@ pageController.showOutgoingRequests = function(dataSource) {
     document.querySelector('#transaction-list').innerHTML+="<ons-list-header>Odeslané připomínky</ons-list-header>";
     document.querySelector('#transaction-list').innerHTML+=dataSource.map(function(item){
                  counter++;
-        return "<ons-list-item id='filter-outgoing-requests' class='transaction-item-detail'> \
+        return "<ons-list-item modifier='tappable' id='filter-outgoing-requests' class='transaction-item-detail'> \
         <div class='left transaction-party'>" + item.recieverDetail.fullName + "</div> \
         <div class='center transaction-amount'>" + item.amount + " Kč</div> \
         <div class='right'><ons-icon class='icon' icon='ion-chevron-right'></ons-icon></div> \
@@ -334,7 +361,7 @@ pageController.showIncomingPayments = function() {
     systemVariables.filterFlag = "incomingPayments";
      document.querySelector('#transaction-list').innerHTML=payments.map(function(item){
          counter++;
-        return "<ons-list-item id='filter-incoming-payments' class='transaction-item-detail'> \
+        return "<ons-list-item modifier='tappable' id='filter-incoming-payments' class='transaction-item-detail'> \
         <div class='left transaction-party'>" + item.initiatorDetail.fullName + "</div> \
         <div class='center transaction-amount'>" + item.amount + " Kč</div> \
         <div class='right'><ons-icon class='icon' icon='ion-chevron-right'></ons-icon></div> \
@@ -356,7 +383,7 @@ pageController.showOutgoingPayments = function() {
     var counter = -1;
     document.querySelector('#transaction-list').innerHTML=payments.map(function(item){
                  counter++;
-        return "<ons-list-item id='filter-outgoing-payments' class='transaction-item-detail'> \
+        return "<ons-list-item modifier='tappable' id='filter-outgoing-payments' class='transaction-item-detail'> \
         <div class='left transaction-party'>" + item.recieverDetail.fullName + "</div> \
         <div class='center transaction-amount'>" + item.amount + " Kč</div> \
         <div class='right'><ons-icon class='icon' icon='ion-chevron-right'></ons-icon></div> \
@@ -464,5 +491,3 @@ pageController.composeChangePasswordPage = function(page){
 // Method for composing change password page
 pageController.composeChangePINPage = function(page){
 };
-
-validateChangedPIN()
