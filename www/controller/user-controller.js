@@ -86,3 +86,16 @@ userController.submitNewContact = function (name, phone){
     contactManager.submitNewContact(name, phone);            
 };
 
+// Method for updating contact list due to new contact creation
+userController.updateContactList = function(){
+    console.log("userController: Getting updated contactList");
+    var contactListUpdated = $.when(communicationController.loadApplicationData(storage.uid, storage.cordovaContacts));    
+    contactListUpdated.done(function(contactData)
+    {
+        console.log("userController: contact list returned");
+        storage.storeContactList(contactData);
+        pageController.showSuccessActionPage('newContactNavigator',"newContact");
+    });
+};
+
+

@@ -157,7 +157,7 @@ function buildSetAmountPage(page, name, phoneNumber){
 // Function for controlling, whether user set valid transaction amount 
 function controlAmountInput (){
   var amount = document.querySelector('#input-amount').value;
-  pageController.controlAmountInput(amount);
+  transactionController.controlAmountInput(amount);
 };
 
 // Function for altering view, when user entered valid amount

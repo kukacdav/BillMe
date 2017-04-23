@@ -12,6 +12,21 @@ transactionController.createNewTransaction = function(type) {
 };
 
 
+//Method for veryfing, whether set balance is OK
+// Input: amount: set amount of transaction
+transactionController.controlAmountInput = function(amount) {
+  if ( $.isNumeric(amount) && amount <= storage.userData.accountBalance && amount > 0 ){
+        amountSetCorrectly();
+        storage.newTransaction.amount = amount; 
+        navigationController.pushPage('pageNavigator','view/html/confirm-transaction-page.html');
+        return;
+    }
+    else if (amount > storage.userData.accountBalance) 
+        showInsufficientBalanceNote();
+    amountSetIncorrectly();
+};
+
+
 // Method for calculating sum of income over period of last month
 // Method goes through all incoming payments and returns total sum
 transactionController.countSumOfIncomingPayments = function(){

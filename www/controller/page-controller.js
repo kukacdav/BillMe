@@ -81,17 +81,9 @@ pageController.composeNewContactPage = function(page){
     };
 };
 
-pageController.updateContactList = function(){
-    console.log("pageController: Getting updated contactList");
-    var contactListUpdated = $.when(communicationController.loadApplicationData(storage.uid, storage.cordovaContacts));    
-    contactListUpdated.done(function(contactData)
-    {
-        console.log("PageController: contact list returned");
-        storage.storeContactList(contactData);
-        pageController.showSuccessActionPage('newContactNavigator',"newContact");
-    });
-};
-
+// Method for showing general success action page
+// Input:   navigator:  to be used as for further actions
+//          action:     action that brought app to this page
 pageController.showSuccessActionPage = function(navigator, action){
     console.log("Showing success page");
     storage.successAction = action;
@@ -165,9 +157,7 @@ pageController.composeContactListPage = function(page){
 
 //Method for composing contactListPage - dynamic list as a part of new transaction process
 pageController.assembleContactList = function(page) {
-        console.log("Loading phone contact list: " + storage.cordovaIndicator);
         var contacts = storage.cordovaContacts;
-        console.log("Showing cordova contacts!");
         var counter = 0;
         page.querySelector('#contact-list')
         .innerHTML = contacts.map(function(item)
@@ -187,7 +177,8 @@ pageController.assembleContactList = function(page) {
         .join('');
 };
 
-//Method for composing PhoneContactList - static list accessible from main page via tabbar
+// Method for composing PhoneContactList - static list accessible from main page via tabbar
+// For contacts we found match in DB, checkmark is appended, to show their validity 
 pageController.assemblePhoneContactList = function(page) {
         var contacts = storage.cordovaContacts;
         var counter = 0;
@@ -225,18 +216,6 @@ pageController.composeSetAmountPage = function(page){
     page.querySelector('#submit-transaction-button').onclick = function(){controlAmountInput();};
 };
 
-//Support method for veryfing, whether set balance is OK
-pageController.controlAmountInput = function(amount) {
-  if ( $.isNumeric(amount) && amount <= storage.userData.accountBalance && amount > 0 ){
-        amountSetCorrectly();
-        storage.newTransaction.amount = amount; 
-        navigationController.pushPage('pageNavigator','view/html/confirm-transaction-page.html');
-        return;
-    }
-    else if (amount > storage.userData.accountBalance) 
-        showInsufficientBalanceNote();
-    amountSetIncorrectly();
-};
 
 // Method for building transactionConfirmPage
 pageController.composeConfirmTransactionPage = function(page) {
@@ -258,8 +237,6 @@ pageController.submitNewTransaction = function(pin, message) {
         incorrectPIN();
     }
 };
-
-// CHECKPOINT
 
 // Method for composing success submit page
 pageController.composeSuccessSubmitPage = function(page) {
@@ -402,6 +379,7 @@ pageController.composeTransactionDetailPage = function(){
 };
 
 //Function for converting date to right format
+// Input: timestamp: date in format of miliseconds
 getDate = function(timestamp){
     console.log(timestamp + ", " + typeof timestamp);
      var today = new Date(Number(timestamp));
@@ -456,8 +434,10 @@ pageController.composeSecurityCrossroadPage = function(page){
 
 // Method for composing change password page
 pageController.composeChangePasswordPage = function(page){
+    // Empty for now
 };
 
 // Method for composing change password page
 pageController.composeChangePINPage = function(page){
+    // Empty for now
 };

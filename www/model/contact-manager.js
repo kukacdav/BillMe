@@ -146,6 +146,6 @@ contactManager.updateContactList = function(name, phone){
             item.phoneNumber = phoneNumber;
         }
         storage.cordovaContacts.push(item);
-        pageController.updateContactList();
+        userController.updateContactList();
     console.log("Cordova: DONE, contact list updated");  
 };

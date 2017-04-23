@@ -2,7 +2,7 @@
 
 This goal of this project is creation of Peer-to-Peer payment application Prototype for functionality demonstrating purpouses. Application allows registrating users, using cordova-contact-plugin fetches contact 
 list of the device. The device list is compared with contacts stored at the application database and for found match it allows user to create new payments and requests for payment. The backend of application is 
-hosted on Heroku, while the database is hosted on mLab. The project was created as a part of Diploma Thesis na CTU, Prague.
+hosted on Heroku, while the database is hosted on mLab. The project was created as a part of Diploma Thesis at CTU, Prague.
 
 ## How to run application on device
 
