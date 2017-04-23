@@ -4,6 +4,14 @@
 
 var transactionController = {};
 
+// Method when creating new transaction
+// as input method recieves type of transaction: request / payment
+transactionController.createNewTransaction = function(type) {
+    storage.newTransaction.transactionType = type;
+    navigationController.pushPage('pageNavigator','view/html/contact-list-page.html');
+};
+
+
 // Method for calculating sum of income over period of last month
 // Method goes through all incoming payments and returns total sum
 transactionController.countSumOfIncomingPayments = function(){

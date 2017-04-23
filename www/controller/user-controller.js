@@ -50,9 +50,8 @@ userController.validateChangedPIN = function (pin1, pin2, pin3){
         showChangePINError("Původní PIN byl špatně zadán!");
 };
 
-
+// Method for changing user PIN in persistence
 userController.changePIN = function(pin){
-    console.log("Changing PIN");
     showModal();
     var PINChanged = $.when(communicationController.changeUserPIN(storage.uid, pin));
     PINChanged.done(function(data) {
@@ -61,3 +60,29 @@ userController.changePIN = function(pin){
   });
     
 };
+
+// Method for changing user data
+// Input: data to be set. In prototype one can only set userName and accountName
+userController.changeUserData = function (newName, newAccountName){
+    showModal();
+    if (!newName){
+        newName = storage.userData.fullName;
+    }
+    if (!newAccountName)
+        newAccountName = storage.userData.bankAccount.accountName;
+    var userDataUpdated = $.when(communicationController.changeUserDetail(storage.uid, newName, newAccountName));    
+    userDataUpdated.done(function(userData)
+    {
+        storage.updateData(userData);
+        pageController.showSuccessActionPage('userDetailNavigator', "changedData");
+    });  
+};
+
+// Method for handeling newly created contact
+// Input: Entered name and phone number - not validated
+userController.submitNewContact = function (name, phone){
+    console.log("userController: Submitting new contact");
+    showModal();
+    contactManager.submitNewContact(name, phone);            
+};
+

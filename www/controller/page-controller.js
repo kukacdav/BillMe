@@ -4,7 +4,6 @@
 
 // Method for composing register outcome page
 pageController.composeRegisterOutcomePage = function(page) {
-    console.log("Composing registration outcome page");
     if (storage.registrationOutcome === 'success'){
         buildSuccesfullRegistrationOutcomePage(page);
     }
@@ -19,15 +18,14 @@ pageController.composeMainPage = function (page) {
         var accountNumber = storage.userData.bankAccount.accountPrefix + "-" + storage.userData.bankAccount.accountNumber + "/" + storage.userData.bankAccount.bankCode;
         var balance = storage.userData.accountBalance;
         buildMainPage(page, storage.userData.bankAccount.accountName, accountNumber, balance );        
-        page.querySelector('#create-payment-button').onclick = function(){storage.createNewTransaction("payment");};
-        page.querySelector('#create-request-button').onclick = function(){storage.createNewTransaction("request");};
+        page.querySelector('#create-payment-button').onclick = function(){transactionController.createNewTransaction("payment");};
+        page.querySelector('#create-request-button').onclick = function(){transactionController.createNewTransaction("request");};
         page.querySelector('#incoming-payments-filter').onclick = function(){activateIncomingPayments();pageController.showIncomingPayments();};
         page.querySelector('#outgoing-payments-filter').onclick = function(){activateOutgoingPayments();pageController.showOutgoingPayments();};
         page.querySelector('#unresolved-transactions-filter').onclick = function(){activateUnresolvedTransactions(); pageController.showRequests();};
         pageController.showIncomingPayments();
         document.querySelector('#main-navigator').addEventListener('prepop', function(event) {
         if(event.currentPage.id === "contact-list-page" || event.currentPage.id === "transaction-detail-page") {
-            console.log("Showing tabbar");
             document.getElementById('tabbar').setTabbarVisibility(true);
         }
     });  
@@ -36,45 +34,25 @@ pageController.composeMainPage = function (page) {
 
 //Method for composing page with user detail
 pageController.composeUserDetailPage = function(page) {
-    console.log("PageController: Composing user detail page");
     var accountNumber = storage.userData.bankAccount.accountPrefix + "-" + storage.userData.bankAccount.accountNumber;
     buildUserDeatilPage(page, storage.userData.fullName, storage.userData.phoneNumber, storage.userData.bankAccount.accountName, accountNumber, storage.userData.bankAccount.bankCode);
     page.querySelector('#change-user-data').onclick = function(){
         document.getElementById('tabbar').setTabbarVisibility(false);
         navigationController.pushPage('userDetailNavigator', 'change-userdata-template');
     };
-    
     document.querySelector('#userDetailNavigator').addEventListener('prepop', function(event) {
         if(event.currentPage.id === "change-userdata-page") {
-            console.log("Showing tabbar");
             document.getElementById('tabbar').setTabbarVisibility(true);
         }
     });  
 };
 
+// Method for composing page for changing user data
 pageController.composeChangeUserDataPage = function(page){
     buildChangeUserDataPage(storage.userData.fullName, storage.userData.bankAccount.accountName);
     page.querySelector('#update-user-data-button').onclick = function(){changeUserData();};
 };
 
-pageController.changeUserData = function (newName, newAccountName){
-    console.log("PageController: change user data.");
-    showModal();
-    if (!newName){
-        console.log("PageController: newName=null");
-        newName = storage.userData.fullName;
-    }
-    if (!newAccountName)
-        newAccountName = storage.userData.bankAccount.accountName;
-    var userDataUpdated = $.when(communicationController.changeUserDetail(storage.uid, newName, newAccountName));    
-    userDataUpdated.done(function(userData)
-    {
-        console.log("PageController: userData updated");
-        console.log(userData.fullName);
-        storage.updateData(userData);
-        pageController.showSuccessActionPage('userDetailNavigator', "changedData");
-    });  
-};
 
 //Method for composing content of page More-Options
 pageController.composeMoreOptionsPage = function (page) {
@@ -82,7 +60,6 @@ pageController.composeMoreOptionsPage = function (page) {
         if (event.currentPage.id === "financial-overview-page" || event.currentPage.id === "howto-page" || event.currentPage.id === "legal-scope-page" || event.currentPage.id === "security-crossroad-page" )
             document.getElementById('tabbar').setTabbarVisibility(true);
     });  
-    //buildMoreOptionsPage(storage.userData.fullName, storage.userData.contact.phone, storage.userData.contact.email);
     page.querySelector('#financial-overview-link').onclick = function(){document.getElementById('tabbar').setTabbarVisibility(false);navigationController.pushPage('moreOptionsNavigator', 'view/html/more-options-subpages/financial-overview-page.html');};
     page.querySelector('#legal-scope-link').onclick = function(){document.getElementById('tabbar').setTabbarVisibility(false);navigationController.pushPage('moreOptionsNavigator', 'view/html/more-options-subpages/legal-scope-page.html');};
     page.querySelector('#profile-link').onclick = function(){document.getElementById('tabbar').setActiveTab(1);};
@@ -102,13 +79,6 @@ pageController.composeNewContactPage = function(page){
     page.querySelector('#create-new-contact-button').onclick = function(){
         submitNewContact();
     };
-};
-
-//MEthod for handeling newly created contact
-pageController.submitNewContact = function (name, phone){
-    console.log("PageController: Submitting new contact");
-    showModal();
-    contactManager.submitNewContact(name, phone);            
 };
 
 pageController.updateContactList = function(){

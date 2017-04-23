@@ -10,6 +10,7 @@ storage.init = function(data){
 };
 
 // Method for storing user data querried from server
+// second party of each transacion is translated according to name stored in device
 storage.storeUserData = function(data){
     console.log("Storage: Storing user data " + data.fullName);
     for (var i = 0; i < data.incomingPayments.length; i++) {
@@ -120,13 +121,6 @@ storage.clearOutSystemVariables = function () {
   storage.newTransaction.amount = "";
   storage.newTransaction.message = "";
   storage.newTransaction.reciever = "";
-};
-
-// Method when creating new transaction
-storage.createNewTransaction = function(type) {
-    console.log("Storage: Create new transaction");
-    storage.newTransaction.transactionType = type;
-    navigationController.pushPage('pageNavigator','view/html/contact-list-page.html');
 };
 
 //Method for storing index of seleceted contact 

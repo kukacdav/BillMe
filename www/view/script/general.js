@@ -135,16 +135,11 @@ function buildChangeUserDataPage(userName, accountName){
 function changeUserData(){
     var newName = document.querySelector('#change-user-name').value;
     var newAccountName = document.querySelector('#change-account-name').value;
-    pageController.changeUserData(newName, newAccountName);
+    userController.changeUserData(newName, newAccountName);
 };
 
 /*-------- MORE OPTIONS PAGE TEMPLATE VIEW ACTIONS ----------*/
-// Function for building user-detail view
-    function buildMoreOptionsPage(fullName, phone, email){
-    //page.querySelector('#recievers-name3').innerHTML = fullName;  
-    //page.querySelector('#recievers-phone3').innerHTML = phone;  
-    //page.querySelector('#recievers-email3').innerHTML = email;  
-};
+
 
 /*-------- CONTACT LIST PAGE TEMPLATE VIEW ACTIONS ----------*/
 // Function for building header of contact-list-page
@@ -220,13 +215,32 @@ function buildSuccessSubmitPage(page, title, message, callback){
 }
 
 /*-------- CREATE NEW CONTACT PAGE TEMPLATE VIEW ACTIONS ----------*/
+
+// Function for submitting new contact
+// Functin validates, whether entire form is filled out, if not, shows error message
 function submitNewContact() {
     console.log("View: Submitting new contact");
     var name = document.querySelector('#new-contact-name').value;
     var phone = document.querySelector('#new-contact-number').value;  
-    pageController.submitNewContact(name, phone);
+    if(phone && name) {
+        hideNewContactError();
+        userController.submitNewContact(name, phone);
+    }
+    else{
+     console.log("ERROR");
+     showNewContactError("Veškeré údaje musí být vyplněné!"); 
+    }
 };
 
+//Function to display error, when creating new contact
+function showNewContactError(error){
+    document.querySelector('#new-contact-error').innerHTML = error;
+};
+
+// Function for hidding error, when succesfully creating new contact
+function hideNewContactError() {
+    document.querySelector('#new-contact-error').innerHTML = "";
+}
 /*-------- SUCCESS ACTION PAGE TEMPLATE VIEW ACTIONS ----------*/
 function buildSuccessActionPage (page, title, message, action, callback){
     page.querySelector('#success-action-title').innerHTML = title;

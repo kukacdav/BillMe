@@ -130,15 +130,17 @@ contactManager.updateContactList = function(name, phone){
         item.name = name;
         item.valid = false;
         var contact = phone;
-        if (contact == null)
+        if (!contact)
         {
-            pageController.showSuccessActionPage();
+            console.log("Cordova: null contact");
+            pageController.showSuccessActionPage('newContactNavigator',"newContact");
         }
         else
         {
             var phoneNumber = contactManager.transform(phone);
             if (phoneNumber == "NaP") {
-                pageController.showSuccessActionPage();
+                pageController.showSuccessActionPage('newContactNavigator',"newContact");
+                console.log("Cordova: unknown phone number");
                 return;
             }
             item.phoneNumber = phoneNumber;
