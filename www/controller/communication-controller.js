@@ -1,31 +1,35 @@
+// Communication controller
+// This class handles all comunication between client a server
+// Created by: David Kukacka
 
-// Method for establishing socket communication
+// Method for establishing socket communication. Via socket communication application is notified about new transactions.
 communicationController.initializeApplicationListeners = function(){
     console.log("Creating socket listeners");
     console.log(storage.uid);
     var socket = io.connect(deploydEndpoint);
+    // Listening for new incoming payments
     socket.on('payment:' + storage.uid, function(data){
         console.log("---- COLLECTION CHANGE: New payment ------" );
         console.log(JSON.stringify(data));
-        //storage.userData.incomingPayments.unshift(data);
         storage.newIncomingPayment(data);
     });
+    // Listening for new incoming requests
     socket.on('request:' + storage.uid, function(data){
         console.log("---- COLLECTION CHANGE: incoming request ------" );
         console.log(JSON.stringify(data));
-        //storage.userData.incomingRequests.unshift(data);
         storage.newIncomingRequest(data);
     });
+    // Listening for change of state of outgoing requests
     socket.on('outgoingRequest:' + storage.uid, function(data){
         console.log("---- COLLECTION CHANGE: outgoing request ------" );
         console.log(JSON.stringify(data));
-        //storage.userData.incomingRequests.unshift(data);
         storage.requestStateChanged(data);
     });
 };
 
 // Method for authenticating user against server side
 communicationController.authenticateUser = function (username, password) {
+    var deferred = $.Deferred();
     $.ajax(
     {
         type: "POST",
@@ -38,18 +42,21 @@ communicationController.authenticateUser = function (username, password) {
         success: function(data)
         {
             console.log ("1. Successfull authentication");
-            storage.init(data);
+            deferred.resolve(data);
         },
         error: function(data){
             console.log("Authentication failed");
-            showFailedAuthorizationNote();
+            deferred.reject(data);
         },
         dataType: "json"
     });
+    return deferred.promise();
+
 };
 
 //Method for creating newUser account
 communicationController.createNewUser = function (newContact){
+    var deferred = $.Deferred();
     $.ajax(
     {
         type: "POST",
@@ -65,21 +72,17 @@ communicationController.createNewUser = function (newContact){
         },
         success: function(data)
         {
-            console.log("Create new user success");
-            storage.registrationOutcome = "success";
-            document.querySelector('#main-navigator').resetToPage('register-outcome-template');            
-            //document.querySelector('#main-navigator').resetToPage('login-template');
+            console.log("CommunicationController: Create new user success");
+            deferred.resolve(data);
         },
         error: function(data){
-            console.log("Create new suer failed");
-            storage.registrationOutcome = "error";
-            alert(JSON.stringify(data));
-            document.querySelector('#main-navigator').resetToPage('register-outcome-template');            
-            //unsuccesfullRegistration();
+            console.log("CommunicationController: Create new user failed");
+            deferred.reject(data);
+            
         },
         dataType: "json"
     });
-    
+    return deferred.promise();
 };
 
 // Querring userData from server
@@ -96,6 +99,39 @@ communicationController.getUserData = function(uid){
         },
         error: function(data){
             console.log("User data query failed");
+            deferred.reject(data);
+        },
+        dataType: "json"
+    });
+    return deferred.promise();
+};
+
+// Method used for changing of user detail
+    communicationController.changeUserDetail = function(id, newName, newAccountName){
+    var deferred = $.Deferred();
+    console.log("Communication controller: CHanging user data" + id);
+    //alert(newName);
+     $.ajax(
+    {
+        type: "PUT",
+        url: deploydEndpoint + '/user?id=' + id,
+        data: {
+            "fullName": newName,
+            "bankAccount": {
+                "accountPrefix": storage.userData.bankAccount.accountPrefix,
+                "accountNumber": storage.userData.bankAccount.accountNumber,
+                "bankCode": storage.userData.bankAccount.bankCode,
+                "accountName": newAccountName
+            }
+        },
+        success: function(data)
+        {
+            console.log("Communicationcontroller: user detail changed");
+            deferred.resolve(data);            
+        },
+        error: function(data){
+            console.log("Communicationcontroller: ERROR when user detail changed");
+            deferred.reject(data);
         },
         dataType: "json"
     });
@@ -130,17 +166,8 @@ communicationController.loadApplicationData = function(id, contactList){
 // Method for submitting new transaction
 communicationController.persistTransaction = function (collection) {
     console.log("CommunicationController: Persisiting transaction");
-    //alert(JSON.stringify(storage.newTransaction));
     var deferred = $.Deferred();
     var contraAccount = storage.newTransaction;
-    console.log(storage.userData.id);
-    console.log(storage.userData.fullName);
-    console.log(storage.userData.phoneNumber);
-    console.log(contraAccount.reciever);
-    console.log(contraAccount.recieverDetail.fullName);
-    console.log(contraAccount.recieverDetail.phone);
-    console.log(contraAccount.amount);
-    console.log(contraAccount.message);
     $.ajax(
     {
         type: "POST",
@@ -233,9 +260,64 @@ communicationController.logoutUser = function(){
         },
         error: function(data){
             console.log("ERROR when logging out");
-            deferred.resolve(data);
+            deferred.reject(data);
         },
         dataType: "json"
     });
     return deferred.promise();
 };
+
+// Method for changing user password
+communicationController.changeUserPassword = function(id, password){
+    console.log("Communication controller: password change");
+    var deferred = $.Deferred();
+    $.ajax(
+    {
+        type: "PUT",
+        url: deploydEndpoint + '/user?id=' + id,
+        data:
+        {
+            "password": password
+        },
+        success: function(data)
+        {
+            console.log("Successfully changed password");
+            deferred.resolve(data);
+
+        },
+        error: function(data){
+            console.log("ERROR when changing password");
+            deferred.reject(data);
+        },
+        dataType: "json"
+    });
+    return deferred.promise();
+};
+
+// Method for changing user PIN
+communicationController.changeUserPIN = function(id, pin){
+    console.log("Communication controller: pin change");
+    var deferred = $.Deferred();
+    $.ajax(
+    {
+        type: "PUT",
+        url: deploydEndpoint + '/user?id=' + id,
+        data:
+        {
+            "pin": pin
+        },
+        success: function(data)
+        {
+            console.log("Successfully changed pin");
+            deferred.resolve(data);
+
+        },
+        error: function(data){
+            console.log("ERROR when changing PIN");
+            deferred.reject(data);
+        },
+        dataType: "json"
+    });
+    return deferred.promise();
+};
+

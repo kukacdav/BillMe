@@ -39,3 +39,17 @@ ons-list-item{
 .text-input--underbar{
     color: white !important;
 }
+
+.positiveTransactions{
+    background-color: transparent;
+    text-align: right;
+    margin: 1.5em 1em 0.5em 0;
+}
+
+.negativeTransactions{
+    background-color: transparent;
+    text-align: right;
+    margin: 1.5em 1em 0.5em 0;
+    color: #ec8b72;
+}
+

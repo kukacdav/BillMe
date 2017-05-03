@@ -3,11 +3,12 @@
 // Navigation controller handles all logic asocieted with navigation through multiple pages. 
 // Navigation controller listens for page initalization and calls pageController to handle content loading
 
+/*
 navigationController.replacePageWith = function(target) {
     console.log("Switching to main page");
     document.querySelector('#main-navigator').replacePage(target);
 };
-
+*/
 
 document.addEventListener('init', function(event)
 {
@@ -28,8 +29,6 @@ document.addEventListener('init', function(event)
         pageController.composeContactListPage(page);
     else if (page.id === 'set-amount-page')
         pageController.composeSetAmountPage(page);
-    else if (page.id === 'define-transaction-page')
-        pageController.composeDefineTransactionPage(page);
     else if (page.id === 'confirm-transaction-page')
         pageController.composeConfirmTransactionPage(page);
     else if (page.id === 'success-submit-page')
@@ -40,21 +39,36 @@ document.addEventListener('init', function(event)
         pageController.composeRequestDetailPage();
     else if (page.id === 'register-outcome-page')
         pageController.composeRegisterOutcomePage(page);
-    //else if (page.id=== 'login-page')
-    //    navigationController.runTest();
+    else if (page.id === 'new-contact-page')
+        pageController.composeNewContactPage(page);
+    else if (page.id === 'success-action-page')
+        pageController.composeSuccessActionPage(page);
+    else if (page.id === 'change-userdata-page')
+        pageController.composeChangeUserDataPage(page);
+    else if (page.id === 'financial-overview-page')
+        pageController.composeFinancialOverviewPage(page);
+    else if (page.id === 'security-crossroad-page')
+        pageController.composeSecurityCrossroadPage(page);
+    else if (page.id === 'change-password-page')
+        pageController.composeChangePasswordPage(page);
+    else if (page.id === 'change-pin-page')
+        pageController.composeChangePINPage(page);
+        
+    
 });
+
 
 navigationController.switchPage = function(target) {
         console.log("pushing page: " + target);
         document.querySelector('#pageNavigator').pushPage(target);
 };
 
+
+
 navigationController.resetToMainPage = function(){
     document.querySelector('#pageNavigator').resetToPage('main-page-template'); 
 };
-
-
-//To Refactor
+/*
 moreOptionsSwitchPage= function(target) {
         console.log("More options navigator, pushing page: " + target);
         document.querySelector('#moreOptionsNavigator').pushPage(target);
@@ -64,8 +78,28 @@ setToMainPage = function() {
     document.querySelector('#main-navigator').pushPage('view/html/main-page.html');
     composeMainPage();
 };
+*/
+// General navigator methods
 
+navigationController.pushPage = function(navigator, target){
+    console.log("Navigator controller: " + navigator);
+    console.log("pushing: " + target );
+    var selectedNavigator = document.getElementById(navigator); 
+    selectedNavigator.pushPage(target);
+};
 
+navigationController.popPage = function(navigator){
+    var selectedNavigator = document.getElementById(navigator); 
+    selectedNavigator.popPage();
+};
 
+navigationController.resetToPage = function(navigator, target){
+    //console.log("Navigator controller: " + navigator + " reseting to " + target );
+    var selectedNavigator = document.getElementById(navigator); 
+    selectedNavigator.resetToPage(target, {animation: "slide"});
+};
 
-
+navigationController.replacePage = function(navigator, target){
+    var selectedNavigator = document.getElementById(navigator); 
+    selectedNavigator.replacePage(target);
+};

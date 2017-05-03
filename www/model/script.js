@@ -1,3 +1,7 @@
+// Script.js
+// This class defines used variables
+// Created by: David Kukacka
+
 var storage = {
     userData: {},
     incomingRequests: [],
@@ -21,9 +25,4 @@ var systemVariables = {
 var communicationController = {};
 var navigationController = {};
 var pageController = {};
-var contactManager = {};
 
-window.fn = {};
-fn.Login = function(){
-  document.getElementById('main-navigator').replacePage('main-multi-page-template');
-};

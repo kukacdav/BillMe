@@ -1,22 +1,32 @@
-// This is a JavaScript file
+// Select box
+// This class represents logic of component select-box, used for filtering transactions based on thier type
+// Created by: David Kukacka
+
+
 var currentFilter = "incomingPayments";
 
+// Method for showing outgoing payments
 activateOutgoingPayments = function () {
     removeActiveClass();
     $("#outgoing-payments-filter").addClass("select-box-item-active");
     currentFilter = "outgoingPayments";
     };
+
+// Method for showing incoming payments
 activateIncomingPayments = function () {
     removeActiveClass();
     $("#incoming-payments-filter").addClass("select-box-item-active");
     currentFilter = "incomingPayments";
     };
+
+// Method for showing unresolved transactions
 activateUnresolvedTransactions = function () {
     removeActiveClass();
     $("#unresolved-transactions-filter").addClass("select-box-item-active");
     currentFilter = "unresolvedTransactions";
     };
     
+// Support method for handeling CSS styles according to component state
 removeActiveClass = function() {
     if ($("#incoming-payments-filter").hasClass("select-box-item-active")){
         $("#incoming-payments-filter").removeClass("select-box-item-active");

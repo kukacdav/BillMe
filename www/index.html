@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta http-equiv="Content-Security-Policy" content="default-src * data:; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
     
-    <script src="http://localhost:2403/socket.io/socket.io.js"></script>
+    <!-- <script src="http://localhost:2403/socket.io/socket.io.js"></script> -->
     <script src="components/loader.js"></script>
     <link rel="stylesheet" href="components/loader.css">
     <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
@@ -21,21 +21,30 @@
     <script src="socketio/socket.io.js"></script>
     <script src="controller/navigation-controller.js"></script>
     <script src="controller/communication-controller.js"></script>
+    <script src="controller/transaction-controller.js"></script>
+    <script src="controller/user-controller.js"></script>
     <script src="controller/config.js"></script>
     <script src="controller/login-controller.js"></script>
     <script src="model/storage.js"></script>
     <script src="view/script/select-box.js"></script>
+    <script src="view/script/general.js"></script>
     <script src="view/script/texts.js"></script>
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" /> </head>
- 
+    <meta name = "format-detection" content = "telephone=no">
+
 <!-- LOGIN PAGE TEMPLATE-->
 
 <body>
+    <ons-modal id="modal">
+        <ons-icon icon="ion-load-c" spin="true" size="2.5em"></ons-icon>
+    </ons-modal>
+    
     <ons-navigator id="main-navigator" page="login-template"></ons-navigator>
     <ons-template id="login-template">
         <ons-page id="login-page" modifier="full_bg">
         <div class="page">
             <div class="center-block"> <img id="main-logo" src="./view/icons/billMe-transparent.png" alt="Ikona aplikace" /> </div>
+   
             <div id="authentication-block">
                 <div class="center-block incorrect-note">
                     <p id="login-note" class="red-text"></p>
@@ -48,15 +57,15 @@
                     <ons-icon class="right-floater login-icon" icon="ion-locked" size="2em"></ons-icon>
                     <ons-input class="login-input-field login-text" id="login-password" type="password" modifier="underbar" placeholder="Heslo" float></ons-input>
                 </ons-row>
-                <ons-button class="accept-button" modifier="large--cta" onclick="login()" id="login-button">Příhlásit se</ons-button>
-                <ons-button class="neutral-button" modifier="large--cta" onclick="register()" id="register-button">Registrovat se</ons-button>
+                <ons-button class="accept-button" modifier="large--cta" onclick="loginUser()" id="login-button">Příhlásit se</ons-button>
+                <ons-button class="neutral-button" modifier="large--cta" onclick="loginController.register()" id="register-button">Registrovat se</ons-button>
             </div>
             </div>
         </ons-page>
     </ons-template>
     
     <ons-template id="register-template">
-        <ons-page>
+        <ons-page id="register-page">
           <ons-toolbar>
           
           <div class="left">
@@ -97,7 +106,7 @@
         </div>
         <p id="register-outcome-text"></p>
         </div>
-        <ons-button modifier="large--cta" onclick="backToLogin()">Zpět na přihlašovací stránku</ons-button>
+        <ons-button modifier="large--cta" onclick="loginController.backToLogin()">Zpět na přihlašovací stránku</ons-button>
         </ons-page>
     </ons-template>
     
@@ -123,7 +132,7 @@
           
                 <div class="center">Můj přehled</div>
                 <div class="right">
-            <ons-button class="smaller-text" modifier="quiet" onclick="logout()">Odhlásit se</ons-button>
+            <ons-button class="smaller-text" modifier="quiet" onclick="loginController.logout()">Odhlásit se</ons-button>
         </div>
             </ons-toolbar>
                 <ons-list>
@@ -186,78 +195,127 @@
             </ons-page>
         </ons-navigator>
     </ons-template>
+    
     <!--           USER DETAIL PAGE              -->
+    
     <ons-template id="user-detail-page-template">
-        <ons-page id="user-detail-page">
-        <ons-toolbar>
-                <div class="center">Profil</div>
-            </ons-toolbar>
-            <ons-row>
+        <ons-navigator id="userDetailNavigator">
+            <ons-page id="user-detail-page">
+                <ons-toolbar>
+                    <div class="center">Profil</div>
+                    <div class="right">
+                        <ons-button id="change-user-data" modifier="quiet">Upravit</ons-button>
+                    </div>
+                </ons-toolbar>
+                <ons-row>
                     <ons-col class="center-block">
-                        <ons-icon  class="icon" icon="ion-person" size="70px"></ons-icon>
+                        <ons-icon class="icon" icon="ion-person" size="70px"></ons-icon>
                     </ons-col>
                 </ons-row>
-                
+                <ons-list>
+                    <ons-list-header>Detail uživatele</ons-list-header>
+                    <ons-list-item>
+                        <div class="left">Jméno</div>
+                        <div class="right" id="username-line"></div>
+                    </ons-list-item>
+                    <ons-list-item>
+                        <div class="left">Název účtu</div>
+                        <div class="right" id="account-name-line"></div>
+                    </ons-list-item>
+                    <ons-list-item>
+                        <div class="left">Telefon</div>
+                        <div class="right" id="phone-number-line"></div>
+                    </ons-list-item>
+                    <ons-list-item modifier="">
+                        <div class="left">Číslo účtu</div>
+                        <div class="right" id="account-number-line"></div>
+                    </ons-list-item>
+                    <ons-list-item modifier="">
+                        <div class="left">Kód banky</div>
+                        <div class="right" id="bank-code-line"></div>
+                    </ons-list-item>
+                </ons-list>
+            </ons-page>
+        </ons-navigator>
+    </ons-template>
+    
+    <!--           CHANGE USER DATA PAGE              -->
+    
+    <ons-template id="change-userdata-template">
+            <ons-page id="change-userdata-page">
+            <ons-toolbar>
+            
+            <div class="left">
+                <ons-back-button>Zpět</ons-back-button>
+            </div>
+                <div class="center">Úprava osobních údajů</div>
+            </ons-toolbar>
+            <p id="change-user-data-error"></p>
             <ons-list>
-                <ons-list-header>Detail uživatele</ons-list-header>
-                <ons-list-item>
-                    <div class="left">Jméno</div>
-                    <div class="right" id="username-line"></div>
-                </ons-list-item>
-                <ons-list-item>
-                    <div class="left">Telefon</div>
-                    <div class="right" id="phone-number-line"></div>
-                </ons-list-item>
-                <ons-list-item>
-                    <div class="left">Název účtu</div>
-                    <div class="right" id="account-name-line"></div>
-                </ons-list-item>
-                <ons-list-item modifier="">
-                    <div class="left">Číslo účtu</div>
-                    <div class="right" id="account-number-line"></div>
-                </ons-list-item>
-                <ons-list-item modifier="">
-                    <div class="left">Kód banky</div>
-                    <div class="right" id="bank-code-line"></div>
-                </ons-list-item>
+                <ons-list-header>Nastavitelné položky</ons-list-header>
+                 <ons-list-item><ons-input id="change-user-name" placeholder="Jméno uživatele"></ons-input></ons-list-item>
+                <ons-list-item><ons-input id="change-account-name" placeholder="Název účtu"></ons-input></ons-list-item>
             </ons-list>
+            <ons-button id="update-user-data-button" modifier="large--cta">Uložit změny</ons-button>
         </ons-page>
     </ons-template>
     
     
     <!-- PHONE CONTACTS PAGE TEMPLATE -->
+    
     <ons-template id="phone-contacts-page-template">
-        <ons-page id="phone-contacts-page">
+        <ons-navigator id="newContactNavigator">
+            <ons-page id="phone-contacts-page">
             <ons-toolbar>
                 <div class="center">Kontakty</div>
             </ons-toolbar>
-            <ons-list id="contact-list"></ons-list>
-            
-            <ons-row class="contact-toolbar">
+            <ons-row class="contact-toolbar" id="create-contact">
                 <ons-col class="center-block">
-                    <ons-icon icon="ion-search" size="40px"></ons-icon>
-                    <p class="contact-button-label">Vyhledat kontakt</p>
-                </ons-col>
-                <ons-col class="center-block">
-                    <ons-icon icon="ion-person-add" size="40px"></ons-icon>
+                    <ons-icon class="icon" icon="ion-person-add" size="40px"></ons-icon>
                     <p class="contact-button-label">Vytvořit kontakt</p>
                 </ons-col>
-                <ons-col class="center-block">
-                    <ons-icon icon="ion-star" size="40px"></ons-icon>
-                    <p class="contact-button-label">Nastavit oblíbené</p>
-                </ons-col>
             </ons-row>
-            <script id="contact-list-item" type="text/template">
-                <ons-list-item class="contact-list-detail">
-                    <div class="left contact-name">{{name}}</div>
-                    
-                    <div class="center contact-phone">{{phoneNumber}}</div>
-                    <div class="right">
-                        {{indicator}}
-                    </div>
-                    <div class="hidden contact-index">{{index}}</div>
-                </ons-list-item>
-            </script>
+            <ons-list id="contact-list"></ons-list>
+            
+        </ons-page>
+        </ons-navigator>
+    </ons-template>
+    
+    <!-- NEW CONTACT PAGE TEMPLATE -->
+    
+    <ons-template id="new-contact-page-template">
+            <ons-page id="new-contact-page">
+            <ons-toolbar>
+            
+            <div class="left">
+                <ons-back-button>Zpět</ons-back-button>
+            </div>
+                <div class="center">Nový kontakt</div>
+            </ons-toolbar>
+            <div class="center-block incorrect-note">
+                    <p id="new-contact-error" class="red-text"></p>
+            </div>
+            <ons-list>
+                <ons-list-header>Detail nového kontaktu</ons-list-header>
+                 <ons-list-item><ons-input id="new-contact-name" placeholder="Jméno"></ons-input></ons-list-item>
+                <ons-list-item><ons-input id="new-contact-number" inputmode="numeric" pattern="[0-9]*" placeholder="Telefonní číslo"></ons-input></ons-list-item>
+            </ons-list>
+            <ons-button id="create-new-contact-button" modifier="large--cta">Uložit kontakt</ons-button>
+        </ons-page>
+    </ons-template>
+    
+      <!-- SUCCESS ACTION PAGE TEMPLATE -->
+    
+    <ons-template id="success-action-template">
+        <ons-page id="success-action-page">
+            <ons-toolbar>
+                <div class="center" id="success-action-title"></div>
+            </ons-toolbar>
+            <div class="formatting-block">
+                <div id="success-action-image" class="center-block"> </div>
+                <p id="success-action-message"></p>
+            </div>
+            <ons-button id="success-action-button" modifier="large"></ons-button>
         </ons-page>
     </ons-template>
     
@@ -307,67 +365,58 @@
                 </ons-row>
                 <ons-list>
                     <ons-list-header>Moje nastavení</ons-list-header>
-                    <ons-list-item>
+                    <ons-list-item modifier="tappable" id="profile-link">
                         <ons-row>
-                            <ons-col> <img src="./view/icons/contact-card-black.png" alt="Ikona detailu kontaktní karty" /> </ons-col>
+                            <ons-col><ons-icon class="icon" size="25px" icon="ion-ios-paper-outline"></ons-icon></ons-col>
                             <ons-col width="70%"> Nastavení profilu </ons-col>
                             <ons-col>
-                                <ons-icon class="right-floater" icon="ion-chevron-right" size="20px"></ons-icon>
+                                <ons-icon class="icon right-floater" icon="ion-chevron-right" size="20px"></ons-icon>
                             </ons-col>
                         </ons-row>
                     </ons-list-item>
-                    <ons-list-item>
+                    <ons-list-item modifier="tappable" id="security-link">
                         <ons-row>
-                            <ons-col> <img src="./view/icons/lock-black.png" alt="Ikona detailu kontaktní karty" /> </ons-col>
+                            <ons-col> <ons-icon class="icon" icon="ion-locked" size="25px"></ons-icon> </ons-col>
                             <ons-col width="70%"> Nastavení zabezpečení </ons-col>
                             <ons-col>
-                                <ons-icon class="right-floater" icon="ion-chevron-right" size="20px"></ons-icon>
-                            </ons-col>
-                        </ons-row>
-                    </ons-list-item>
-                    <ons-list-item>
-                        <ons-row>
-                            <ons-col> <img src="./view/icons/notification-black.png" alt="Ikona detailu kontaktní karty" /> </ons-col>
-                            <ons-col width="70%"> Změna notifikací </ons-col>
-                            <ons-col>
-                                <ons-icon class="right-floater" icon="ion-chevron-right" size="20px"></ons-icon>
+                                <ons-icon class="icon right-floater" icon="ion-chevron-right" size="20px"></ons-icon>
                             </ons-col>
                         </ons-row>
                     </ons-list-item>
                     <ons-list-header>Ostatní</ons-list-header>
-                    <ons-list-item>
+                    <ons-list-item modifier="tappable">
                         <ons-row id="financial-overview-link">
-                            <ons-col> <img src="./view/icons/money-black.png" alt="Ikona detailu kontaktní karty" /> </ons-col>
+                            <ons-col><ons-icon class="icon" size="25px" icon="ion-arrow-graph-up-right"></ons-icon></ons-col>
                             <ons-col width="70%"> Finanční přehled </ons-col>
                             <ons-col>
-                                <ons-icon class="right-floater" icon="ion-chevron-right" size="20px"></ons-icon>
+                                <ons-icon class="icon right-floater" icon="ion-chevron-right" size="20px"></ons-icon>
                             </ons-col>
                         </ons-row>
                     </ons-list-item>
-                    <ons-list-item>
+                    <ons-list-item id="share-with-friends-link" modifier="tappable" >
                         <ons-row>
-                            <ons-col> <img src="./view/icons/talk-male-black.png" alt="Ikona detailu kontaktní karty" /> </ons-col>
+                            <ons-col> <ons-icon class="icon" size="25px" icon="ion-android-share-alt"></ons-icon></ons-col>
                             <ons-col width="70%"> Pozvi kámoše </ons-col>
                             <ons-col>
-                                <ons-icon class="right-floater" icon="ion-chevron-right" size="20px"></ons-icon>
+                                <ons-icon class="icon right-floater" icon="ion-chevron-right" size="20px"></ons-icon>
                             </ons-col>
                         </ons-row>
                     </ons-list-item>
-                    <ons-list-item>
-                        <ons-row id="howto-page-link">
-                            <ons-col> <img src="./view/icons/question-black.png" alt="Ikona detailu kontaktní karty" /> </ons-col>
+                    <ons-list-item id="howto-page-link" modifier="tappable" >
+                        <ons-row>
+                            <ons-col> <ons-icon icon="ion-lightbulb" size="25px" class="icon"></ons-icon></ons-col>
                             <ons-col width="70%"> Pomocné návody </ons-col>
                             <ons-col>
-                                <ons-icon class="right-floater" icon="ion-chevron-right" size="20px"></ons-icon>
+                                <ons-icon class="icon right-floater" icon="ion-chevron-right" size="20px"></ons-icon>
                             </ons-col>
                         </ons-row>
                     </ons-list-item>
-                    <ons-list-item>
+                    <ons-list-item modifier="tappable" >
                         <ons-row id="legal-scope-link">
-                            <ons-col> <img src="./view/icons/law-black.png" alt="Ikona detailu kontaktní karty" /> </ons-col>
+                            <ons-col><ons-icon class="icon" icon="ion-pin" size="25px"></ons-icon> </ons-col>
                             <ons-col width="70%"> Právní rámec </ons-col>
                             <ons-col>
-                                <ons-icon class="right-floater" icon="ion-chevron-right" size="20px"></ons-icon>
+                                <ons-icon class="icon right-floater" icon="ion-chevron-right" size="20px"></ons-icon>
                             </ons-col>
                         </ons-row>
                     </ons-list-item>
@@ -375,6 +424,99 @@
             </ons-page>
         </ons-navigator>
     </ons-template>
-</body>
+    
+    
+    <!-- SECURITY CROSSROAD PAGE TEMPLATE -->
+    
+    <ons-template id="security-crossroad-page-template">
+            <ons-page id="security-crossroad-page">
+            <ons-toolbar>
+            <div class="left">
+                <ons-back-button>Zpět</ons-back-button>
+            </div>
+                <div class="center">Nastavení zabezpečení</div>
+            </ons-toolbar>
+            <ons-list>
+                <ons-list-header>Doména zabezpečení</ons-list-header>
+                 <ons-list-item modifier="tappable" id="user-password-change-link">
+                    <ons-row>
+                        <ons-col width="70%">Změna uživatelského hesla</ons-col>
+                        <ons-col>
+                                <ons-icon class="icon right-floater" icon="ion-chevron-right" size="20px"></ons-icon>
+                            </ons-col>
+                    </ons-row>
+                 </ons-list-item>
+                 <ons-list-item modifier="tappable" id="pin-change-link">
+                    <ons-row>
+                        <ons-col width="70%">Změna PINU</ons-col>
+                        <ons-col>
+                                <ons-icon class="icon right-floater" icon="ion-chevron-right" size="20px"></ons-icon>
+                            </ons-col>
+                    </ons-row>
+                 </ons-list-item>
+            </ons-list>
+        </ons-page>
+    </ons-template>
+    
+    <!-- CHANGE PASSWORD PAGE TEMPLATE -->
+    
+    <ons-template id="change-password-page-template">
+            <ons-page id="change-password-page">
+            <ons-toolbar>
+            <div class="left">
+                <ons-back-button>Zpět</ons-back-button>
+            </div>
+                <div class="center">Změna hesla</div>
+            </ons-toolbar>
+            <div class="center-block incorrect-note">
+                    <p id="change-password-error" class="red-text"></p>
+                </div>
+            <ons-list>
+                <ons-list-header>Nastavení nového hesla</ons-list-header>
+                 <ons-list-item>
+                   <ons-input id="oldPassword" type="password" placeholder="Původní heslo"></ons-input>
+                 </ons-list-item>
+                 <ons-list-item>
+                   <ons-input id="newPassword" type="password" placeholder="Nové heslo"></ons-input>
+                 </ons-list-item>
+                 <ons-list-item >
+                   <ons-input id="newPasswordRepeated" type="password" placeholder="Zopakované nové heslo"></ons-input>
+                 </ons-list-item>
+            </ons-list>
+            <ons-button class="accept-button" modifier="large--cta" onclick="validateChangedUserPassword()" id="change-user-password-button">Potvrdit nové heslo</ons-button>
+        </ons-page>
+    </ons-template>
+    
+    
+    <!-- CHANGE PIN PAGE TEMPLATE -->
+    
+    <ons-template id="change-pin-page-template">
+            <ons-page id="change-pin-page">
+            <ons-toolbar>
+            <div class="left">
+                <ons-back-button>Zpět</ons-back-button>
+            </div>
+                <div class="center">Změna PINu</div>
+            </ons-toolbar>
+            <div class="center-block incorrect-note">
+                    <p id="change-pin-error" class="red-text"></p>
+                </div>
+            <ons-list>
+                <ons-list-header>Nastavení PINu</ons-list-header>
+                 <ons-list-item>
+                   <ons-input id="oldPIN" type="password" inputmode="numeric" pattern="[0-9]*" placeholder="Původní PIN"></ons-input>
+                 </ons-list-item>
+                 <ons-list-item>
+                   <ons-input id="newPIN" type="password" placeholder="Nový PIN" inputmode="numeric" pattern="[0-9]*"></ons-input>
+                 </ons-list-item>
+                 <ons-list-item >
+                   <ons-input id="newPINRepeated" type="password" placeholder="Zopakovaný nový PIN" inputmode="numeric" pattern="[0-9]*"></ons-input>
+                 </ons-list-item>
+            </ons-list>
+            <ons-button class="accept-button" modifier="large--cta" onclick="validateChangedPIN()" id="change-pin-button">Potvrdit nový PIN</ons-button>
+        </ons-page>
+    </ons-template>
+    
 
+</body>
 </html>

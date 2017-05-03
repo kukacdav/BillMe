@@ -1,61 +1,72 @@
-// This is a JavaScript file
+// Page controller
+// This class has responsibility for composing all content of pages
+// Created by: David Kukacka
 
 // Method for composing register outcome page
 pageController.composeRegisterOutcomePage = function(page) {
-    console.log("Composing registration outcome page");
-    console.log(JSON.stringify(storage.registrationOutcome));
     if (storage.registrationOutcome === 'success'){
-        page.querySelector('#register-outcome-header').innerHTML = "Úspěšná registrace";
-        page.querySelector('#register-outcome-image').innerHTML = '<ons-icon icon="ion-checkmark-circled" size="90px" class="center-block green-icon"></ons-icon>';
-        page.querySelector('#register-outcome-text').innerHTML = "Registrace proběhla úspěšně. Nyní se můžete přihlásit do aplikace.";
-        
+        buildSuccesfullRegistrationOutcomePage(page);
     }
     else{
-        page.querySelector('#register-outcome-header').innerHTML = "Neúspěšná registrace";
-        page.querySelector('#register-outcome-image').innerHTML = '<ons-icon icon="ion-close-circled" size="90px" class="center-block red-icon"></ons-icon>';
-        page.querySelector('#register-outcome-text').innerHTML = "Registrace proběhla neúspěšně. Vámi zadané údaje nejsou v aplikaci jedinečné.";
+        buildUnsuccesfullRegistrationOutcomePage(page);
     }
 };
 
 
 //Method for composing main page
 pageController.composeMainPage = function (page) {
-        document.getElementById('tabbar').setTabbarVisibility(true);
-        console.log("Composing main page");
-        page.querySelector('#account-name').innerHTML = storage.userData.bankAccount.accountName;
-        page.querySelector('#account-number').innerHTML = storage.userData.bankAccount.accountPrefix + "-" + storage.userData.bankAccount.accountNumber + "/" + storage.userData.bankAccount.bankCode;
-        page.querySelector('#account-balance').innerHTML = storage.userData.accountBalance + " Kč";
-        page.querySelector('#create-payment-button').onclick = function(){storage.createNewTransaction("payment");};
-        page.querySelector('#create-request-button').onclick = function(){storage.createNewTransaction("request");};
+        var accountNumber = storage.userData.bankAccount.accountPrefix + "-" + storage.userData.bankAccount.accountNumber + "/" + storage.userData.bankAccount.bankCode;
+        var balance = storage.userData.accountBalance;
+        buildMainPage(page, storage.userData.bankAccount.accountName, accountNumber, balance );        
+        page.querySelector('#create-payment-button').onclick = function(){transactionController.createNewTransaction("payment");};
+        page.querySelector('#create-request-button').onclick = function(){transactionController.createNewTransaction("request");};
         page.querySelector('#incoming-payments-filter').onclick = function(){activateIncomingPayments();pageController.showIncomingPayments();};
         page.querySelector('#outgoing-payments-filter').onclick = function(){activateOutgoingPayments();pageController.showOutgoingPayments();};
         page.querySelector('#unresolved-transactions-filter').onclick = function(){activateUnresolvedTransactions(); pageController.showRequests();};
         pageController.showIncomingPayments();
         document.querySelector('#main-navigator').addEventListener('prepop', function(event) {
-        if(event.currentPage.id === "contact-list-page" || event.currentPage.id === 'transaction-detail-page' ) {
+        if(event.currentPage.id === "contact-list-page" || event.currentPage.id === "transaction-detail-page") {
             document.getElementById('tabbar').setTabbarVisibility(true);
         }
-        contactManager.runTest();    
     });  
 };
 
+
 //Method for composing page with user detail
 pageController.composeUserDetailPage = function(page) {
-    page.querySelector('#username-line').innerHTML = storage.userData.fullName;
-    page.querySelector('#phone-number-line').innerHTML = storage.userData.phoneNumber;
-    page.querySelector('#account-name-line').innerHTML = storage.userData.bankAccount.accountName;
-    page.querySelector('#account-number-line').innerHTML = storage.userData.bankAccount.accountPrefix + "-" + storage.userData.bankAccount.accountNumber;
-    page.querySelector('#bank-code-line').innerHTML = storage.userData.bankAccount.bankCode;
+    var accountNumber = storage.userData.bankAccount.accountPrefix + "-" + storage.userData.bankAccount.accountNumber;
+    buildUserDeatilPage(page, storage.userData.fullName, storage.userData.phoneNumber, storage.userData.bankAccount.accountName, accountNumber, storage.userData.bankAccount.bankCode);
+    page.querySelector('#change-user-data').onclick = function(){
+        document.getElementById('tabbar').setTabbarVisibility(false);
+        navigationController.pushPage('userDetailNavigator', 'change-userdata-template');
+    };
+    document.querySelector('#userDetailNavigator').addEventListener('prepop', function(event) {
+        if(event.currentPage.id === "change-userdata-page") {
+            document.getElementById('tabbar').setTabbarVisibility(true);
+        }
+    });  
 };
+
+// Method for composing page for changing user data
+pageController.composeChangeUserDataPage = function(page){
+    buildChangeUserDataPage(storage.userData.fullName, storage.userData.bankAccount.accountName);
+    page.querySelector('#update-user-data-button').onclick = function(){changeUserData();};
+};
+
 
 //Method for composing content of page More-Options
 pageController.composeMoreOptionsPage = function (page) {
-    page.querySelector('#recievers-name3').innerHTML = storage.userData.fullName;  
-    page.querySelector('#recievers-phone3').innerHTML = storage.userData.contact.phone;  
-    page.querySelector('#recievers-email3').innerHTML = storage.userData.contact.email;  
-    page.querySelector('#howto-page-link').onclick = function(){moreOptionsSwitchPage('view/html/more-options-subpages/howto-page.html')};
-    page.querySelector('#financial-overview-link').onclick = function(){moreOptionsSwitchPage('view/html/more-options-subpages/financial-overview-page.html')};
-    page.querySelector('#legal-scope-link').onclick = function(){moreOptionsSwitchPage('view/html/more-options-subpages/legal-scope-page.html')};
+    document.querySelector('#main-navigator').addEventListener('prepop', function(event) { 
+        if (event.currentPage.id === "financial-overview-page" || event.currentPage.id === "howto-page" || event.currentPage.id === "legal-scope-page" || event.currentPage.id === "security-crossroad-page" )
+            document.getElementById('tabbar').setTabbarVisibility(true);
+    });  
+    page.querySelector('#financial-overview-link').onclick = function(){document.getElementById('tabbar').setTabbarVisibility(false);navigationController.pushPage('moreOptionsNavigator', 'view/html/more-options-subpages/financial-overview-page.html');};
+    page.querySelector('#legal-scope-link').onclick = function(){document.getElementById('tabbar').setTabbarVisibility(false);navigationController.pushPage('moreOptionsNavigator', 'view/html/more-options-subpages/legal-scope-page.html');};
+    page.querySelector('#profile-link').onclick = function(){document.getElementById('tabbar').setActiveTab(1);};
+    page.querySelector('#share-with-friends-link').onclick = function(){document.getElementById('tabbar').setActiveTab(3);};
+    page.querySelector('#security-link').onclick = function(){document.getElementById('tabbar').setTabbarVisibility(false);navigationController.pushPage('moreOptionsNavigator', 'security-crossroad-page-template');};
+    page.querySelector('#howto-page-link').onclick = function(){document.getElementById('tabbar').setTabbarVisibility(false);navigationController.pushPage('moreOptionsNavigator', 'view/html/more-options-subpages/howto-page.html');};
+
 };
 
 //Method for composing content of page Invite-Friends
@@ -63,47 +74,90 @@ pageController.composeInviteFriendPage = function (page) {
     // Static page, nothing to compose for now
 };
 
+// Method for composing new-contact-page
+pageController.composeNewContactPage = function(page){   
+    page.querySelector('#create-new-contact-button').onclick = function(){
+        submitNewContact();
+    };
+};
+
+// Method for showing general success action page
+// Input:   navigator:  to be used as for further actions
+//          action:     action that brought app to this page
+pageController.showSuccessActionPage = function(navigator, action){
+    console.log("Showing success page");
+    storage.successAction = action;
+    hideModal();
+    navigationController.pushPage(navigator, 'success-action-template');
+};
+
+
+// General method for composing success-action-page
+// Since template is general, its logic is driven by indicator storage.successAction. This attribute indicate which logic should template have.
+pageController.composeSuccessActionPage = function(page){
+    console.log("PageController: compose success action page");
+    if (storage.successAction === "newContact"){
+        var callback = function(){
+            document.getElementById('tabbar').setTabbarVisibility(true);
+            navigationController.resetToPage('newContactNavigator', 'phone-contacts-page-template');            
+        };
+        buildSuccessActionPage(page, "Úspěšně vytvořený kontakt", "Nový kontakt byl úspěšně uložen do paměti zařízení.", "Hotovo", callback);
+    }
+    else if (storage.successAction === "changedData"){
+        console.log("PageController: changeUserData");
+        var callback = function(){
+            pageController.composeMainPage(document);
+            document.getElementById('tabbar').setTabbarVisibility(true);
+            navigationController.resetToPage('userDetailNavigator', 'user-detail-page-template');
+        };
+        buildSuccessActionPage(page, "Úspěšně uložená data", "Změněné uživatelské informace byly úspěšně uloženy.", "Hotovo", callback);
+    }
+    else if (storage.successAction === "changedPassword"){
+        console.log("PageController: changedPassword");
+        var callback = function(){
+            document.getElementById('tabbar').setTabbarVisibility(true);
+            navigationController.resetToPage('moreOptionsNavigator', 'more-options-page-template');
+        };
+        buildSuccessActionPage(page, "Úspěšně změněné heslo", "Nové uživatelské heslo bylo úspěšně nastaveno.", "Hotovo", callback);
+    }
+    else if (storage.successAction === "changedPIN"){
+        console.log("PageController: changedPIN");
+        var callback = function(){
+            document.getElementById('tabbar').setTabbarVisibility(true);
+            navigationController.resetToPage('moreOptionsNavigator', 'more-options-page-template');
+        };
+        buildSuccessActionPage(page, "Úspěšně změněný PIN", "Nový PIN byl uložen v paměti aplikace.", "Hotovo", callback);
+    }
+};
+
 //Method for composing Phone-contacts-page
 pageController.composePhoneContactsPage = function(page) {
-   pageController.assembleContactList(page);
+   pageController.assemblePhoneContactList(page);
+   page.querySelector('#create-contact').onclick = function(){
+        document.getElementById('tabbar').setTabbarVisibility(false);
+        navigationController.pushPage('newContactNavigator', 'new-contact-page-template');
+    };
+    document.querySelector('#newContactNavigator').addEventListener('prepop', function(event) {
+        document.getElementById('tabbar').setTabbarVisibility(true);
+    });
 };
 
 //Method for composing ContactListPage
 pageController.composeContactListPage = function(page){
     document.getElementById('tabbar').setTabbarVisibility(false);
     pageController.assembleContactList(page);
-    console.log("Composing contact list page");
     $(".contact-list-detail").on("click", function(){storage.transactionContactSelected($(this.querySelector('.contact-index')).text());});
     if (storage.newTransaction.transactionType === "payment"){
-        page.querySelector('#page-title').innerHTML = "Přímá platba";
+        buildContactListPage(page, "Přímá platba");
     }
     else if (storage.newTransaction.transactionType === "request"){
-        page.querySelector('#page-title').innerHTML = "Připomínka";
+        buildContactListPage(page, "Připomínka");
     }
-    else
-        console.log("Something went wrong");
 };
 
-//Method shared by phoneContactPage and contactListPage for assembling contactList
+//Method for composing contactListPage - dynamic list as a part of new transaction process
 pageController.assembleContactList = function(page) {
-    if (storage.cordovaIndicator != true){
-        console.log("Loading BE contact list: " + storage.cordovaIndicator);
-    var contacts = storage.contactList;
-    var counter = 0;
-    page.querySelector('#contact-list')
-        .innerHTML = contacts.map(function(item)
-        {
-            return page.querySelector('#contact-list-item')
-                .innerHTML.replace('{{name}}', item.name)
-                .replace('{{phoneNumber}}', item.contact.phone)
-                .replace('{{index}}', counter++);        
-        })
-        .join('');
-    }
-    else {
-        console.log("Loading phone contact list: " + storage.cordovaIndicator);
         var contacts = storage.cordovaContacts;
-        console.log("Showing cordova contacts!");
         var counter = 0;
         page.querySelector('#contact-list')
         .innerHTML = contacts.map(function(item)
@@ -113,135 +167,95 @@ pageController.assembleContactList = function(page) {
                 counter++;
                 return '';
             }
+            return "<ons-list-item modifier='tappable' class='contact-list-detail' > \
+                    <div class='left contact-name'>" + item.name +" <div class='left'></div></div> \
+                    <div class='center contact-phone'>" + item.phoneNumber +"</div> \
+                    <div class='right'> <ons-icon class='icon' icon='ion-chevron-right'></ons-icon></div> \
+                    <div class='hidden contact-index'>" + (counter++) + "</div> \
+                    </ons-list-item>";
+        })
+        .join('');
+};
+
+// Method for composing PhoneContactList - static list accessible from main page via tabbar
+// For contacts we found match in DB, checkmark is appended, to show their validity 
+pageController.assemblePhoneContactList = function(page) {
+        var contacts = storage.cordovaContacts;
+        var counter = 0;
+        page.querySelector('#contact-list')
+        .innerHTML = contacts.map(function(item)
+        {
+            //  Contact is not user of the application, no checkmark for you, troglodyte
             if(!item.hasOwnProperty('valid') || item.valid !== true){
             console.log(item.phoneNumber + " - " + item.valid);
-            return page.querySelector('#contact-list-item')
-                .innerHTML.replace('{{name}}', item.name)
-                .replace('{{indicator}}', '')
-                .replace('{{phoneNumber}}', item.phoneNumber)
-                .replace('{{index}}', counter++); 
+            return "<ons-list-item class='contact-list-detail'> \
+                    <div class='left contact-name'>" + item.name +"</div> \
+                    <div class='center contact-phone'>" + item.phoneNumber +"</div> \
+                    <div class='right'></div> \
+                    <div class='hidden contact-index'>" + (counter++) + "</div> \
+                </ons-list-item>";
             }
+            // Contact is user of the application, well done, give him checkmark
             else {
                 console.log("PageController: Found valid contact");
-                return page.querySelector('#contact-list-item')
-                .innerHTML
-                .replace('{{name}}', item.name)
-                .replace('{{indicator}}', '<ons-icon class="valid-icon" icon="ion-checkmark" size="20px"></ons-icon>')
-                .replace('{{phoneNumber}}', item.phoneNumber)
-                .replace('{{index}}', counter++);
+                 return "<ons-list-item class='contact-list-detail'> \
+                    <div class='left contact-name'>" + item.name +"</div> \
+                    <div class='center contact-phone'>" + item.phoneNumber +"</div> \
+                    <div class='right'><ons-icon class='valid-icon'  icon='ion-checkmark' size='20px'></ons-icon></div> \
+                    <div class='hidden contact-index'>" + (counter++) + "</div> \
+                </ons-list-item>";
             }
         })
         .join('');
-    }
 };
 
 //Method for building page for setting transaction amount
 pageController.composeSetAmountPage = function(page){
-    /* BEFORE - CONTACTS FROM BACKEND
-    page.querySelector('#recievers-name').innerHTML = storage.contactList[storage.newTransaction.contactIndex].fullName;  
-    page.querySelector('#recievers-phone').innerHTML = storage.contactList[storage.newTransaction.contactIndex].contact.phone;  
-    page.querySelector('#recievers-email').innerHTML = storage.contactList[storage.newTransaction.contactIndex].contact.email;  
-    page.querySelector('#input-amount').onchange = function(){pageController.controlAmountInput()}; //ADD BALANCE CHECK
-    page.querySelector('#submit-transaction-button').onclick = function(){pageController.controlAmountInput();};
-    */
-    page.querySelector('#recievers-name').innerHTML = storage.cordovaContacts[storage.newTransaction.contactIndex].name;  
-    page.querySelector('#recievers-phone').innerHTML = storage.cordovaContacts[storage.newTransaction.contactIndex].phoneNumber;  
-    // Following should be controlled, whether exists or not display at all
-    //page.querySelector('#recievers-email').innerHTML = storage.contactList[storage.newTransaction.contactIndex].contact.email;  
-    page.querySelector('#input-amount').onchange = function(){pageController.controlAmountInput()}; //ADD BALANCE CHECK
-    page.querySelector('#submit-transaction-button').onclick = function(){pageController.controlAmountInput();};
+    buildSetAmountPage(page, storage.cordovaContacts[storage.newTransaction.contactIndex].name, storage.cordovaContacts[storage.newTransaction.contactIndex].phoneNumber);
+    page.querySelector('#input-amount').onchange = function(){controlAmountInput()};
+    page.querySelector('#submit-transaction-button').onclick = function(){controlAmountInput();};
 };
 
-//Support method for veryfing, whether set balance is OK
-pageController.controlAmountInput = function() {
-  var amount = document.querySelector('#input-amount').value;
-  if ( $.isNumeric(amount) && amount <= storage.userData.accountBalance && amount > 0 ){
-    document.querySelector('#submit-transaction-button').disabled=false;
-        $('#input-amount').removeClass("incorrect-input-field");
-        $('#input-amount').addClass("correct-input-field");
-        document.querySelector('#insufficientBalanceNote').innerHTML = "";
-        storage.newTransaction.amount = amount;  // SHOULD HANDLE MODEL    
-        navigationController.switchPage('view/html/confirm-transaction-page.html');
-        return;
-    }
-    else if (amount > storage.userData.accountBalance)
-        pageController.showInsufficientBalanceNote();
-    document.querySelector('#submit-transaction-button').disabled=true;
-    $('#input-amount').removeClass("correct-input-field");
-    $('#input-amount').addClass("incorrect-input-field");
-};
-
-pageController.showInsufficientBalanceNote = function(){
-    console.log("Showing insufficient balance note");
-    document.querySelector('#insufficientBalanceNote').innerHTML = "Nemáte na účtě dostatečný zůstatek.";
-};
-
-
-
-//Method for building page for defining transactionDetail
-pageController.composeDefineTransactionPage = function(page) {
-    if (storage.newTransaction.transactionType === "payment")
-        page.querySelector('#page-header').innerHTML = "New payment";
-    else if (storage.newTransaction.transactionType === "request")
-        page.querySelector('#page-header').innerHTML = "New request";
-};
 
 // Method for building transactionConfirmPage
 pageController.composeConfirmTransactionPage = function(page) {
-    console.log("Composing confirm transaction page") ;
-    console.log("Reciever: " + storage.cordovaContacts[storage.newTransaction.contactIndex].name) ;
-    console.log("Phone: " + storage.cordovaContacts[storage.newTransaction.contactIndex].phoneNumber) ;
-    console.log("Amount: " + storage.newTransaction.amount);
-    console.log("Type: " + storage.newTransaction.transactionType);
     if (storage.newTransaction.transactionType === "payment")
-        pageController.composeConfirmTransactionPaymentPage(page);
-    else 
-        pageController.composeConfirmTransactionRequestPage(page);
-    page.querySelector('#recievers-name2').innerHTML = storage.cordovaContacts[storage.newTransaction.contactIndex].name;    
-    page.querySelector('#recievers-phone2').innerHTML = storage.cordovaContacts[storage.newTransaction.contactIndex].phoneNumber;    
-    console.log("Name and phone assembled");
-    // SHOULD VALIDATE page.querySelector('#recievers-email2').innerHTML = storage.contactList[storage.newTransaction.contactIndex].contact.email;  
-    page.querySelector('#transaction-amount').innerHTML = storage.newTransaction.amount+ " Kč";
-    page.querySelector('#submit-button').onclick = function(){ storage.verifyPIN(document.querySelector('#pin-input').value, document.querySelector('#message-input').value);};
+        buildConfirmTransactionPage(page, "Detail platby", "Odesílaná částka", "Zaplatit", storage.cordovaContacts[storage.newTransaction.contactIndex].name, storage.cordovaContacts[storage.newTransaction.contactIndex].phoneNumber, storage.newTransaction.amount);
+    else
+        buildConfirmTransactionPage(page, "Detail připomínky", "Žádaná částka", "Požádat", storage.cordovaContacts[storage.newTransaction.contactIndex].name, storage.cordovaContacts[storage.newTransaction.contactIndex].phoneNumber, storage.newTransaction.amount);
+    page.querySelector('#submit-button').onclick = function(){ submitNewTransaction();};
 };
 
-//Support method for building compose confirm page - payment
-pageController.composeConfirmTransactionPaymentPage = function(page){
-    page.querySelector('#page-header').innerHTML = "Detail platby";
-    page.querySelector('#transaction-amount-header').innerHTML = "Odesílaná částka";    
-    page.querySelector('#submit-button').innerHTML = "Zaplatit";
-    console.log("Payment page titles builded");
-};
 
-//Support method for building compose confirm page - transaction
-pageController.composeConfirmTransactionRequestPage = function(page){
-    page.querySelector('#page-header').innerHTML = "Detail připomínky";
-    page.querySelector('#transaction-amount-header').innerHTML = "Žádaná částka";    
-    page.querySelector('#submit-button').innerHTML = "Požádat";
+// Method invoked by view, handles message and pin validation
+pageController.submitNewTransaction = function(pin, message) {
+    if (pin === storage.userData.pin){
+        showModal();
+        storage.storeNewTransactionMessage(message);
+    }
+    else{
+        incorrectPIN();
+    }
 };
 
 // Method for composing success submit page
 pageController.composeSuccessSubmitPage = function(page) {
-    if (storage.newTransaction.transactionType === "payment") {
-        page.querySelector('#success-submit-header').innerHTML = successSubmitHeaderPayment;
-        page.querySelector('#success-submit-message').innerHTML = successSubmitMessagePayment;        
-    }
-    else {
-        page.querySelector('#success-submit-header').innerHTML = successSubmitHeaderRequest;
-        page.querySelector('#success-submit-message').innerHTML = successSubmitMessageRequest;
-    }
-    page.querySelector('#transaction-success-image').innerHTML = '<ons-icon icon="ion-checkmark-circled" size="90px" class="center-block green-icon"></ons-icon>';
-    document.getElementById('tabbar').setTabbarVisibility(false);
-    document.querySelector('#transaction-success-button').onclick = function() {
-        storage.clearOutSystemVariables();
-        navigationController.resetToMainPage();
-    };
+    var callback = function(){ pageController.transactionCompleted() };
+    if (storage.newTransaction.transactionType === "payment")
+        buildSuccessSubmitPage(page, "Úspešná platba", "Platba byla úspěšně provedena", callback);
+    else
+        buildSuccessSubmitPage(page, "Úspešná připomínka", "Připomínka byla úspěšně provedena", callback);
 };
 
+// Function for returning back to home page, after succesfull transaction
+pageController.transactionCompleted = function(){
+    storage.clearOutSystemVariables();
+    document.getElementById('tabbar').setTabbarVisibility(true);
+    navigationController.resetToPage('pageNavigator', 'main-page-template');
+};
 
 //Support method for showing reuqests
 pageController.showRequests = function ()  {
-    console.log("Page controller: Showing requests");
     document.querySelector('#transaction-list').innerHTML="";
     systemVariables.filterFlag = "requests";
     this.showIncomingRequests(storage.userData.incomingRequests);
@@ -261,7 +275,7 @@ pageController.showIncomingRequests = function(dataSource) {
     document.querySelector('#transaction-list').innerHTML="<ons-list-header>Přijaté připomínky</ons-list-header>";
     document.querySelector('#transaction-list').innerHTML+=dataSource.map(function(item){
                  counter++;
-        return "<ons-list-item id='filter-incoming-requests' class='transaction-item-detail'> \
+        return "<ons-list-item modifier='tappable' id='filter-incoming-requests' class='transaction-item-detail'> \
         <div class='left transaction-party'>" + item.initiatorDetail.fullName + "</div> \
         <div class='center transaction-amount'>" + item.amount + " Kč</div> \
         <div class='right'><ons-icon class='icon' icon='ion-chevron-right'></ons-icon></div> \
@@ -278,7 +292,7 @@ pageController.showOutgoingRequests = function(dataSource) {
     document.querySelector('#transaction-list').innerHTML+="<ons-list-header>Odeslané připomínky</ons-list-header>";
     document.querySelector('#transaction-list').innerHTML+=dataSource.map(function(item){
                  counter++;
-        return "<ons-list-item id='filter-outgoing-requests' class='transaction-item-detail'> \
+        return "<ons-list-item modifier='tappable' id='filter-outgoing-requests' class='transaction-item-detail'> \
         <div class='left transaction-party'>" + item.recieverDetail.fullName + "</div> \
         <div class='center transaction-amount'>" + item.amount + " Kč</div> \
         <div class='right'><ons-icon class='icon' icon='ion-chevron-right'></ons-icon></div> \
@@ -294,7 +308,7 @@ pageController.showIncomingPayments = function() {
     systemVariables.filterFlag = "incomingPayments";
      document.querySelector('#transaction-list').innerHTML=payments.map(function(item){
          counter++;
-        return "<ons-list-item id='filter-incoming-payments' class='transaction-item-detail'> \
+        return "<ons-list-item modifier='tappable' id='filter-incoming-payments' class='transaction-item-detail'> \
         <div class='left transaction-party'>" + item.initiatorDetail.fullName + "</div> \
         <div class='center transaction-amount'>" + item.amount + " Kč</div> \
         <div class='right'><ons-icon class='icon' icon='ion-chevron-right'></ons-icon></div> \
@@ -316,7 +330,7 @@ pageController.showOutgoingPayments = function() {
     var counter = -1;
     document.querySelector('#transaction-list').innerHTML=payments.map(function(item){
                  counter++;
-        return "<ons-list-item id='filter-outgoing-payments' class='transaction-item-detail'> \
+        return "<ons-list-item modifier='tappable' id='filter-outgoing-payments' class='transaction-item-detail'> \
         <div class='left transaction-party'>" + item.recieverDetail.fullName + "</div> \
         <div class='center transaction-amount'>" + item.amount + " Kč</div> \
         <div class='right'><ons-icon class='icon' icon='ion-chevron-right'></ons-icon></div> \
@@ -365,6 +379,7 @@ pageController.composeTransactionDetailPage = function(){
 };
 
 //Function for converting date to right format
+// Input: timestamp: date in format of miliseconds
 getDate = function(timestamp){
     console.log(timestamp + ", " + typeof timestamp);
      var today = new Date(Number(timestamp));
@@ -398,5 +413,31 @@ pageController.hideOutgoingRequestFields = function() {
     $('#outgoing-requests-action-buttons').hide();
 };
 
+pageController.composeFinancialOverviewPage = function(page){
+    console.log("PageController: Composing Financial overviewPage");
+    var incomingPayments = transactionController.countSumOfIncomingPayments();
+    var outgoingPayments = transactionController.countSumOfOutgoingPayments();
+    var incomingRequests = transactionController.countIncomingRequest();
+    var outgoingRequests = transactionController.countOutgoingRequests();
+    buildFinancialOverviewPage(page, incomingPayments, outgoingPayments, incomingRequests, outgoingRequests);
+};
 
+// Method for composing security crossroad page
+pageController.composeSecurityCrossroadPage = function(page){
+    page.querySelector('#user-password-change-link').onclick = function(){
+        navigationController.pushPage('moreOptionsNavigator', 'change-password-page-template');
+    };
+    page.querySelector('#pin-change-link').onclick = function(){
+        navigationController.pushPage('moreOptionsNavigator', 'change-pin-page-template');
+    };
+};
 
+// Method for composing change password page
+pageController.composeChangePasswordPage = function(page){
+    // Empty for now
+};
+
+// Method for composing change password page
+pageController.composeChangePINPage = function(page){
+    // Empty for now
+};
