@@ -225,8 +225,16 @@ storage.newIncomingPayment = function(data){
     var fullName = this.translateName(data.initiatorDetail.phone, data.initiatorDetail.fullName);
     data.initiatorDetail.fullName = fullName;
     this.userData.incomingPayments.unshift(data);
+    this.changeAccountBalance(data.amount);
     if (currentFilter === 'incomingPayments')
         pageController.showIncomingPayments();
+};
+
+
+// Method for adding amount to user account balance
+storage.changeAccountBalance = function(amount){
+    storage.userData.accountBalance += amount;
+    pageController.changeAccountBalanceDisplay();
 };
 
 // Method for showing newly arriven request

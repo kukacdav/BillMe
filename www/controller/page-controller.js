@@ -441,3 +441,9 @@ pageController.composeChangePasswordPage = function(page){
 pageController.composeChangePINPage = function(page){
     // Empty for now
 };
+
+// Method for updating displayed account-balance
+pageController.changeAccountBalanceDisplay = function (){
+    console.log("Page controller: Updata balance");
+    updateAccountBalance(document, storage.userData.accountBalance);
+};

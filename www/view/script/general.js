@@ -111,7 +111,12 @@ function buildUnsuccesfullRegistrationOutcomePage(page)
 function buildMainPage(page, accountName, accountNumber, balance){
     page.querySelector('#account-name').innerHTML = accountName;
     page.querySelector('#account-number').innerHTML = accountNumber; 
-    page.querySelector('#account-balance').innerHTML = balance + " Kč";
+    updateAccountBalance(page, balance);
+};
+
+function updateAccountBalance(page, balance){
+    console.log("View: update balance");
+    document.querySelector('#account-balance').innerHTML = balance + " Kč";
 };
 
 /*-------- USER DETAIL PAGE TEMPLATE VIEW ACTIONS ----------*/
