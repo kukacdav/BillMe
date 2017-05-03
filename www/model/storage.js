@@ -227,7 +227,8 @@ storage.newIncomingPayment = function(data){
     this.userData.incomingPayments.unshift(data);
     this.changeAccountBalance(data.amount);
     if (currentFilter === 'incomingPayments')
-        pageController.showIncomingPayments();
+        pageController.showIncomingPayments(document);
+    pageController.lightUp('incomingPayments');
 };
 
 
