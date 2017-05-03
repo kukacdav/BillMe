@@ -15,6 +15,7 @@ loginController.login = function(username, password) {
       return;
   }  
   showModal();
+  username = username.toLowerCase();
   var authentizationPerformed = $.when(communicationController.authenticateUser(username, password));
   authentizationPerformed.done(function(data) {
       storage.init(data);

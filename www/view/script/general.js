@@ -60,6 +60,7 @@ submitRegistration = function()
     var newUser = {};
     var bankAccount = {};
     newUser.username = document.querySelector('#register-email').value;
+    newUser.username = newUser.username.toLowerCase();
     newUser.forename = document.querySelector('#register-forename').value;
     newUser.surname = document.querySelector('#register-surname').value;
     newUser.phoneNumber = document.querySelector('#register-phone').value;
