@@ -96,6 +96,7 @@ contactManager.transform = function(phone)
         return phone;
     }
     if (phone.charAt(0) === '+') phone = phone.slice(4, phone.length);
+    if (phone.charAt(0) === '0' && phone.charAt(1) === '0')	phone = phone.slice(5, phone.length);
     phone = phone.replace(/-/g, '');
     phone = phone.replace(/ /g, '');
     if (phone.length != 9)
