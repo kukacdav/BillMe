@@ -130,6 +130,10 @@ ons-input .login-input-field{
     width: 65%
 }
 
+
+.lighten-up {
+    background-color: rgba(155, 191, 244, 0.6);
+}
 /* ----------------- Styles regarding invite-freind-page.html --------------------*/
 
 .invite-friend-block{
@@ -212,6 +216,7 @@ ons-input .login-input-field{
 
 .message-input-field {
  border: 1px solid #25a6d9;
+ width: 100%;
 }
 
 .incorrect-pin{

@@ -60,6 +60,7 @@ submitRegistration = function()
     var newUser = {};
     var bankAccount = {};
     newUser.username = document.querySelector('#register-email').value;
+    newUser.username = newUser.username.toLowerCase();
     newUser.forename = document.querySelector('#register-forename').value;
     newUser.surname = document.querySelector('#register-surname').value;
     newUser.phoneNumber = document.querySelector('#register-phone').value;
@@ -112,6 +113,11 @@ function buildMainPage(page, accountName, accountNumber, balance){
     page.querySelector('#account-name').innerHTML = accountName;
     page.querySelector('#account-number').innerHTML = accountNumber; 
     page.querySelector('#account-balance').innerHTML = balance + " Kč";
+};
+
+function updateAccountBalance(balance){
+    console.log("View: update balance");
+    document.querySelector('#account-balance').innerHTML = balance + " Kč";
 };
 
 /*-------- USER DETAIL PAGE TEMPLATE VIEW ACTIONS ----------*/

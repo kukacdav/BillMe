@@ -15,6 +15,7 @@ loginController.login = function(username, password) {
       return;
   }  
   showModal();
+  username = username.toLowerCase();
   var authentizationPerformed = $.when(communicationController.authenticateUser(username, password));
   authentizationPerformed.done(function(data) {
       storage.init(data);
@@ -58,6 +59,7 @@ loginController.register = function(){
 // - Method recieves validated object and using communication-controller submits new user  
 
 loginController.submitRegistration = function(newUser) {
+    storage.username = newUser.username; storage.password = newUser.password;
     console.log("LoginController: Submitting registration");
     var registrationSubmitted = $.when(communicationController.createNewUser(newUser));
     registrationSubmitted.done(function(data)

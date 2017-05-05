@@ -6,29 +6,40 @@
 pageController.composeRegisterOutcomePage = function(page) {
     if (storage.registrationOutcome === 'success'){
         buildSuccesfullRegistrationOutcomePage(page);
+        page.querySelector('#register-continue-button').onclick = function(){
+            loginController.login(storage.username, storage.password);
+        };
     }
     else{
         buildUnsuccesfullRegistrationOutcomePage(page);
+        page.querySelector('#register-continue-button').onclick = function(){
+            loginController.backToLogin();
+        };
     }
 };
 
 
 //Method for composing main page
 pageController.composeMainPage = function (page) {
+        
         var accountNumber = storage.userData.bankAccount.accountPrefix + "-" + storage.userData.bankAccount.accountNumber + "/" + storage.userData.bankAccount.bankCode;
         var balance = storage.userData.accountBalance;
         buildMainPage(page, storage.userData.bankAccount.accountName, accountNumber, balance );        
         page.querySelector('#create-payment-button').onclick = function(){transactionController.createNewTransaction("payment");};
         page.querySelector('#create-request-button').onclick = function(){transactionController.createNewTransaction("request");};
-        page.querySelector('#incoming-payments-filter').onclick = function(){activateIncomingPayments();pageController.showIncomingPayments();};
+        page.querySelector('#incoming-payments-filter').onclick = function(){activateIncomingPayments();pageController.showIncomingPayments(page);};
         page.querySelector('#outgoing-payments-filter').onclick = function(){activateOutgoingPayments();pageController.showOutgoingPayments();};
         page.querySelector('#unresolved-transactions-filter').onclick = function(){activateUnresolvedTransactions(); pageController.showRequests();};
-        pageController.showIncomingPayments();
+        pageController.showIncomingPayments(page);
         document.querySelector('#main-navigator').addEventListener('prepop', function(event) {
         if(event.currentPage.id === "contact-list-page" || event.currentPage.id === "transaction-detail-page") {
             document.getElementById('tabbar').setTabbarVisibility(true);
-        }
-    });  
+            pageController.lightDown();
+            }        
+        });  
+        document.querySelector('#tabbar').addEventListener('prechange', function(event) {
+            pageController.lightDown();
+        });  
 };
 
 
@@ -282,6 +293,7 @@ pageController.showIncomingRequests = function(dataSource) {
         <div id='transaction-index' class='hidden'>" + counter + "</div> \
         </ons-list-item>";
     }).join('');
+    $(".transaction-amount").addClass("red");
 };
 
 //Support method for showing ougoing requests
@@ -302,11 +314,13 @@ pageController.showOutgoingRequests = function(dataSource) {
 };
 
 // Support method for showing incoming payments
-pageController.showIncomingPayments = function() {
+pageController.showIncomingPayments = function(page) {
+    console.log("Page controller: Showing incoming payments");
     var payments = storage.userData.incomingPayments;
     var counter = -1;
     systemVariables.filterFlag = "incomingPayments";
-     document.querySelector('#transaction-list').innerHTML=payments.map(function(item){
+    console.log("Mapping");
+     page.querySelector('#transaction-list').innerHTML=payments.map(function(item){
          counter++;
         return "<ons-list-item modifier='tappable' id='filter-incoming-payments' class='transaction-item-detail'> \
         <div class='left transaction-party'>" + item.initiatorDetail.fullName + "</div> \
@@ -440,4 +454,24 @@ pageController.composeChangePasswordPage = function(page){
 // Method for composing change password page
 pageController.composeChangePINPage = function(page){
     // Empty for now
+};
+
+// Method for updating displayed account-balance
+pageController.changeAccountBalanceDisplay = function (){
+    console.log("Page controller: Updata balance");
+    updateAccountBalance(storage.userData.accountBalance);
+};
+
+// Method for enhance display of new transaction
+pageController.lightUp = function (collection){
+    console.log("Lighting up");
+    if (currentFilter === collection){
+        $(".transaction-item-detail").first().addClass("lighten-up");
+    }
+};
+
+// Method for lightihg down enhanced transaction
+pageController.lightDown = function (){
+    console.log("Page Controller: Lighting down");
+    $(".transaction-item-detail").first().removeClass("lighten-up");
 };
