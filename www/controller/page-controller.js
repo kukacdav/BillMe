@@ -6,9 +6,15 @@
 pageController.composeRegisterOutcomePage = function(page) {
     if (storage.registrationOutcome === 'success'){
         buildSuccesfullRegistrationOutcomePage(page);
+        page.querySelector('#register-continue-button').onclick = function(){
+            loginController.login(storage.username, storage.password);
+        };
     }
     else{
         buildUnsuccesfullRegistrationOutcomePage(page);
+        page.querySelector('#register-continue-button').onclick = function(){
+            loginController.backToLogin();
+        };
     }
 };
 

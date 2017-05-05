@@ -216,6 +216,7 @@ ons-input .login-input-field{
 
 .message-input-field {
  border: 1px solid #25a6d9;
+ width: 100%;
 }
 
 .incorrect-pin{
