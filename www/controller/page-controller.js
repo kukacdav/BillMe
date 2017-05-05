@@ -293,6 +293,7 @@ pageController.showIncomingRequests = function(dataSource) {
         <div id='transaction-index' class='hidden'>" + counter + "</div> \
         </ons-list-item>";
     }).join('');
+    $(".transaction-amount").addClass("red");
 };
 
 //Support method for showing ougoing requests
